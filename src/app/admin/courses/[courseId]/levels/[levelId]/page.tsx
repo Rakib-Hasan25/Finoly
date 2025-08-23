@@ -48,7 +48,9 @@ export default function LevelPage() {
     type: "text",
     order: 0,
   });
+  const [editingCard, setEditingCard] = useState<CardType | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -121,6 +123,34 @@ export default function LevelPage() {
     setLoading(false);
   }
 
+  async function updateCard() {
+    if (!supabase || !editingCard) return;
+    setLoading(true);
+    const { error } = await supabase
+      .from("cards")
+      .update({
+        title: editingCard.title,
+        content: editingCard.content,
+        type: editingCard.type,
+      })
+      .eq("id", editingCard.id);
+
+    if (error) {
+      console.error("Error updating card:", error);
+      return;
+    }
+
+    setIsEditOpen(false);
+    setEditingCard(null);
+    await fetchCards();
+    setLoading(false);
+  }
+
+  function startEditing(card: CardType) {
+    setEditingCard({ ...card });
+    setIsEditOpen(true);
+  }
+
   async function deleteCard(id: number) {
     if (!supabase) return;
     setLoading(true);
@@ -191,6 +221,53 @@ export default function LevelPage() {
             </div>
           </DialogContent>
         </Dialog>
+
+        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+          <DialogContent className="bg-[rgb(25,45,54)] text-white">
+            <DialogHeader>
+              <DialogTitle>Edit Card</DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Edit card content
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">Card Title</Label>
+                <Input
+                  id="edit-title"
+                  value={editingCard?.title || ""}
+                  onChange={(e) =>
+                    setEditingCard((prev) =>
+                      prev ? { ...prev, title: e.target.value } : null
+                    )
+                  }
+                  className="bg-[rgb(35,55,64)] border-white/20"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-content">Content</Label>
+                <Textarea
+                  id="edit-content"
+                  value={editingCard?.content || ""}
+                  onChange={(e) =>
+                    setEditingCard((prev) =>
+                      prev ? { ...prev, content: e.target.value } : null
+                    )
+                  }
+                  rows={5}
+                  className="bg-[rgb(35,55,64)] border-white/20"
+                />
+              </div>
+              <Button
+                onClick={updateCard}
+                className="w-full"
+                disabled={loading}
+              >
+                Update Card
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {loading ? (
@@ -211,14 +288,24 @@ export default function LevelPage() {
                     </p>
                   </div>
                 </div>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => deleteCard(card.id)}
-                  disabled={loading}
-                >
-                  Delete
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => startEditing(card)}
+                    disabled={loading}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => deleteCard(card.id)}
+                    disabled={loading}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
             </Card>
           ))}
