@@ -1,15 +1,16 @@
+"use server";
 import { createClient } from "@/lib/supabase/client";
 
-export type ProgressStatus = 'not_started' | 'in_progress' | 'completed';
+export type ProgressStatus = "not_started" | "in_progress" | "completed";
 
 // Course Progress Functions
 export async function getUserCourseProgress(userId: string, courseId: string) {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('user_course_progress')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('course_id', courseId)
+    .from("user_course_progress")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("course_id", courseId)
     .single();
 
   if (error) throw error;
@@ -29,15 +30,15 @@ export async function updateUserCourseProgress(
   const updates = {
     user_id: userId,
     course_id: courseId,
-    status: data.status || 'not_started',
+    status: data.status || "not_started",
     completion_percentage: data.completion_percentage || 0,
-    started_at: data.status === 'not_started' ? null : new Date().toISOString(),
+    started_at: data.status === "not_started" ? null : new Date().toISOString(),
     completed_at: data.completed_at?.toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   const { data: result, error } = await supabase
-    .from('user_course_progress')
+    .from("user_course_progress")
     .upsert(updates)
     .select()
     .single();
@@ -50,10 +51,10 @@ export async function updateUserCourseProgress(
 export async function getUserLevelProgress(userId: string, levelId: string) {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('user_level_progress')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('level_id', levelId)
+    .from("user_level_progress")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("level_id", levelId)
     .single();
 
   if (error) throw error;
@@ -74,15 +75,15 @@ export async function updateUserLevelProgress(
   const updates = {
     user_id: userId,
     level_id: levelId,
-    status: data.status || 'not_started',
+    status: data.status || "not_started",
     score: data.score || 0,
     attempts: (data.attempts ?? 0) + 1,
     completed_at: data.completed_at?.toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   const { data: result, error } = await supabase
-    .from('user_level_progress')
+    .from("user_level_progress")
     .upsert(updates)
     .select()
     .single();
@@ -95,27 +96,34 @@ export async function updateUserLevelProgress(
 export async function getUserCourseProgressList(userId: string) {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('user_course_progress')
-    .select(`
+    .from("user_course_progress")
+    .select(
+      `
       *,
       course:courses (*)
-    `)
-    .eq('user_id', userId);
+    `
+    )
+    .eq("user_id", userId);
 
   if (error) throw error;
   return data;
 }
 
-export async function getUserLevelProgressList(userId: string, courseId: string) {
+export async function getUserLevelProgressList(
+  userId: string,
+  courseId: string
+) {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('user_level_progress')
-    .select(`
+    .from("user_level_progress")
+    .select(
+      `
       *,
       level:levels (*)
-    `)
-    .eq('user_id', userId)
-    .eq('level.course_id', courseId);
+    `
+    )
+    .eq("user_id", userId)
+    .eq("level.course_id", courseId);
 
   if (error) throw error;
   return data;

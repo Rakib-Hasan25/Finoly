@@ -1,12 +1,13 @@
+"use server";
 import { createClient } from "@/lib/supabase/server";
 
 export async function getCards(levelId: string) {
   const supabase = await createClient();
 
   const { data: cards, error } = await supabase
-    .from("quiz_cards")
+    .from("cards")
     .select("*")
-    .eq("level_id", levelId)
+    .eq("course_level_id", levelId)
     .order("order", { ascending: true });
 
   if (error) {
