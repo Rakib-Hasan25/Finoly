@@ -9,13 +9,14 @@ export type Reward = {
   points: number;
   health: number;
   badge: string | null;
-  progress: number;
+  requirements: number;
   created_at: string;
 };
 
 export type UserReward = {
   user_id: number;
   reward_id: number;
+  progress: number;
   status: "AVAILABLE" | "COMPLETE" | "CLAIMED";
   created_at: string;
 };
