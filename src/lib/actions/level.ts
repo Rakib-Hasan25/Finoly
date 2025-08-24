@@ -1,3 +1,4 @@
+"use server";
 import { createClient } from "@/lib/supabase/server";
 
 export async function getLevels(courseId: string) {
@@ -7,7 +8,7 @@ export async function getLevels(courseId: string) {
     .from("levels")
     .select("*")
     .eq("course_id", courseId)
-    .order("order", { ascending: true });
+    .order("level_no", { ascending: true });
 
   if (error) {
     console.error(`Error fetching levels for course ${courseId}:`, error);
@@ -22,12 +23,7 @@ export async function getLevelById(levelId: string) {
 
   const { data: level, error } = await supabase
     .from("levels")
-    .select(
-      `
-      *,
-      quiz_cards (*)
-    `
-    )
+    .select("*")
     .eq("id", levelId)
     .single();
 
