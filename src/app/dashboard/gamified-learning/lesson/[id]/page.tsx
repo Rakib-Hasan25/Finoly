@@ -5,6 +5,7 @@ import CardConcepts from "@/components/gamifiedComp/cardconcepts";
 import TestPage from "@/components/gamifiedComp/mcqtest";
 import { getLevelById } from "@/lib/actions/level";
 import { getCards } from "@/lib/actions/card";
+import CoinLoading from "@/components/gamifiedComp/coinload";
 
 export default function Lesson() {
   const { id } = useParams(); // Lesson ID from URL
@@ -31,11 +32,7 @@ export default function Lesson() {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="h-full w-full flex items-center justify-center">
-        Loading...
-      </div>
-    );
+    return <CoinLoading />
   }
 
   return (
