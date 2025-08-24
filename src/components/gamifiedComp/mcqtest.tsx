@@ -1,12 +1,35 @@
 'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import Link from 'next/link';
+import { getCards } from '@/lib/actions/card';
+import CoinLoading from './coinload';
+77
 
 
 interface Test {
-    id : string;
+    id : number;
     setTest : Dispatch<SetStateAction<boolean>>;
+}
+interface FormattedQuiz {
+  id: number;
+  question: string;
+  options: string[];
+  answer: string;
+}
+
+function formatQuizList(rawQuizzes : any[]) : FormattedQuiz[] {
+  return rawQuizzes.map((q, index) => ({
+    id: index + 1, // sequential id
+    question: q.content.trim(),
+    options: [
+      `A: ${q.option_a.trim()}`,
+      `B: ${q.option_b.trim()}`,
+      `C: ${q.option_c.trim()}`,
+      `D: ${q.option_d.trim()}`
+    ],
+    answer: q.correct_answer
+  }));
 }
 
 
@@ -17,35 +40,28 @@ export default function TestPage({id, setTest} : Test) {
   const [feedback, setFeedback] = useState<{ text: string; correctAnswer?: string } | null>(null);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
-	// get the questions from db...
-    const testId = id;
-    const mcqs = [
-    {
-      id: 1,
-      question: 'আর্থিক সাক্ষরতা বলতে কী বোঝানো হয়?',
-      options: ['A: শুধু টাকা গণনা করা', 'B: আয়, খরচ, সঞ্চয় ও বিনিয়োগ নিয়ে সচেতন সিদ্ধান্ত নেওয়া', 'C: ঋণ ছাড়া খরচ করা', 'D: শুধু ব্যাংকে টাকা রাখা'],
-      answer: 'B',
-    },
-    {
-      id: 2,
-      question: 'বাজেট তৈরির মূল উদ্দেশ্য কী?',
-      options: ['A: খরচ কমানো ও সঞ্চয় বৃদ্ধি', 'B: ঋণ নেওয়া সহজ করা', 'C: শুধু টাকা গণনা করা', 'D: বিনিয়োগ এড়িয়ে যাওয়া'],
-      answer: 'A',
-    },
-    {
-      id: 3,
-      question: 'স্বল্পমেয়াদি ও দীর্ঘমেয়াদি লক্ষ্য কিভাবে আলাদা?',
-      options: ['A: সময়কাল ও প্রয়োজন অনুসারে', 'B: আয় বাড়ানোর জন্য', 'C: ঋণ নেওয়ার জন্য', 'D: ব্যালেন্স দেখানোর জন্য'],
-      answer: 'A',
+  const [quizList, setQuizList] = useState<FormattedQuiz[]>([]);
+  const [loading, setLoading] = useState<boolean> (true);
+
+  useEffect(() => {
+    const fetchTestData = async () => {
+      const response = await getCards(id, 'quiz');
+      const formatted : FormattedQuiz[] = formatQuizList(response);
+      setQuizList(formatted);
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000);
     }
-  ];
+    fetchTestData();
+  }, []);
+
 
   const handleSubmit = () => {
     if (!selectedOption) return;
-    const isCorrect = selectedOption === mcqs[currentIndex].answer;
+    const isCorrect = selectedOption === quizList[currentIndex].answer;
     setFeedback({
       text: isCorrect ? 'Correct!' : 'Wrong!',
-      correctAnswer: isCorrect ? undefined : `Correct answer: ${mcqs[currentIndex].options.find((opt) => opt.startsWith(mcqs[currentIndex].answer))}`,
+      correctAnswer: isCorrect ? undefined : `Correct answer: ${quizList[currentIndex].options.find((opt) => opt.startsWith(quizList[currentIndex].answer))}`,
     });
     if (isCorrect) setScore((prev) => prev + 10);
     setAnswered(true);
@@ -56,6 +72,9 @@ export default function TestPage({id, setTest} : Test) {
     setFeedback(null);
     setAnswered(false);
     setCurrentIndex((prev) => prev + 1);
+    if(currentIndex == quizList.length - 1) {
+      alert("Test Completed");
+    }
   };
 
   // Smooth card transition
@@ -76,12 +95,16 @@ export default function TestPage({id, setTest} : Test) {
     hover: { scale: 1.05, transition: { duration: 0.2 } },
   };
 
+  if(loading){
+    return <CoinLoading/>
+  }
+
   return (
     <div className="h-full p-4 bg-gradient-to-b from-blue-100 to-gray-100 flex flex-col items-center">
       {/* MCQ Card */}
       <div className="relative w-full max-w-2xl  overflow-y-auto bg-white rounded-lg shadow-xl p-6 flex flex-col justify-between [scrollbar-width:none] [-ms-overflow-style:none]">
         <AnimatePresence mode="wait">
-          {currentIndex < mcqs.length ? (
+          {currentIndex < quizList.length ? (
             <motion.div
               key={currentIndex}
               variants={cardVariants}
@@ -91,14 +114,14 @@ export default function TestPage({id, setTest} : Test) {
               className="flex-1 flex flex-col justify-center"
             >
               <motion.h2 variants={cardVariants} className="text-2xl font-bold mb-4 text-center">
-                Question {currentIndex + 1} of {mcqs.length}
+                Question {currentIndex + 1} of {quizList.length}
               </motion.h2>
               <motion.p variants={cardVariants} className="text-lg text-gray-700 mb-4 text-center">
-                {mcqs[currentIndex].question}
+                {quizList[currentIndex].question}
               </motion.p>
 
               <motion.div variants={cardVariants} className="space-y-3 mb-4">
-                {mcqs[currentIndex].options.map((option, i) => (
+                {quizList[currentIndex].options.map((option, i) => (
                   <motion.label
                     key={i}
                     className={`block p-3 rounded-lg cursor-pointer border ${
@@ -111,7 +134,7 @@ export default function TestPage({id, setTest} : Test) {
                   >
                     <input
                       type="radio"
-                      name={`q${mcqs[currentIndex].id}`}
+                      name={`q${quizList[currentIndex].id}`}
                       value={option[0]}
                       checked={selectedOption === option[0]}
                       onChange={(e) => setSelectedOption(e.target.value)}
@@ -163,7 +186,7 @@ export default function TestPage({id, setTest} : Test) {
                 {score >= 70 ? '🎉 Congratulations!' : '💪 Nice Try!'}
               </h2>
               <p className="text-xl mb-4">
-                Your Score: {score}/{mcqs.length * 10} ({Math.round((score / (mcqs.length * 10)) * 100)}%)
+                Your Score: {score}/{quizList.length * 10} ({Math.round((score / (quizList.length * 10)) * 100)}%)
               </p>
               <p className="text-lg text-gray-700 mb-6 text-center">
                 {score >= 70
@@ -177,7 +200,7 @@ export default function TestPage({id, setTest} : Test) {
 
       {/* Bottom Buttons */}
       <div className="mt-6 flex justify-center gap-4 w-full max-w-2xl">
-        {currentIndex < mcqs.length ? (
+        {currentIndex < quizList.length ? (
           <>
             <Link href="/dashboard/gamified-learning">
               <button className="px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-600">
