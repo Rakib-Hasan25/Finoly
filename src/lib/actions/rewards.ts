@@ -8,6 +8,8 @@ export type Reward = {
   type: string;
   points: number;
   health: number;
+  badge: string | null;
+  progress: number;
   created_at: string;
 };
 
