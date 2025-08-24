@@ -1,0 +1,2 @@
+ALTER TABLE rewards
+ADD COLUMN type TEXT NOT NULL DEFAULT 'special';

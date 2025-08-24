@@ -5,6 +5,7 @@ export type Reward = {
   id: number;
   title: string;
   description: string;
+  type: string;
   points: number;
   health: number;
   created_at: string;
