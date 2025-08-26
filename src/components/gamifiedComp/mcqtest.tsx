@@ -3,6 +3,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/button";
+import { createUserLevelProgress, getUserLevelProgress, updateUserLevelProgress, UserLevelProgress } from "@/lib/actions/user-level-progress";
+import { getUser, updateUser } from "@/lib/actions/users";
+import { syncUserRewards, updateCompletedRewards } from "@/lib/actions/rewards";
+import { triggerRewardToast } from "./toaster";
 
 interface TestPageProps {
   id: string;
@@ -37,6 +41,78 @@ function formatQuizList(rawQuizzes : any[]) : FormattedQuiz[] {
   }));
 }
 
+
+const updateDb = async (id : string, score : any, passed : any) => {
+  // console.log("updating db");
+  const levelId = id;
+  const userId = 1;
+  const prev = await getUserLevelProgress(userId, parseInt(levelId));
+
+  let scorediff = 0;
+  let attemp = 0;
+
+  if(prev == null){
+    scorediff = score;
+    attemp = 1;
+    const data : Omit<UserLevelProgress, "id" | "created_at" | "updated_at"> = {
+      user_id: userId,
+      level_id: parseInt(levelId),
+      status: passed ? "completed" : "in_progress",
+      progression: 1,
+      score: score,
+      attempts: 1,
+      completed_at: new Date().toISOString(),
+    }
+    await createUserLevelProgress(data);
+  } else {
+    const nScore = Math.max(score, prev.score);
+    const npassed = passed || prev.status === 'completed';
+    scorediff = Math.max(score - prev.score, 0);
+    attemp = prev.attempts + 1;
+    const data : Partial<UserLevelProgress> = {
+      user_id: userId,
+      level_id: parseInt(levelId),
+      status: npassed ? "completed" : "in_progress",
+      progression: 1,
+      score: nScore,
+      attempts: prev.attempts + 1,
+      completed_at: new Date().toISOString(),
+    }
+    await updateUserLevelProgress(userId, parseInt(levelId), data);
+  }
+  // console.log(res);
+
+
+  const adxp = (scorediff <= 0) ? 0 : scorediff - (attemp - 1) * 2;
+  const { xp, health } = await getUser(userId);
+  const data = {
+    xp : xp + adxp,
+    health : health - (passed ? 0 : 1)
+  }
+  await updateUser(userId, data);
+  await rewardCalc(score, passed);
+  
+}
+
+const rewardCalc = async (score : any, passed : any) => {
+  const userId = 1;
+  await syncUserRewards(userId);
+  if(score >= 100){
+    const {updatedCount, total} = await updateCompletedRewards(userId, 'health');
+    if (updatedCount > 0 && total > 0) {
+      triggerRewardToast(`🎉 You earned +${total} health for completing rewards!`);
+    }
+  }
+  if(passed){
+    const {updatedCount, total} = await updateCompletedRewards(userId, 'points');
+    if (updatedCount > 0 && total > 0) {
+      triggerRewardToast(`🎉 You earned +${total} XP for completing rewards!`);
+    }
+  }
+}
+
+
+
 export default function TestPage({
   id,
   setTest,
@@ -68,6 +144,14 @@ export default function TestPage({
     if (isCorrect) setScore((prev) => prev + 10);
     setAnswered(true);
   };
+
+  const handleFinish = () => {
+    const percentage = (score / (cards.length * 10)) * 100;
+    const passed = percentage >= 70;
+    updateDb(id, score, passed).then(()=>{
+      setFinished(true);
+    })
+  }
 
   const handleNext = () => {
     if (currentIndex === cards.length - 1) {
@@ -251,7 +335,7 @@ export default function TestPage({
               <Button
                 onClick={
                   currentIndex === cards.length - 1
-                    ? () => setFinished(true)
+                    ? handleFinish
                     : handleNext
                 }
                 className="bg-blue-600 hover:bg-blue-700"

@@ -14,6 +14,18 @@ export type UserLevelProgress = {
   updated_at: string;
 };
 
+export async function getUserLevelProgressAll(userId: number) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("user_level_progress")
+    .select("*")
+    .eq("user_id", userId)
+    .order("level_id", { ascending: true })
+
+  if (error) throw error;
+  return data as UserLevelProgress[];
+}
+
 export async function getUserLevelProgress(userId: number, levelId: number) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -21,10 +33,10 @@ export async function getUserLevelProgress(userId: number, levelId: number) {
     .select("*")
     .eq("user_id", userId)
     .eq("level_id", levelId)
-    .single();
+    .maybeSingle();
 
   if (error) throw error;
-  return data as UserLevelProgress;
+  return data as UserLevelProgress | null;
 }
 
 export async function updateUserLevelProgress(
