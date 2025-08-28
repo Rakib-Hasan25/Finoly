@@ -90,6 +90,9 @@ export default function SpendingPage() {
     new Date(b).getTime() - new Date(a).getTime()
   );
 
+  // Check if today's total exceeds $100
+  const isOverBudget = todaysTotal > 100;
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -101,19 +104,35 @@ export default function SpendingPage() {
         <h1 className="text-3xl font-bold text-gray-900">Daily Spending Tracker</h1>
         <p className="text-gray-600">Track your daily expenses and build healthy spending habits</p>
         
-        {/* Today's Total */}
+        {/* Today's Total - Fixed Animation */}
         <motion.div
           animate={{ 
-            scale: todaysTotal > 100 ? [1, 1.05, 1] : 1,
-            backgroundColor: todaysTotal > 100 ? ['rgb(254, 242, 242)', 'rgb(252, 165, 165)', 'rgb(254, 242, 242)'] : 'rgb(240, 253, 244)'
+            scale: isOverBudget ? [1, 1.05, 1] : 1,
           }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="inline-flex items-center space-x-2 px-6 py-3 rounded-full"
+          transition={{ 
+            duration: 2, 
+            repeat: isOverBudget ? Infinity : 0,
+            ease: "easeInOut"
+          }}
+          className={`inline-flex items-center space-x-2 px-6 py-3 rounded-full transition-colors duration-300 ${
+            isOverBudget 
+              ? 'bg-red-100 border border-red-200' 
+              : 'bg-green-50 border border-green-200'
+          }`}
         >
-          <Calendar className="h-5 w-5 text-gray-600" />
-          <span className="font-semibold text-gray-900">
+          <Calendar className={`h-5 w-5 ${isOverBudget ? 'text-red-600' : 'text-green-600'}`} />
+          <span className={`font-semibold ${isOverBudget ? 'text-red-900' : 'text-green-900'}`}>
             Today's Total: ${Number.isFinite(todaysTotal) ? todaysTotal.toFixed(2) : '0.00'}
           </span>
+          {isOverBudget && (
+            <motion.span
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="text-red-600 text-sm font-medium"
+            >
+              Over Budget!
+            </motion.span>
+          )}
         </motion.div>
       </motion.div>
 

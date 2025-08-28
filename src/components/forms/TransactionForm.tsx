@@ -34,12 +34,14 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
   const [date, setDate] = useState<Date>(new Date());
   const [showWalletAnimation, setShowWalletAnimation] = useState(false);
   const [isSecure, setIsSecure] = useState(false);
+  const [amountValue, setAmountValue] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const { register, handleSubmit, formState: { errors, isValid }, reset, setValue, watch } = useForm<FormData>({
     defaultValues: {
       date: new Date(),
       description: '',
-      amount: 0,
+      amount: undefined,
       category: ''
     }
   });
@@ -55,14 +57,35 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
 
     setIsSecure(true);
     setShowWalletAnimation(true);
-    
+
     // Simulate processing delay
     setTimeout(() => {
       onSubmit(transaction);
       reset();
       setDate(new Date());
+      setAmountValue('');
+      setSelectedCategory('');
       setIsSecure(false);
     }, 1500);
+  };
+
+  // Handle amount input changes
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAmountValue(value);
+    setValue('amount', value ? parseFloat(value) : 0);
+  };
+
+  // Handle amount input focus
+  const handleAmountFocus = () => {
+    if (amountValue === '0' || amountValue === '') {
+      setAmountValue('');
+    }
+  };
+
+  // Prevent scroll from changing number input value
+  const handleAmountWheel = (e: React.WheelEvent<HTMLInputElement>) => {
+    e.currentTarget.blur();
   };
 
   return (
@@ -72,7 +95,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
           <CardTitle className="text-lg font-semibold text-gray-900">
             Add {type === 'income' ? 'Income' : 'Expense'}
           </CardTitle>
-          
+
           {/* Security Indicator */}
           <motion.div
             animate={{
@@ -85,11 +108,11 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
             <Lock className={`h-4 w-4 ${isSecure ? 'text-green-600' : 'text-gray-400'}`} />
           </motion.div>
         </div>
-        
+
         {/* Wallet Animation */}
         <div className="mt-4">
-          <WalletAnimation 
-            type={type} 
+          <WalletAnimation
+            type={type}
             trigger={showWalletAnimation}
             onAnimationComplete={() => setShowWalletAnimation(false)}
           />
@@ -99,7 +122,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
       <CardContent>
         <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
           {/* Amount Input */}
-          <motion.div 
+          <motion.div
             className="space-y-2"
             whileFocus={{ scale: 1.02 }}
           >
@@ -119,21 +142,28 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
                 step="0.01"
                 min="0"
                 placeholder="0.00"
+                value={amountValue}
+                onChange={handleAmountChange}
+                onFocus={handleAmountFocus}
+                onWheel={handleAmountWheel}
                 className={cn(
                   "text-lg font-semibold pl-8 transition-all duration-200",
+                  // Remove spinner arrows for all browsers
+                  "[&::-webkit-outer-spin-button]:appearance-none",
+                  "[&::-webkit-inner-spin-button]:appearance-none",
+                  "[&::-webkit-inner-spin-button]:m-0",
+                  "[-moz-appearance:textfield]",
+                  "[appearance:textfield]",
                   watchedAmount > 0 && "border-green-400 focus:border-green-500"
                 )}
-                {...register('amount', { 
-                  required: 'Amount is required',
-                  min: { value: 0.01, message: 'Amount must be greater than 0' }
-                })}
               />
+
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">
                 $
               </span>
             </motion.div>
             {errors.amount && (
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-sm text-red-600"
@@ -146,7 +176,13 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
           {/* Category Selection */}
           <div className="space-y-2">
             <Label className="text-sm font-medium text-gray-700">Category</Label>
-            <Select onValueChange={(value) => setValue('category', value)}>
+            <Select 
+              value={selectedCategory}
+              onValueChange={(value) => {
+                setSelectedCategory(value);
+                setValue('category', value);
+              }}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -210,7 +246,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
               disabled={!isValid || isSecure}
               className={cn(
                 "w-full h-12 text-base font-semibold transition-all duration-200",
-                type === 'income' 
+                type === 'income'
                   ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
                   : "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"
               )}
