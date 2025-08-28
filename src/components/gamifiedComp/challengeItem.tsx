@@ -1,16 +1,33 @@
 "use client";
+import { updateUserRewardStatus } from "@/lib/actions/rewards";
+import { getUser, updateUser } from "@/lib/actions/users";
 import React, { useState } from "react";
 
-export default function ChallengeItem() {
-  const challenge = {
-    title: "Study Streak",
-    description: "Complete a lesson for 3 consecutive days",
-    rewardText: "+2 Health",
-    actionText: "Claim Challenge",
-    done: false,
-    claimed: false,
-  };
-  const [currentChallenge, setCurrentChallenge] = useState(challenge);
+interface ChallengeItemProp {
+  userID : number;
+  rewardID : number;
+  title: string;
+  description: string;
+  rewardText: string;
+  health : number;
+  points : number;
+  status: string; // e.g. "pending" | "completed" | "claimed"
+}
+
+export default function ChallengeItem(item: ChallengeItemProp) {
+  // ✅ initialize from props instead of static challenge
+  const [currentChallenge, setCurrentChallenge] = useState({
+    userID : item.userID,
+    rewardID : item.rewardID,
+    title: item.title,
+    description: item.description,
+    rewardText: item.rewardText,
+    health : item.health,
+    points : item.points,
+    status: item.status,
+    claimed: item.status === "CLAIMED",
+    done: item.status === "COMPLETE" || item.status === "CLAIMED",
+  });
 
   const isDoneButNotClaimed =
     currentChallenge.done && !currentChallenge.claimed;
@@ -27,9 +44,16 @@ export default function ChallengeItem() {
     ${isDoneButNotClaimed ? "text-yellow-400" : "text-white"}
   `;
 
-  const handleClaim = () => {
+  const handleClaim = async() => {
     if (isDoneButNotClaimed) {
-      setCurrentChallenge({ ...currentChallenge, claimed: true });
+      const { xp, health } = await getUser(currentChallenge.userID);
+      const data = {
+        xp : xp + currentChallenge.points,
+        health : health + currentChallenge.health,
+      }
+      await updateUser(currentChallenge.userID, data);
+      await updateUserRewardStatus(currentChallenge.userID, currentChallenge.rewardID, "CLAIMED");
+      setCurrentChallenge({ ...currentChallenge, claimed: true, status: "claimed" });
     }
   };
 
@@ -104,20 +128,6 @@ export default function ChallengeItem() {
           }
         `}
       >
-        <svg
-          className="w-4 h-4 mr-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-          ></path>
-        </svg>
         {currentChallenge.rewardText}
       </button>
     </div>

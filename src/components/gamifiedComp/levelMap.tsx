@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { getLevels } from "@/lib/actions/level";
 import { useRouter } from "next/navigation";
+import { getUserLevelProgressAll } from "@/lib/actions/user-level-progress";
 
 interface LevelMapProps {
   courseId: string;
@@ -13,21 +14,45 @@ export default function LevelsPage({ courseId }: LevelMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [levels, setLevels] = useState<any[]>([]);
   const [currentLevel, setCurrentLevel] = useState(1);
+  const userId = 1;
 
   useEffect(() => {
     const fetchLevels = async () => {
       try {
         const levelsData = await getLevels(courseId);
+        const userLevels = await getUserLevelProgressAll(userId);
+        const completedLevels = new Map(
+          userLevels.map((ul) => [ul.level_id, ul]) // map level_id → userLevel object
+        );
+        
+        let maxCompletedLevel = 0;
+        userLevels.forEach((ul) => {
+          if(ul.status === "completed" && ul.level_id > maxCompletedLevel) {
+            maxCompletedLevel = ul.level_id;
+          }
+        })
+        // console.log(userLevels);
+        // console.log(levelsData);
+        let foundCurrent = false;
         setLevels(
-          levelsData.map((level, index) => ({
-            id: level.id,
-            name: level.title,
-            description: level.description,
-            completed: index + 1 < currentLevel,
-            isCurrent: index + 1 === currentLevel,
-            isCheckpoint: (index + 1) % 5 === 0,
-            order: level.level_no,
-          }))
+          levelsData.map((level, index) => {
+            const userLevel = completedLevels.get(level.id);
+            const isCompleted = !!userLevel && userLevel.status === "completed";
+            const isCurrent = level.id >= maxCompletedLevel + 1 && !foundCurrent;
+            if(isCurrent) foundCurrent = true;
+            if(isCurrent) setCurrentLevel(level.id);
+
+            return {
+              id: level.id,
+              name: level.title,
+              description: level.description,
+              completed: isCompleted,
+              score: isCompleted ? userLevel.score : null,
+              isCurrent: isCurrent,
+              isCheckpoint: (index + 1) % 5 === 0,
+              order: level.level_no,
+            }
+          })
         );
       } catch (error) {
         console.error("Error fetching levels:", error);
@@ -113,7 +138,7 @@ export default function LevelsPage({ courseId }: LevelMapProps) {
                   {level.name}
                 </span>
                 <span className="block text-sm text-gray-200">
-                  {level.completed ? "Completed" : "Current Level"}
+                  {level.completed ? `${level.score} / 100` : "Current Level"}
                 </span>
               </a>
             ) : (
