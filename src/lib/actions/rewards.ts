@@ -142,10 +142,13 @@ export async function syncUserRewards(userId: number) {
         points,
         health,
         badge,
-        requirements
+        requirements,
+        type
       )
     `)
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .eq("reward.type", "daily")
+    .not("reward", "is", null);
 
   if (finalError) throw finalError;
 
@@ -222,3 +225,165 @@ export async function updateCompletedRewards(userId: number, type: RewardType) {
  return { updatedCount: updates.length, total };
 }
 
+
+export async function syncUserGlobalRewards(userId: number) {
+  // 1. Get all rewards
+  const supabase = await createClient();
+  const { data: rewards, error: rewardError } = await supabase
+    .from("rewards")
+    .select("id, title, description, badge, requirements")
+    .eq("type", "global");
+
+  if (rewardError) throw rewardError;
+
+  // 2. Get user existing rewards
+  const { data: userRewards, error: userRewardError } = await supabase
+    .from("user_rewards")
+    .select("reward_id, status")
+    .eq("user_id", userId);
+
+  if (userRewardError) throw userRewardError;
+
+  // 3. Find missing rewards
+  const existingIds = new Set(userRewards.map((ur) => ur.reward_id));
+  const missingRewards = rewards.filter((r) => !existingIds.has(r.id));
+
+  // 4. Insert missing rewards with status = incomplete
+  if (missingRewards.length > 0) {
+    const inserts = missingRewards.map((r) => ({
+      user_id: userId,
+      reward_id: r.id,
+      status: "AVAILABLE",
+      progress : 0
+    }));
+
+    const { error: insertError } = await supabase
+      .from("user_rewards")
+      .insert(inserts);
+
+    if (insertError) throw insertError;
+  }
+  await checkLevel(1, userId);
+  await checkLevel(3, userId);
+  await checkLevel(10, userId);
+  await checkPerfect(userId);
+  // 5. Fetch joined data: reward + user_reward.status
+  const { data: finalData, error: finalError } = await supabase
+    .from("user_rewards")
+    .select(`
+      status,
+      user_id,
+      reward_id,
+      reward:reward_id (
+        title,
+        description,
+        badge,
+        requirements,
+        type
+      )
+    `)
+    .eq("user_id", userId)
+    .eq("reward.type", "global")
+    .not("reward", "is", null)
+    .order("reward_id", { ascending: true });
+  
+  if (finalError) throw finalError;
+  // 6. Flatten reward + status into single object
+  const response = finalData.map((row) => ({
+    ...row.reward,
+    status: row.status,
+    userID : row.user_id,
+    rewardID : row.reward_id
+  }));
+
+  return response;
+}
+
+
+export async function checkLevel(levelId: number, userId: number) {
+  const supabase = await createClient();
+
+  // 1. Check if user has completed the level
+  const { data: levelData, error: levelError } = await supabase
+    .from("user_level_progress")
+    .select("status")
+    .eq("user_id", userId)
+    .eq("level_id", levelId)
+    .single();
+  if (levelError || !levelData || levelData.status !== "completed") {
+    return; // nothing to do
+  }
+
+  // 2. Check if reward is AVAILABLE
+  const { data: rewardData, error: rewardError } = await supabase
+    .from("user_rewards")
+    .select(`
+      status,
+      reward_id,
+      reward:reward_id (
+        type,
+        requirements
+      )
+    `)
+    .eq("user_id", userId)
+    .eq("reward.requirements", levelId)
+    .eq("reward.type", "global")
+    .not("reward", "is", null)
+    .single();
+
+  if (rewardError || !rewardData || rewardData.status !== "AVAILABLE") {
+    return; // nothing to do
+  }
+
+  // 3. Update reward status to COMPLETE
+  await supabase
+    .from("user_rewards")
+    .update({ status: "COMPLETE" })
+    .eq("reward_id", rewardData.reward_id)
+    .eq("user_id", userId)
+}
+
+export async function checkPerfect(userId: number) {
+ const supabase = await createClient();
+
+ // 1. Get all completed levels and sum their scores
+ const { data: levelsData, error: levelsError } = await supabase
+  .from("user_level_progress")
+  .select("score,status")
+  .eq("user_id", userId);
+
+ if (levelsError || !levelsData) return;
+
+ const totalScore = levelsData
+  .filter(l => l.status === "completed")
+  .reduce((sum, l) => sum + (l.score || 0), 0);
+
+ if (totalScore < 1000) return; // nothing to do
+
+ // 2. Find rewards that are AVAILABLE for this user and are global
+ const { data: rewardData, error: rewardError } = await supabase
+  .from("user_rewards")
+  .select(`
+    status,
+    reward_id,
+    reward:reward_id (
+      type,
+      requirements
+    )
+  `)
+  .eq("user_id", userId)
+  .eq("reward.requirements", 100)
+  .eq("reward.type", "global")
+  .not("reward", "is", null)
+  .single();
+
+ if (rewardError || !rewardData || rewardData.status !== "AVAILABLE") {
+    return; // nothing to do
+  }
+
+ await supabase
+  .from("user_rewards")
+  .update({ status: "COMPLETE" })
+  .eq("reward_id", rewardData.reward_id)
+  .eq("user_id", userId)
+}

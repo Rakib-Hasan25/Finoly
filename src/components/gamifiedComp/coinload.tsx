@@ -4,53 +4,183 @@ import React from 'react';
 
 export default function CoinLoading() {
   return (
-    // Full screen overlay with a dark, semi-transparent background consistent with other components
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900/70 z-50 overflow-hidden font-inter">
-      {/* Animated Coin with $F Icon */}
-      <motion.svg
-        className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64" // Large and responsive sizing for the coin
-        viewBox="0 0 64 64" // Standard viewBox for our coin design
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        animate={{ rotateY: 360 }} // Continuous rotation animation around the Y-axis
+      <motion.div
+        className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64"
+        animate={{ rotateY: 360 }}
         transition={{
-          duration: 3, // Duration for one full rotation
-          repeat: Infinity, // Repeat indefinitely
-          ease: 'linear', // Consistent speed throughout the rotation
+          duration: 2.5,
+          repeat: Infinity,
+          ease: 'linear',
         }}
         style={{
-          filter: 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6))' // Add a more prominent shadow for depth
+          transformStyle: 'preserve-3d',
+          perspective: 1200,
+          filter: 'drop-shadow(0 12px 22px rgba(0,0,0,0.7))',
         }}
       >
-        <defs>
-          {/* Radial gradient for a cool, aesthetic, materialistic silver look */}
-          <radialGradient id="grad-main-rotating-coin" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#E6E8EA" /> {/* Brightest silver highlight */}
-            <stop offset="60%" stopColor="#A5B0B8" /> {/* Main metallic silver body */}
-            <stop offset="100%" stopColor="#6C7A89" /> {/* Darker, cool gray for shadow/depth */}
-          </radialGradient>
-        </defs>
-        {/* Main circular body of the coin, filled with the silver radial gradient */}
-        <circle cx="32" cy="32" r="30" fill="url(#grad-main-rotating-coin)" stroke="#8E9DA8" strokeWidth="2" /> {/* Silver stroke */}
-        {/* Inner dashed circle for additional visual detail/texture */}
-        <circle cx="32" cy="32" r="25" fill="none" stroke="#B0BCC7" strokeWidth="1.5" strokeDasharray="1 3" /> {/* Lighter silver inner stroke */}
-        {/* Ellipse to simulate a subtle specular highlight on the coin's surface */}
-        <ellipse cx="24" cy="24" rx="6" ry="3" fill="rgba(255,255,255,0.5)" />
-        {/* Text "$F" in the center of the coin */}
-        <text
-          x="32"
-          y="42" // Adjusted y to be more visually centered
-          fontFamily="Inter, sans-serif"
-          fontSize="28" // Larger font size for prominence
-          fontWeight="bold"
-          textAnchor="middle" // Center horizontally
-          fill="#2D3748" // Dark gray for good contrast on silver
-          stroke="#1A202C" // Subtle dark stroke for readability
-          strokeWidth="0.8"
+        {/* Front Face */}
+        <div className="absolute inset-0 flex items-center justify-center backface-hidden">
+          <svg viewBox="0 0 64 64" className="w-full h-full">
+            <defs>
+              {/* Metallic silver body */}
+              <radialGradient id="metal-silver" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#f8f9fa" />
+                <stop offset="50%" stopColor="#b0b8c2" />
+                <stop offset="100%" stopColor="#606a76" />
+              </radialGradient>
+
+              {/* Rim base */}
+              <linearGradient id="coin-rim" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e6e8ea" />
+                <stop offset="50%" stopColor="#8a939d" />
+                <stop offset="100%" stopColor="#3a3f44" />
+              </linearGradient>
+
+              {/* Flare arc along border */}
+              <radialGradient id="rim-flare" cx="50%" cy="50%" r="50%">
+                <stop offset="85%" stopColor="rgba(255,255,255,0)" />
+                <stop offset="92%" stopColor="rgba(255,255,255,0.9)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+              </radialGradient>
+            </defs>
+
+            {/* Coin rim */}
+            <circle cx="32" cy="32" r="31" fill="url(#coin-rim)" />
+
+            {/* Coin body */}
+            <circle
+              cx="32"
+              cy="32"
+              r="29"
+              fill="url(#metal-silver)"
+              stroke="#adb4ba"
+              strokeWidth="1.5"
+            />
+
+            {/* Inner detailing */}
+            <circle
+              cx="32"
+              cy="32"
+              r="24"
+              fill="none"
+              stroke="#cfd4d8"
+              strokeWidth="1.5"
+              strokeDasharray="1 3"
+            />
+
+            {/* Rotating flare overlay on rim */}
+            <motion.circle
+              cx="32"
+              cy="32"
+              r="31"
+              fill="url(#rim-flare)"
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+              style={{ transformOrigin: 'center' }}
+            />
+
+            {/* Coin Text */}
+            <text
+              x="32"
+              y="42"
+              fontFamily="Inter, sans-serif"
+              fontSize="28"
+              fontWeight="bold"
+              textAnchor="middle"
+              fill="#2d3748"
+              stroke="#1a202c"
+              strokeWidth="0.8"
+            >
+              $F
+            </text>
+          </svg>
+        </div>
+
+        {/* Back Face */}
+        <div
+          className="absolute inset-0 flex items-center justify-center backface-hidden"
+          style={{ transform: 'rotateY(180deg)' }}
         >
-          $F
-        </text>
-      </motion.svg>
+          <svg viewBox="0 0 64 64" className="w-full h-full">
+            <defs>
+              <radialGradient id="metal-gold" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#fff8dc" />
+                <stop offset="50%" stopColor="#e6b422" />
+                <stop offset="100%" stopColor="#8b7500" />
+              </radialGradient>
+              <linearGradient id="coin-rim-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ffe066" />
+                <stop offset="50%" stopColor="#b8860b" />
+                <stop offset="100%" stopColor="#5c3d00" />
+              </linearGradient>
+              <radialGradient id="rim-flare-gold" cx="50%" cy="50%" r="50%">
+                <stop offset="85%" stopColor="rgba(255,255,255,0)" />
+                <stop offset="92%" stopColor="rgba(255,255,255,0.9)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+              </radialGradient>
+            </defs>
+
+            {/* Rim */}
+            <circle cx="32" cy="32" r="31" fill="url(#coin-rim-gold)" />
+
+            {/* Body */}
+            <circle
+              cx="32"
+              cy="32"
+              r="29"
+              fill="url(#metal-gold)"
+              stroke="#daa520"
+              strokeWidth="1.5"
+            />
+
+            {/* Inner detail */}
+            <circle
+              cx="32"
+              cy="32"
+              r="24"
+              fill="none"
+              stroke="#ffd700"
+              strokeWidth="1.5"
+              strokeDasharray="1 3"
+            />
+
+            {/* Rotating rim flare */}
+            <motion.circle
+              cx="32"
+              cy="32"
+              r="31"
+              fill="url(#rim-flare-gold)"
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+              style={{ transformOrigin: 'center' }}
+            />
+
+            {/* Back text */}
+            <text
+              x="32"
+              y="42"
+              fontFamily="Inter, sans-serif"
+              fontSize="26"
+              fontWeight="bold"
+              textAnchor="middle"
+              fill="#2d2d2d"
+              stroke="#000"
+              strokeWidth="0.8"
+            >
+              FIN
+            </text>
+          </svg>
+        </div>
+      </motion.div>
     </div>
   );
 }

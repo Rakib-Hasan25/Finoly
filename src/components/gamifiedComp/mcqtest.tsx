@@ -6,10 +6,11 @@ import { Button } from "../ui/button";
 import { createUserLevelProgress, getUserLevelProgress, updateUserLevelProgress, UserLevelProgress } from "@/lib/actions/user-level-progress";
 import { getUser, updateUser } from "@/lib/actions/users";
 import { syncUserRewards, updateCompletedRewards } from "@/lib/actions/rewards";
-import { triggerRewardToast } from "./toaster";
+import { toast } from "@/hooks/use-toast";
 
 interface TestPageProps {
-  id: string;
+  userId: number;
+  levelId : number;
   setTest: Dispatch<SetStateAction<boolean>>;
   cards: Array<{
     id: string;
@@ -42,11 +43,9 @@ function formatQuizList(rawQuizzes : any[]) : FormattedQuiz[] {
 }
 
 
-const updateDb = async (id : string, score : any, passed : any) => {
+const updateDb = async (userId : number, levelId : number, score : any, passed : any) => {
   // console.log("updating db");
-  const levelId = id;
-  const userId = 1;
-  const prev = await getUserLevelProgress(userId, parseInt(levelId));
+  const prev = await getUserLevelProgress(userId, levelId);
 
   let scorediff = 0;
   let attemp = 0;
@@ -56,7 +55,7 @@ const updateDb = async (id : string, score : any, passed : any) => {
     attemp = 1;
     const data : Omit<UserLevelProgress, "id" | "created_at" | "updated_at"> = {
       user_id: userId,
-      level_id: parseInt(levelId),
+      level_id: levelId,
       status: passed ? "completed" : "in_progress",
       progression: 1,
       score: score,
@@ -71,14 +70,14 @@ const updateDb = async (id : string, score : any, passed : any) => {
     attemp = prev.attempts + 1;
     const data : Partial<UserLevelProgress> = {
       user_id: userId,
-      level_id: parseInt(levelId),
+      level_id: levelId,
       status: npassed ? "completed" : "in_progress",
       progression: 1,
       score: nScore,
       attempts: prev.attempts + 1,
       completed_at: new Date().toISOString(),
     }
-    await updateUserLevelProgress(userId, parseInt(levelId), data);
+    await updateUserLevelProgress(userId, levelId, data);
   }
   // console.log(res);
 
@@ -90,23 +89,28 @@ const updateDb = async (id : string, score : any, passed : any) => {
     health : health - (passed ? 0 : 1)
   }
   await updateUser(userId, data);
-  await rewardCalc(score, passed);
+  await rewardCalc(userId, score, passed);
   
 }
 
-const rewardCalc = async (score : any, passed : any) => {
-  const userId = 1;
+const rewardCalc = async (userId : number, score : any, passed : any) => {
   await syncUserRewards(userId);
   if(score >= 100){
     const {updatedCount, total} = await updateCompletedRewards(userId, 'health');
     if (updatedCount > 0 && total > 0) {
-      triggerRewardToast(`🎉 You earned +${total} health for completing rewards!`);
+      toast({
+        title : `🎉 Earned +${total} health`,
+        description : `You earned health, check the reward section and claim.`
+      })
     }
   }
   if(passed){
     const {updatedCount, total} = await updateCompletedRewards(userId, 'points');
     if (updatedCount > 0 && total > 0) {
-      triggerRewardToast(`🎉 You earned +${total} XP for completing rewards!`);
+      toast({
+        title : `🎉 Earned +${total} XP`,
+        description : `You earned XP, check the reward section and claim.`
+      })
     }
   }
 }
@@ -114,7 +118,8 @@ const rewardCalc = async (score : any, passed : any) => {
 
 
 export default function TestPage({
-  id,
+  userId,
+  levelId,
   setTest,
   cards,
   levelTitle,
@@ -148,7 +153,7 @@ export default function TestPage({
   const handleFinish = () => {
     const percentage = (score / (cards.length * 10)) * 100;
     const passed = percentage >= 70;
-    updateDb(id, score, passed).then(()=>{
+    updateDb(userId, levelId, score, passed).then(()=>{
       setFinished(true);
     })
   }

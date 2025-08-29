@@ -21,7 +21,7 @@ export default async function GamifiedLearning() {
   return (
     <div className="p-6 bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] text-white">
       {/* Top Header */}
-      <Header courseName={firstCourse.name} uId={"1"} />
+      <Header courseName={firstCourse.name} />
       {/* Main Content */}
       <div className="flex flex-col md:flex-row gap-8 h-[calc(100%-6rem)]">
         {/* Left: Levels Map */}
