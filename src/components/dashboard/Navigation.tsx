@@ -58,7 +58,7 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/dashboard" className="flex items-center space-x-2" aria-label="Finoly Home">
+          <Link href="/dashboard/tracker" className="flex items-center space-x-2" aria-label="Finoly Home">
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}

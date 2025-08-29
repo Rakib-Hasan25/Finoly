@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { DivideIcon as LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/Tracker-ui/card';
 
 interface StatsCardProps {
@@ -42,17 +42,17 @@ export function StatsCard({
         transition: { type: "spring", stiffness: 300 }
       }}
     >
-      <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm transition-colors hover:bg-slate-700/60 shadow-lg hover:shadow-xl">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-600">{title}</p>
+              <p className="text-sm font-medium text-gray-300">{title}</p>
               <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: delay + 0.2, type: "spring", stiffness: 200 }}
               >
-                <p className="text-2xl font-bold text-gray-900">{formattedValue}</p>
+                <p className="text-2xl font-bold text-white">{formattedValue}</p>
               </motion.div>
               
               {change !== undefined && (
@@ -63,22 +63,21 @@ export function StatsCard({
                   transition={{ delay: delay + 0.4 }}
                 >
                   {Number.isFinite(change) && (
-                  <span className={`text-sm font-medium ${
-                    change >= 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    {change >= 0 ? '+' : ''}{change}%
-                  </span>
+                    <span className={`text-sm font-medium ${
+                      change >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {change >= 0 ? '+' : ''}{change}%
+                    </span>
                   )}
                   {changeLabel && (
-                    <span className="text-sm text-gray-500">{changeLabel}</span>
+                    <span className="text-sm text-gray-400">{changeLabel}</span>
                   )}
                 </motion.div>
               )}
             </div>
             
             <motion.div
-              className="p-3 rounded-full"
-              style={{ backgroundColor: `${color}20` }}
+              className="p-3 rounded-full bg-slate-700/50 border border-slate-600/50"
               whileHover={{ 
                 scale: 1.1,
                 rotate: 5,

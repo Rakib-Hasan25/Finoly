@@ -13,14 +13,14 @@ interface LevelProgressProps {
 
 export function LevelProgress({ userLevel }: LevelProgressProps) {
   return (
-    <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+    <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-purple-600" />
+          <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-purple-400" />
             Your Level
           </CardTitle>
-          <Badge variant="secondary" className="bg-purple-100 text-purple-700 border-purple-200">
+          <Badge variant="secondary" className="bg-purple-900/30 text-purple-300 border-purple-700/50">
             Level {userLevel.level}
           </Badge>
         </div>
@@ -30,13 +30,13 @@ export function LevelProgress({ userLevel }: LevelProgressProps) {
         {/* Level Title */}
         <div className="text-center">
           <motion.h3 
-            className="text-xl font-bold text-purple-700"
+            className="text-xl font-bold text-purple-300"
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             {userLevel.title}
           </motion.h3>
-          <p className="text-sm text-purple-600 mt-1">
+          <p className="text-sm text-gray-400 mt-1">
             {userLevel.currentPoints} / {userLevel.requiredPoints} XP
           </p>
         </div>
@@ -45,7 +45,7 @@ export function LevelProgress({ userLevel }: LevelProgressProps) {
         <div className="space-y-2">
           <ProgressLiquid 
             percentage={userLevel.progress}
-            color="rgb(147, 51, 234)"
+            color="rgb(192, 132, 252)" // violet-400
             height="50px"
           />
         </div>
@@ -66,7 +66,7 @@ export function LevelProgress({ userLevel }: LevelProgressProps) {
                 className={`h-4 w-4 ${
                   i < userLevel.level 
                     ? 'text-yellow-400 fill-yellow-400' 
-                    : 'text-gray-300'
+                    : 'text-gray-600'
                 }`} 
               />
             </motion.div>
@@ -75,11 +75,11 @@ export function LevelProgress({ userLevel }: LevelProgressProps) {
 
         {/* Motivational Text */}
         <motion.div 
-          className="text-center p-3 bg-white/50 rounded-lg"
+          className="text-center p-3 bg-slate-700/30 rounded-lg border border-slate-600/50"
           animate={{ opacity: [0.7, 1, 0.7] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
-          <p className="text-sm font-medium text-purple-700">
+          <p className="text-sm font-medium text-gray-300">
             {userLevel.progress < 50 
               ? "Keep tracking to level up!" 
               : userLevel.progress < 90

@@ -11,7 +11,7 @@ import { Badge } from '@/components/Tracker-ui/badge';
 import { storage } from '@/lib-tracker/storage';
 import { Transaction } from '@/tracker-types';
 
-const COLORS = ['#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4', '#F97316'];
+const COLORS = ['#34D399', '#F97316', '#F87171', '#A78BFA', '#22D3EE', '#FACC15'];
 
 interface ChartData {
   name: string;
@@ -161,15 +161,15 @@ export default function ReportsPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-3xl font-bold text-gray-900">Financial Reports</h1>
-        <p className="text-gray-600">Analyze your spending patterns and financial progress</p>
+        <h1 className="text-3xl font-bold text-white">Financial Reports</h1>
+        <p className="text-gray-300">Analyze your spending patterns and financial progress</p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Select value={reportPeriod} onValueChange={(value: 'week' | 'month') => setReportPeriod(value)}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-48 bg-slate-700 border-slate-600 text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-slate-800 border-slate-700 text-white">
               <SelectItem value="week">Weekly Report</SelectItem>
               <SelectItem value="month">Monthly Report</SelectItem>
             </SelectContent>
@@ -177,10 +177,10 @@ export default function ReportsPage() {
 
           {reportPeriod === 'month' && (
             <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-48 bg-slate-700 border-slate-600 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-slate-700 text-white">
                 {Array.from({ length: 12 }, (_, i) => {
                   const date = new Date();
                   date.setMonth(date.getMonth() - i);
@@ -204,70 +204,70 @@ export default function ReportsPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}>
-          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+          <Card className="bg-green-900/30 border-green-700/50">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-green-700">Total Income</p>
-                  <p className="text-2xl font-bold text-green-900">
+                  <p className="text-sm font-medium text-green-300">Total Income</p>
+                  <p className="text-2xl font-bold text-green-200">
                     ${totalIncome.toFixed(2)}
                   </p>
                 </div>
-                <TrendingUp className="h-8 w-8 text-green-600" />
+                <TrendingUp className="h-8 w-8 text-green-400" />
               </div>
             </CardContent>
           </Card>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+          <Card className="bg-red-900/30 border-red-700/50">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-red-700">Total Expenses</p>
-                  <p className="text-2xl font-bold text-red-900">
+                  <p className="text-sm font-medium text-red-300">Total Expenses</p>
+                  <p className="text-2xl font-bold text-red-200">
                     ${totalExpenses.toFixed(2)}
                   </p>
                 </div>
-                <TrendingDown className="h-8 w-8 text-red-600" />
+                <TrendingDown className="h-8 w-8 text-red-400" />
               </div>
             </CardContent>
           </Card>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-          <Card className={`bg-gradient-to-br border-2 ${
+          <Card className={`bg-slate-900/30 border ${
             netIncome >= 0 
-              ? 'from-blue-50 to-blue-100 border-blue-200' 
-              : 'from-orange-50 to-orange-100 border-orange-200'
+              ? 'bg-blue-900/30 border-blue-700/50' 
+              : 'bg-orange-900/30 border-orange-700/50'
           }`}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={`text-sm font-medium ${netIncome >= 0 ? 'text-blue-700' : 'text-orange-700'}`}>
+                  <p className={`text-sm font-medium ${netIncome >= 0 ? 'text-blue-300' : 'text-orange-300'}`}>
                     Net Income
                   </p>
-                  <p className={`text-2xl font-bold ${netIncome >= 0 ? 'text-blue-900' : 'text-orange-900'}`}>
+                  <p className={`text-2xl font-bold ${netIncome >= 0 ? 'text-blue-200' : 'text-orange-200'}`}>
                     ${netIncome.toFixed(2)}
                   </p>
                 </div>
-                <DollarSign className={`h-8 w-8 ${netIncome >= 0 ? 'text-blue-600' : 'text-orange-600'}`} />
+                <DollarSign className={`h-8 w-8 ${netIncome >= 0 ? 'text-blue-400' : 'text-orange-400'}`} />
               </div>
             </CardContent>
           </Card>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+          <Card className="bg-purple-900/30 border-purple-700/50">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-purple-700">Savings Rate</p>
-                  <p className="text-2xl font-bold text-purple-900">
+                  <p className="text-sm font-medium text-purple-300">Savings Rate</p>
+                  <p className="text-2xl font-bold text-purple-200">
                     {savingsRate.toFixed(1)}%
                   </p>
                 </div>
-                <Target className="h-8 w-8 text-purple-600" />
+                <Target className="h-8 w-8 text-purple-400" />
               </div>
             </CardContent>
           </Card>
@@ -282,19 +282,22 @@ export default function ReportsPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <FloatingCard>
+          <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Income vs Expenses</CardTitle>
+              <CardTitle className="text-white">Income vs Expenses</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip formatter={(value, name) => [`$${value}`, name === 'income' ? 'Income' : name === 'expenses' ? 'Expenses' : 'Net']} />
-                  <Bar dataKey="income" fill="#10B981" name="income" />
-                  <Bar dataKey="expenses" fill="#EF4444" name="expenses" />
+                  <CartesianGrid stroke="#475569" strokeDasharray="3 3" />
+                  <XAxis dataKey="name" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" />
+                  <Tooltip 
+                    formatter={(value, name) => [`$${value}`, name === 'income' ? 'Income' : name === 'expenses' ? 'Expenses' : 'Net']} 
+                    contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
+                  />
+                  <Bar dataKey="income" fill="#34D399" name="income" />
+                  <Bar dataKey="expenses" fill="#F87171" name="expenses" />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -307,9 +310,9 @@ export default function ReportsPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <FloatingCard>
+          <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Spending by Category</CardTitle>
+              <CardTitle className="text-white">Spending by Category</CardTitle>
             </CardHeader>
             <CardContent>
               {categoryData.length > 0 ? (
@@ -321,14 +324,16 @@ export default function ReportsPage() {
                         cx="50%"
                         cy="50%"
                         outerRadius={80}
-                        fill="#8884d8"
                         dataKey="value"
                       >
                         {categoryData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`$${value}`, 'Amount']} />
+                      <Tooltip 
+                        formatter={(value) => [`$${value}`, 'Amount']} 
+                        contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                   <div className="mt-4 space-y-2">
@@ -339,9 +344,9 @@ export default function ReportsPage() {
                             className="w-3 h-3 rounded-full"
                             style={{ backgroundColor: category.color }}
                           />
-                          <span className="text-sm font-medium">{category.name}</span>
+                          <span className="text-sm font-medium text-gray-300">{category.name}</span>
                         </div>
-                        <Badge variant="secondary">
+                        <Badge variant="secondary" className="bg-slate-700/50 text-gray-300">
                           ${Number.isFinite(category.value) ? category.value.toFixed(2) : '0.00'}
                         </Badge>
                       </div>
@@ -349,7 +354,7 @@ export default function ReportsPage() {
                   </div>
                 </>
               ) : (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-gray-400">
                   <Calendar className="h-12 w-12 mx-auto mb-2 opacity-50" />
                   <p>No spending data for this period</p>
                 </div>
@@ -365,23 +370,26 @@ export default function ReportsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
       >
-        <FloatingCard>
+        <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Net Income Trend</CardTitle>
+            <CardTitle className="text-white">Net Income Trend</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => [`$${value}`, 'Net Income']} />
+                <CartesianGrid stroke="#475569" strokeDasharray="3 3" />
+                <XAxis dataKey="name" stroke="#94a3b8" />
+                <YAxis stroke="#94a3b8" />
+                <Tooltip 
+                  formatter={(value) => [`$${value}`, 'Net Income']} 
+                  contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
+                />
                 <Line 
                   type="monotone" 
                   dataKey="net" 
-                  stroke="#8B5CF6" 
+                  stroke="#A78BFA" 
                   strokeWidth={3}
-                  dot={{ fill: '#8B5CF6', strokeWidth: 2, r: 6 }}
+                  dot={{ fill: '#A78BFA', strokeWidth: 2, r: 6 }}
                   activeDot={{ r: 8 }}
                 />
               </LineChart>

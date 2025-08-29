@@ -95,8 +95,8 @@ export default function BankingPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-3xl font-bold text-gray-900">Banking Overview</h1>
-        <p className="text-gray-600">Manage your accounts and track your net worth</p>
+        <h1 className="text-3xl font-bold text-white">Banking Overview</h1>
+        <p className="text-gray-300">Manage your accounts and track your net worth</p>
       </motion.div>
 
       {/* Summary Cards */}
@@ -106,16 +106,16 @@ export default function BankingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0 }}
         >
-          <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+          <Card className="bg-gradient-to-br from-green-900/30 to-green-800/40 border-green-700/50 backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-green-700">Total Assets</p>
-                  <p className="text-2xl font-bold text-green-900">
+                  <p className="text-sm font-medium text-green-300">Total Assets</p>
+                  <p className="text-2xl font-bold text-white">
                     ${totalAssets.toLocaleString()}
                   </p>
                 </div>
-                <TrendingUp className="h-8 w-8 text-green-600" />
+                <TrendingUp className="h-8 w-8 text-green-400" />
               </div>
             </CardContent>
           </Card>
@@ -126,16 +126,16 @@ export default function BankingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+          <Card className="bg-gradient-to-br from-red-900/30 to-red-800/40 border-red-700/50 backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-red-700">Total Liabilities</p>
-                  <p className="text-2xl font-bold text-red-900">
+                  <p className="text-sm font-medium text-red-300">Total Liabilities</p>
+                  <p className="text-2xl font-bold text-white">
                     ${totalLiabilities.toLocaleString()}
                   </p>
                 </div>
-                <TrendingDown className="h-8 w-8 text-red-600" />
+                <TrendingDown className="h-8 w-8 text-red-400" />
               </div>
             </CardContent>
           </Card>
@@ -146,22 +146,22 @@ export default function BankingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className={`bg-gradient-to-br border-2 ${
+          <Card className={`bg-gradient-to-br border-2 backdrop-blur-sm ${
             netWorth >= 0 
-              ? 'from-blue-50 to-blue-100 border-blue-200' 
-              : 'from-orange-50 to-orange-100 border-orange-200'
+              ? 'from-blue-900/30 to-blue-800/40 border-blue-700/50' 
+              : 'from-orange-900/30 to-orange-800/40 border-orange-700/50'
           }`}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={`text-sm font-medium ${netWorth >= 0 ? 'text-blue-700' : 'text-orange-700'}`}>
+                  <p className={`text-sm font-medium ${netWorth >= 0 ? 'text-blue-300' : 'text-orange-300'}`}>
                     Net Worth
                   </p>
-                  <p className={`text-2xl font-bold ${netWorth >= 0 ? 'text-blue-900' : 'text-orange-900'}`}>
+                  <p className="text-2xl font-bold text-white">
                     ${netWorth.toLocaleString()}
                   </p>
                 </div>
-                <DollarSign className={`h-8 w-8 ${netWorth >= 0 ? 'text-blue-600' : 'text-orange-600'}`} />
+                <DollarSign className={`h-8 w-8 ${netWorth >= 0 ? 'text-blue-400' : 'text-orange-400'}`} />
               </div>
             </CardContent>
           </Card>
@@ -170,34 +170,35 @@ export default function BankingPage() {
 
       {/* Accounts Section */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Your Accounts</h2>
+        <h2 className="text-2xl font-semibold text-white">Your Accounts</h2>
         <Dialog open={showAccountForm} onOpenChange={setShowAccountForm}>
           <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-blue-500 to-blue-600">
+            <Button className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add Account
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-slate-800 border-slate-700 text-white">
             <DialogHeader>
-              <DialogTitle>Add Bank Account</DialogTitle>
+              <DialogTitle className="text-white">Add Bank Account</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label>Account Name</Label>
+                <Label className="text-gray-300">Account Name</Label>
                 <Input
+                  className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                   value={accountName}
                   onChange={(e) => setAccountName(e.target.value)}
                   placeholder="My Checking Account"
                 />
               </div>
               <div>
-                <Label>Account Type</Label>
+                <Label className="text-gray-300">Account Type</Label>
                 <Select value={accountType} onValueChange={(value: 'checking' | 'savings' | 'credit') => setAccountType(value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-slate-800 border-slate-700 text-white">
                     <SelectItem value="checking">Checking</SelectItem>
                     <SelectItem value="savings">Savings</SelectItem>
                     <SelectItem value="credit">Credit Card</SelectItem>
@@ -205,8 +206,9 @@ export default function BankingPage() {
                 </Select>
               </div>
               <div>
-                <Label>Account Number (Last 4 digits)</Label>
+                <Label className="text-gray-300">Account Number (Last 4 digits)</Label>
                 <Input
+                  className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   placeholder="1234"
@@ -214,15 +216,19 @@ export default function BankingPage() {
                 />
               </div>
               <div>
-                <Label>Current Balance ($)</Label>
+                <Label className="text-gray-300">Current Balance ($)</Label>
                 <Input
+                  className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                   type="number"
                   value={accountBalance}
                   onChange={(e) => setAccountBalance(e.target.value)}
                   placeholder="1000.00"
                 />
               </div>
-              <Button onClick={handleAddAccount} className="w-full">
+              <Button 
+                onClick={handleAddAccount} 
+                className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700"
+              >
                 Add Account
               </Button>
             </div>
@@ -234,18 +240,18 @@ export default function BankingPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {accounts.length === 0 ? (
           <div className="col-span-full">
-            <FloatingCard>
+            <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
               <div className="text-center py-12">
                 <Building2 className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-xl font-medium text-gray-900 mb-2">
+                <h3 className="text-xl font-medium text-white mb-2">
                   No accounts added yet
                 </h3>
-                <p className="text-gray-500 mb-4">
+                <p className="text-gray-300 mb-4">
                   Add your bank accounts to track your complete financial picture.
                 </p>
                 <Button 
                   onClick={() => setShowAccountForm(true)}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600"
+                  className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700"
                 >
                   Add Your First Account
                 </Button>
@@ -334,25 +340,25 @@ export default function BankingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <FloatingCard>
+          <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle>Account Summary</CardTitle>
+              <CardTitle className="text-white">Account Summary</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">Total Accounts</p>
-                  <p className="text-2xl font-bold text-gray-900">{accounts.length}</p>
+                <div className="text-center p-4 bg-slate-700/50 rounded-lg border border-slate-600/50">
+                  <p className="text-sm text-gray-300">Total Accounts</p>
+                  <p className="text-2xl font-bold text-white">{accounts.length}</p>
                 </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <p className="text-sm text-green-600">Asset Accounts</p>
-                  <p className="text-2xl font-bold text-green-900">
+                <div className="text-center p-4 bg-green-900/30 rounded-lg border border-green-700/50">
+                  <p className="text-sm text-green-300">Asset Accounts</p>
+                  <p className="text-2xl font-bold text-white">
                     {accounts.filter(a => a.type !== 'credit').length}
                   </p>
                 </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg">
-                  <p className="text-sm text-red-600">Credit Accounts</p>
-                  <p className="text-2xl font-bold text-red-900">
+                <div className="text-center p-4 bg-red-900/30 rounded-lg border border-red-700/50">
+                  <p className="text-sm text-red-300">Credit Accounts</p>
+                  <p className="text-2xl font-bold text-white">
                     {accounts.filter(a => a.type === 'credit').length}
                   </p>
                 </div>

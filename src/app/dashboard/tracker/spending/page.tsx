@@ -101,8 +101,8 @@ export default function SpendingPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-3xl font-bold text-gray-900">Daily Spending Tracker</h1>
-        <p className="text-gray-600">Track your daily expenses and build healthy spending habits</p>
+        <h1 className="text-3xl font-bold text-white">Daily Spending Tracker</h1>
+        <p className="text-gray-300">Track your daily expenses and build healthy spending habits</p>
         
         {/* Today's Total - Fixed Animation */}
         <motion.div
@@ -114,21 +114,21 @@ export default function SpendingPage() {
             repeat: isOverBudget ? Infinity : 0,
             ease: "easeInOut"
           }}
-          className={`inline-flex items-center space-x-2 px-6 py-3 rounded-full transition-colors duration-300 ${
+          className={`inline-flex items-center space-x-2 px-6 py-3 rounded-full transition-colors duration-300 backdrop-blur-sm ${
             isOverBudget 
-              ? 'bg-red-100 border border-red-200' 
-              : 'bg-green-50 border border-green-200'
+              ? 'bg-red-900/30 border border-red-700/50' 
+              : 'bg-green-900/30 border border-green-700/50'
           }`}
         >
-          <Calendar className={`h-5 w-5 ${isOverBudget ? 'text-red-600' : 'text-green-600'}`} />
-          <span className={`font-semibold ${isOverBudget ? 'text-red-900' : 'text-green-900'}`}>
+          <Calendar className={`h-5 w-5 ${isOverBudget ? 'text-red-400' : 'text-green-400'}`} />
+          <span className={`font-semibold ${isOverBudget ? 'text-red-300' : 'text-green-300'}`}>
             Today's Total: ${Number.isFinite(todaysTotal) ? todaysTotal.toFixed(2) : '0.00'}
           </span>
           {isOverBudget && (
             <motion.span
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="text-red-600 text-sm font-medium"
+              className="text-red-300 text-sm font-medium"
             >
               Over Budget!
             </motion.span>
@@ -148,11 +148,14 @@ export default function SpendingPage() {
 
         {/* Expense List */}
         <div className="lg:col-span-2">
-          <FloatingCard>
+          <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+              <CardTitle className="flex items-center justify-between text-white">
                 <span>Recent Expenses</span>
-                <Badge variant="outline">
+                <Badge 
+                  variant="outline"
+                  className="bg-slate-700/50 text-gray-300 border-slate-600/50"
+                >
                   {transactions.length} total
                 </Badge>
               </CardTitle>
@@ -170,10 +173,10 @@ export default function SpendingPage() {
                   >
                     💸
                   </motion.div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className="text-lg font-medium text-white mb-2">
                     No expenses tracked yet
                   </h3>
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     Start by adding your first expense to begin tracking your spending habits.
                   </p>
                 </div>
@@ -192,8 +195,8 @@ export default function SpendingPage() {
                         className="space-y-3"
                       >
                         {/* Date Header */}
-                        <div className="flex items-center justify-between pb-2 border-b border-gray-200">
-                          <h4 className="font-medium text-gray-900">
+                        <div className="flex items-center justify-between pb-2 border-b border-slate-600/50">
+                          <h4 className="font-medium text-white">
                             {new Date(date).toLocaleDateString('en-US', {
                               weekday: 'long',
                               year: 'numeric',
@@ -203,7 +206,7 @@ export default function SpendingPage() {
                           </h4>
                           <Badge 
                             variant="secondary"
-                            className="bg-red-50 text-red-700 border-red-200"
+                            className="bg-red-900/30 text-red-300 border-red-700/50"
                           >
                             ${Number.isFinite(dayTotal) ? dayTotal.toFixed(2) : '0.00'}
                           </Badge>
@@ -219,23 +222,22 @@ export default function SpendingPage() {
                               transition={{ delay: index * 0.05 }}
                               whileHover={{ 
                                 scale: 1.02,
-                                backgroundColor: 'rgba(0,0,0,0.02)'
+                                backgroundColor: 'rgba(255,255,255,0.05)'
                               }}
-                              className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:shadow-md transition-all"
+                              className="flex items-center justify-between p-3 rounded-lg border border-slate-600/30 hover:shadow-md transition-all backdrop-blur-sm bg-slate-700/20"
                             >
                               <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                                  <span className="text-red-600 font-semibold text-sm">
+                                <div className="w-10 h-10 bg-red-900/40 rounded-full flex items-center justify-center border border-red-700/50">
+                                  <span className="text-red-300 font-semibold text-sm">
                                   ${!isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(0) : "0"}
-
                                   </span>
                                 </div>
                                 <div>
-                                  <p className="font-medium text-gray-900">
+                                  <p className="font-medium text-white">
                                     {transaction.category}
                                   </p>
                                   {transaction.description && (
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-gray-300">
                                       {transaction.description}
                                     </p>
                                   )}
@@ -243,14 +245,14 @@ export default function SpendingPage() {
                               </div>
 
                               <div className="flex items-center space-x-2">
-                                <span className="font-semibold text-red-600">
+                                <span className="font-semibold text-red-300">
                                   ${Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
                                 </span>
                                 <Button
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => handleDeleteTransaction(transaction.id)}
-                                  className="text-gray-400 hover:text-red-500"
+                                  className="text-gray-400 hover:text-red-400 hover:bg-red-900/20"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>

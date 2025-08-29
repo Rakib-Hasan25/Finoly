@@ -176,15 +176,15 @@ export default function BudgetPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-3xl font-bold text-gray-900">Budget Planning</h1>
-        <p className="text-gray-600">Plan your spending, set savings goals, and manage debt</p>
+        <h1 className="text-3xl font-bold text-white">Budget Planning</h1>
+        <p className="text-gray-300">Plan your spending, set savings goals, and manage debt</p>
         
         <div className="flex items-center justify-center">
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-48 bg-slate-700 border-slate-600 text-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-slate-800 border-slate-700 text-white">
               {Array.from({ length: 12 }, (_, i) => {
                 const date = new Date();
                 date.setMonth(date.getMonth() + i);
@@ -208,26 +208,26 @@ export default function BudgetPage() {
         {/* Monthly Budgets */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">Monthly Budgets</h2>
+            <h2 className="text-2xl font-semibold text-white">Monthly Budgets</h2>
             <Dialog open={showBudgetForm} onOpenChange={setShowBudgetForm}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-blue-500 to-blue-600">
+                <Button className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Budget
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="bg-slate-800 border-slate-700 text-white">
                 <DialogHeader>
-                  <DialogTitle>Add Budget Category</DialogTitle>
+                  <DialogTitle className="text-white">Add Budget Category</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <Label>Category</Label>
+                    <Label className="text-gray-300">Category</Label>
                     <Select value={budgetCategory} onValueChange={setBudgetCategory}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-slate-800 border-slate-700 text-white">
                         {EXPENSE_CATEGORIES.map(category => (
                           <SelectItem key={category} value={category}>
                             {category}
@@ -237,15 +237,16 @@ export default function BudgetPage() {
                     </Select>
                   </div>
                   <div>
-                    <Label>Monthly Budget ($)</Label>
+                    <Label className="text-gray-300">Monthly Budget ($)</Label>
                     <Input
+                      className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                       type="number"
                       value={budgetAmount}
                       onChange={(e) => setBudgetAmount(e.target.value)}
                       placeholder="0.00"
                     />
                   </div>
-                  <Button onClick={handleAddBudget} className="w-full">
+                  <Button onClick={handleAddBudget} className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700">
                     Add Budget
                   </Button>
                 </div>
@@ -255,13 +256,13 @@ export default function BudgetPage() {
 
           <div className="space-y-4">
             {currentBudgets.length === 0 ? (
-              <FloatingCard>
+              <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
                 <div className="text-center py-12">
                   <Target className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  <h3 className="text-xl font-medium text-white mb-2">
                     No budgets set for this month
                   </h3>
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     Create budgets to track your spending and stay on target.
                   </p>
                 </div>
@@ -279,26 +280,37 @@ export default function BudgetPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <FloatingCard className={`${
-                      isOverBudget ? 'ring-2 ring-red-200' : 
-                      isWarning ? 'ring-2 ring-yellow-200' : ''
-                    }`}>
+                    <FloatingCard 
+                      className={`bg-slate-800/50 border-slate-700/50 backdrop-blur-sm ${
+                        isOverBudget ? 'ring-2 ring-red-700' : 
+                        isWarning ? 'ring-2 ring-orange-700' : ''
+                      }`}
+                    >
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
-                          <CardTitle className="text-lg">{budget.category}</CardTitle>
+                          <CardTitle className="text-lg text-white">{budget.category}</CardTitle>
                           <div className="flex items-center space-x-2">
                             {isOverBudget ? (
-                              <Badge variant="destructive" className="animate-pulse">
+                              <Badge 
+                                variant="destructive" 
+                                className="bg-red-900/30 text-red-300 border-red-700/50 animate-pulse"
+                              >
                                 <AlertTriangle className="w-3 h-3 mr-1" />
                                 Over Budget
                               </Badge>
                             ) : isWarning ? (
-                              <Badge variant="secondary" className="bg-yellow-100 text-yellow-700">
+                              <Badge 
+                                variant="secondary" 
+                                className="bg-orange-900/30 text-orange-300 border-orange-700/50"
+                              >
                                 <AlertTriangle className="w-3 h-3 mr-1" />
                                 Warning
                               </Badge>
                             ) : (
-                              <Badge variant="default" className="bg-green-100 text-green-700">
+                              <Badge 
+                                variant="default" 
+                                className="bg-green-900/30 text-green-300 border-green-700/50"
+                              >
                                 <CheckCircle className="w-3 h-3 mr-1" />
                                 On Track
                               </Badge>
@@ -308,25 +320,25 @@ export default function BudgetPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
-                          <div className="flex items-center justify-between text-sm">
+                          <div className="flex items-center justify-between text-sm text-gray-300">
                             <span>Spent: ${budget.spent.toFixed(2)}</span>
                             <span>Budget: ${budget.amount.toFixed(2)}</span>
                           </div>
                           
                           <ProgressLiquid 
                             percentage={Math.min(percentage, 100)}
-                            color={isOverBudget ? 'rgb(239, 68, 68)' : 
-                                   isWarning ? 'rgb(251, 191, 36)' : 
-                                   'rgb(34, 197, 94)'}
+                            color={isOverBudget ? 'rgb(248, 113, 113)' : 
+                                   isWarning ? 'rgb(253, 186, 118)' : 
+                                   'rgb(74, 222, 128)'}
                           />
                           
                           <div className="text-center">
                             <span className={`text-sm font-medium ${
-                              isOverBudget ? 'text-red-600' : 
-                              isWarning ? 'text-yellow-600' : 
-                              'text-green-600'
+                              isOverBudget ? 'text-red-300' : 
+                              isWarning ? 'text-orange-300' : 
+                              'text-green-300'
                             }`}>
-                              ${(budget.amount - budget.spent).toFixed(2)} remaining
+                              {(budget.amount - budget.spent).toFixed(2)} remaining
                             </span>
                           </div>
                         </div>
@@ -344,29 +356,31 @@ export default function BudgetPage() {
           {/* Savings Goals */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Savings Goals</h3>
+              <h3 className="text-2xl font-semibold text-white">Savings Goals</h3>
               <Dialog open={showGoalForm} onOpenChange={setShowGoalForm}>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="bg-slate-700/50 border-slate-600/50 text-white hover:bg-slate-600/50">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-slate-800 border-slate-700 text-white">
                   <DialogHeader>
-                    <DialogTitle>Add Savings Goal</DialogTitle>
+                    <DialogTitle className="text-white">Add Savings Goal</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label>Goal Title</Label>
+                      <Label className="text-gray-300">Goal Title</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         value={goalTitle}
                         onChange={(e) => setGoalTitle(e.target.value)}
                         placeholder="Emergency Fund"
                       />
                     </div>
                     <div>
-                      <Label>Target Amount ($)</Label>
+                      <Label className="text-gray-300">Target Amount ($)</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         type="number"
                         value={goalAmount}
                         onChange={(e) => setGoalAmount(e.target.value)}
@@ -374,14 +388,15 @@ export default function BudgetPage() {
                       />
                     </div>
                     <div>
-                      <Label>Target Date</Label>
+                      <Label className="text-gray-300">Target Date</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         type="date"
                         value={goalDate}
                         onChange={(e) => setGoalDate(e.target.value)}
                       />
                     </div>
-                    <Button onClick={handleAddSavingsGoal} className="w-full">
+                    <Button onClick={handleAddSavingsGoal} className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700">
                       Create Goal
                     </Button>
                   </div>
@@ -397,22 +412,28 @@ export default function BudgetPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <FloatingCard className={goal.completed ? 'bg-green-50 border-green-200' : ''}>
+                  <FloatingCard 
+                    className={
+                      goal.completed 
+                        ? 'bg-gradient-to-br from-green-900/30 to-green-800/40 border-green-700/50 backdrop-blur-sm'
+                        : 'bg-slate-800/50 border-slate-700/50 backdrop-blur-sm'
+                    }
+                  >
                     <div className="p-4 space-y-3">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between text-white">
                         <h4 className="font-medium">{goal.title}</h4>
                         {goal.completed && (
-                          <CheckCircle className="h-5 w-5 text-green-600" />
+                          <CheckCircle className="h-5 w-5 text-green-400" />
                         )}
                       </div>
                       
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-300">
                         ${goal.currentAmount.toFixed(2)} / ${goal.targetAmount.toFixed(2)}
                       </div>
                       
                       <ProgressLiquid 
                         percentage={(goal.currentAmount / goal.targetAmount) * 100}
-                        color={goal.completed ? 'rgb(34, 197, 94)' : 'rgb(59, 130, 246)'}
+                        color={goal.completed ? 'rgb(74, 222, 128)' : 'rgb(96, 165, 250)'}
                         height="30px"
                       />
                       
@@ -421,6 +442,7 @@ export default function BudgetPage() {
                           <Button 
                             size="sm" 
                             variant="outline"
+                            className="bg-slate-700/50 text-white border-slate-600/50 hover:bg-slate-600/50"
                             onClick={() => handleGoalContribution(goal.id, 25)}
                           >
                             +$25
@@ -428,6 +450,7 @@ export default function BudgetPage() {
                           <Button 
                             size="sm" 
                             variant="outline"
+                            className="bg-slate-700/50 text-white border-slate-600/50 hover:bg-slate-600/50"
                             onClick={() => handleGoalContribution(goal.id, 100)}
                           >
                             +$100
@@ -444,29 +467,31 @@ export default function BudgetPage() {
           {/* Debt Management */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Debt Management</h3>
+              <h3 className="text-2xl font-semibold text-white">Debt Management</h3>
               <Dialog open={showDebtForm} onOpenChange={setShowDebtForm}>
                 <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="bg-slate-700/50 border-slate-600/50 text-white hover:bg-slate-600/50">
                     <Plus className="w-4 h-4" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-slate-800 border-slate-700 text-white">
                   <DialogHeader>
-                    <DialogTitle>Add Debt</DialogTitle>
+                    <DialogTitle className="text-white">Add Debt</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label>Debt Name</Label>
+                      <Label className="text-gray-300">Debt Name</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         value={debtName}
                         onChange={(e) => setDebtName(e.target.value)}
                         placeholder="Credit Card"
                       />
                     </div>
                     <div>
-                      <Label>Amount Owed ($)</Label>
+                      <Label className="text-gray-300">Amount Owed ($)</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         type="number"
                         value={debtAmount}
                         onChange={(e) => setDebtAmount(e.target.value)}
@@ -474,8 +499,9 @@ export default function BudgetPage() {
                       />
                     </div>
                     <div>
-                      <Label>Monthly Payment ($)</Label>
+                      <Label className="text-gray-300">Monthly Payment ($)</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         type="number"
                         value={debtPayment}
                         onChange={(e) => setDebtPayment(e.target.value)}
@@ -483,15 +509,16 @@ export default function BudgetPage() {
                       />
                     </div>
                     <div>
-                      <Label>Interest Rate (%) - Optional</Label>
+                      <Label className="text-gray-300">Interest Rate (%) - Optional</Label>
                       <Input
+                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
                         type="number"
                         value={debtRate}
                         onChange={(e) => setDebtRate(e.target.value)}
                         placeholder="18.5"
                       />
                     </div>
-                    <Button onClick={handleAddDebt} className="w-full">
+                    <Button onClick={handleAddDebt} className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700">
                       Add Debt
                     </Button>
                   </div>
@@ -507,25 +534,25 @@ export default function BudgetPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <FloatingCard>
-                    <div className="p-4 space-y-3">
+                  <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
+                    <div className="p-4 space-y-3 text-white">
                       <div className="flex items-center justify-between">
                         <h4 className="font-medium">{debt.name}</h4>
-                        <Badge variant="secondary">
+                        <Badge variant="secondary" className="bg-slate-700/50 text-gray-300 border-slate-600/50">
                           {debt.remainingMonths} months left
                         </Badge>
                       </div>
                       
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-300">
                         ${Number.isFinite(debt.amount) ? debt.amount.toFixed(2) : '0.00'} remaining
                       </div>
                       
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-300">
                         Monthly payment: ${Number.isFinite(debt.monthlyPayment) ? debt.monthlyPayment.toFixed(2) : '0.00'}
                       </div>
                       
                       {debt.interestRate > 0 && (
-                        <div className="text-sm text-red-600">
+                        <div className="text-sm text-red-300">
                           Interest rate: {debt.interestRate}%
                         </div>
                       )}

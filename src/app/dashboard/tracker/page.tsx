@@ -75,21 +75,21 @@ export default function Dashboard() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Welcome to Your Financial Journey
+        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+          Welcome to Your Budget Journey
         </h1>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-          Track, plan, and grow your wealth with intelligent insights and gamified experiences.
+        <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+          Track, plan, and grow your wealth with intelligent insights and experiences.
         </p>
         
         {/* Streak Display */}
         <motion.div 
-          className="inline-flex items-center space-x-2 px-4 py-2 bg-orange-100 rounded-full"
+          className="inline-flex items-center space-x-2 px-4 py-2 bg-orange-900/30 border border-orange-700/50 rounded-full backdrop-blur-sm"
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <span className="text-xl">🔥</span>
-          <span className="font-semibold text-orange-700">
+          <span className="font-semibold text-orange-300">
             {streak} day{streak !== 1 ? 's' : ''} streak!
           </span>
         </motion.div>
@@ -103,7 +103,7 @@ export default function Dashboard() {
           icon={TrendingUp}
           change={12.5}
           changeLabel="vs last month"
-          color="rgb(34, 197, 94)"
+          color="rgb(74, 222, 128)" // green-400
           delay={0}
         />
         <StatsCard
@@ -112,7 +112,7 @@ export default function Dashboard() {
           icon={TrendingDown}
           change={-8.2}
           changeLabel="vs last month"
-          color="rgb(239, 68, 68)"
+          color="rgb(251, 113, 133)" // rose-400
           delay={0.1}
         />
         <StatsCard
@@ -121,7 +121,7 @@ export default function Dashboard() {
           icon={DollarSign}
           change={18.7}
           changeLabel="this month"
-          color="rgb(59, 130, 246)"
+          color="rgb(96, 165, 250)" // blue-400
           delay={0.2}
         />
         <StatsCard
@@ -130,7 +130,7 @@ export default function Dashboard() {
           icon={Target}
           change={5.3}
           changeLabel="improvement"
-          color="rgb(147, 51, 234)"
+          color="rgb(192, 132, 252)" // violet-400
           delay={0.3}
         />
       </div>
@@ -153,18 +153,18 @@ export default function Dashboard() {
           transition={{ delay: 0.5 }}
           className="lg:col-span-2"
         >
-          <FloatingCard className="h-full">
+          <FloatingCard className="h-full bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
-                <Badge variant="outline" className="text-xs">
+                <h3 className="text-lg font-semibold text-white">Recent Activity</h3>
+                <Badge variant="outline" className="text-xs bg-slate-700/50 text-gray-300 border-slate-600/50">
                   {recentTransactions.length} transactions
                 </Badge>
               </div>
               
               <div className="space-y-3">
                 {recentTransactions.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-gray-400">
                     <Trophy className="h-12 w-12 mx-auto mb-2 opacity-50" />
                     <p>Start tracking to see your activity here!</p>
                   </div>
@@ -175,7 +175,7 @@ export default function Dashboard() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between p-3 bg-slate-700/20 rounded-lg hover:bg-slate-700/30 transition-colors border border-slate-600/30"
                     >
                       <div className="flex items-center space-x-3">
                         <div className={`w-3 h-3 rounded-full ${
@@ -184,16 +184,16 @@ export default function Dashboard() {
                             : 'bg-red-500'
                         }`} />
                         <div>
-                          <p className="font-medium text-sm">{transaction.category}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="font-medium text-sm text-white">{transaction.category}</p>
+                          <p className="text-xs text-gray-300">
                             {new Date(transaction.date).toLocaleDateString()}
                           </p>
                         </div>
                       </div>
                       <span className={`font-semibold ${
                         transaction.type === 'income' 
-                          ? 'text-green-600' 
-                          : 'text-red-600'
+                          ? 'text-green-300' 
+                          : 'text-red-300'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'}
                         ${Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
