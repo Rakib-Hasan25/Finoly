@@ -10,7 +10,6 @@ interface StatsCardProps {
   value: string | number;
   icon: LucideIcon;
   change: number;
-  // changeLabel: string;
   color: string;
   delay?: number;
 }
