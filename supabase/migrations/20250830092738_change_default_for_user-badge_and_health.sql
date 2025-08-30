@@ -1,0 +1,3 @@
+AlTER TABLE users
+ALTER COLUMN badge SET DEFAULT 'Unrated',
+ALTER COLUMN health SET DEFAULT 5;
