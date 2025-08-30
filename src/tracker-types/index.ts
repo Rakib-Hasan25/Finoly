@@ -52,6 +52,7 @@ export interface Debt {
   id: string;
   name: string;
   amount: number;
+  originalAmount: number;
   monthlyPayment: number;
   remainingMonths: number;
   interestRate: number;

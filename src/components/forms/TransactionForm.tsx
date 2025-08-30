@@ -10,7 +10,7 @@ import { Label } from '@/components/Tracker-ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Tracker-ui/select';
 import { Calendar } from '@/components/Tracker-ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/Tracker-ui/popover';
-import { CalendarIcon, Plus, Lock } from 'lucide-react';
+import { CalendarIcon, Plus, Lock, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { Transaction } from '@/tracker-types';
 import { cn } from '@/lib-tracker/utils';
@@ -164,21 +164,37 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
   const [isSecure, setIsSecure] = useState(false);
   const [amountValue, setAmountValue] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [hasTriedSubmit, setHasTriedSubmit] = useState(false);
 
-  const { register, handleSubmit, formState: { errors, isValid }, reset, setValue, watch } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<FormData>({
     defaultValues: {
       date: new Date(),
       description: '',
       amount: undefined,
       category: ''
-    }
+    },
+    mode: 'onBlur'
   });
 
   const watchedAmount = watch('amount');
+  const watchedCategory = watch('category');
+
+  // Validation logic
+  const isAmountValid = watchedAmount && watchedAmount > 0;
+  const isCategoryValid = selectedCategory && selectedCategory.trim() !== '';
+  const isFormValid = isAmountValid && isCategoryValid;
 
   const onFormSubmit = (data: FormData) => {
+    setHasTriedSubmit(true);
+    
+    if (!isFormValid) {
+      // Shake animation for invalid form
+      return;
+    }
+
     const transaction: Omit<Transaction, 'id'> = {
       ...data,
+      category: selectedCategory,
       date: date.toISOString(),
       type
     };
@@ -194,6 +210,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
       setSelectedCategory('');
       setIsSecure(false);
       setShowAnimation(false);
+      setHasTriedSubmit(false);
     }, 2000); 
   };
 
@@ -211,6 +228,18 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
 
   const handleAmountWheel = (e: React.WheelEvent<HTMLInputElement>) => {
     e.currentTarget.blur();
+  };
+
+  const getFieldError = (fieldName: 'amount' | 'category') => {
+    if (!hasTriedSubmit) return false;
+    
+    if (fieldName === 'amount') {
+      return !isAmountValid;
+    }
+    if (fieldName === 'category') {
+      return !isCategoryValid;
+    }
+    return false;
   };
 
   return (
@@ -253,15 +282,27 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
           <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
             <motion.div
               className="space-y-2"
-              whileFocus={{ scale: 1.02 }}
+              animate={getFieldError('amount') ? { 
+                x: [-10, 10, -10, 10, 0],
+                transition: { duration: 0.5 }
+              } : {}}
             >
-              <Label htmlFor="amount" className="text-sm font-medium text-gray-300">
+              <Label htmlFor="amount" className="text-sm font-medium text-gray-300 flex items-center">
                 Amount ($)
+                <span className="text-red-400 ml-1">*</span>
               </Label>
               <motion.div
                 animate={{
-                  borderColor: watchedAmount > 0 ? 'rgb(52, 211, 153)' : 'rgb(71, 85, 105)',
-                  boxShadow: watchedAmount > 0 ? '0 0 0 1px rgba(52, 211, 153, 0.3)' : 'none'
+                  borderColor: getFieldError('amount') 
+                    ? 'rgb(248, 113, 113)' 
+                    : watchedAmount > 0 
+                      ? 'rgb(52, 211, 153)' 
+                      : 'rgb(71, 85, 105)',
+                  boxShadow: getFieldError('amount')
+                    ? '0 0 0 1px rgba(248, 113, 113, 0.3)'
+                    : watchedAmount > 0 
+                      ? '0 0 0 1px rgba(52, 211, 153, 0.3)' 
+                      : 'none'
                 }}
                 className="relative"
               >
@@ -282,49 +323,107 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
                     "[&::-webkit-inner-spin-button]:m-0",
                     "[-moz-appearance:textfield]",
                     "[appearance:textfield]",
-                    watchedAmount > 0 && "border-green-400 focus:border-green-400"
+                    getFieldError('amount') && "border-red-400 focus:border-red-400",
+                    watchedAmount > 0 && !getFieldError('amount') && "border-green-400 focus:border-green-400"
                   )}
                 />
 
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">
                   $
                 </span>
+
+                {getFieldError('amount') && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  >
+                    <AlertCircle className="h-4 w-4 text-red-400" />
+                  </motion.div>
+                )}
               </motion.div>
-              {errors.amount && (
+              {getFieldError('amount') && (
                 <motion.p
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-sm text-red-400"
+                  className="text-sm text-red-400 flex items-center"
                 >
-                  {errors.amount.message}
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Please enter a valid amount
                 </motion.p>
               )}
             </motion.div>
 
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-300">Category</Label>
-              <Select 
-                value={selectedCategory}
-                onValueChange={(value) => {
-                  setSelectedCategory(value);
-                  setValue('category', value);
+            <motion.div 
+              className="space-y-2"
+              animate={getFieldError('category') ? { 
+                x: [-10, 10, -10, 10, 0],
+                transition: { duration: 0.5 }
+              } : {}}
+            >
+              <Label className="text-sm font-medium text-gray-300 flex items-center">
+                Category
+                <span className="text-red-400 ml-1">*</span>
+              </Label>
+              <motion.div
+                animate={{
+                  borderColor: getFieldError('category')
+                    ? 'rgb(248, 113, 113)'
+                    : isCategoryValid
+                      ? 'rgb(52, 211, 153)'
+                      : 'rgb(71, 85, 105)',
+                  boxShadow: getFieldError('category')
+                    ? '0 0 0 1px rgba(248, 113, 113, 0.3)'
+                    : isCategoryValid
+                      ? '0 0 0 1px rgba(52, 211, 153, 0.3)'
+                      : 'none'
                 }}
+                className="relative"
               >
-                <SelectTrigger className="w-full bg-slate-700 border-slate-600 text-white placeholder:text-gray-500">
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.category && (
-                <p className="text-sm text-red-400">{errors.category.message}</p>
+                <Select 
+                  value={selectedCategory}
+                  onValueChange={(value) => {
+                    setSelectedCategory(value);
+                    setValue('category', value);
+                  }}
+                >
+                  <SelectTrigger className={cn(
+                    "w-full bg-slate-700 border-slate-600 text-white placeholder:text-gray-500",
+                    getFieldError('category') && "border-red-400",
+                    isCategoryValid && !getFieldError('category') && "border-green-400"
+                  )}>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {getFieldError('category') && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute right-10 top-1/2 transform -translate-y-1/2"
+                  >
+                    <AlertCircle className="h-4 w-4 text-red-400" />
+                  </motion.div>
+                )}
+              </motion.div>
+              {getFieldError('category') && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-400 flex items-center"
+                >
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  Please select a category
+                </motion.p>
               )}
-            </div>
+            </motion.div>
 
             <div className="space-y-2">
               <Label htmlFor="description" className="text-sm font-medium text-gray-300">
@@ -362,17 +461,23 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
             </div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: isFormValid ? 1.02 : 1 }}
+              whileTap={{ scale: isFormValid ? 0.98 : 1 }}
+              animate={!isFormValid && hasTriedSubmit ? {
+                scale: [1, 1.05, 1],
+                transition: { duration: 0.3 }
+              } : {}}
             >
               <Button
                 type="submit"
-                disabled={!isValid || isSecure}
+                disabled={isSecure}
                 className={cn(
-                  "w-full h-12 text-base font-semibold transition-all duration-200",
-                  type === 'income'
-                    ? "bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-gray-900"
-                    : "bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-gray-900"
+                  "w-full h-12 text-base font-semibold transition-all duration-200 relative",
+                  isFormValid
+                    ? type === 'income'
+                      ? "bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-gray-900"
+                      : "bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-gray-900"
+                    : "bg-slate-600 text-gray-400 cursor-not-allowed hover:bg-slate-600"
                 )}
               >
                 {isSecure ? (
@@ -389,6 +494,17 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
                 )}
               </Button>
             </motion.div>
+
+            {hasTriedSubmit && !isFormValid && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center text-sm text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-800/50"
+              >
+                <AlertCircle className="h-4 w-4 inline mr-2" />
+                Please fill in all required fields marked with *
+              </motion.div>
+            )}
           </form>
         </CardContent>
       </Card>
