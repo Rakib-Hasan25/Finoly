@@ -1,93 +1,56 @@
-# Financial Coach Chatbot
+# Chat Components
 
-A beautiful, feature-rich chatbot interface for the Financial Coach page with the following capabilities:
-
-## Features
-
-### 🗂️ Chat History Management
-- **Persistent Storage**: All chat conversations are stored in localStorage
-- **Chat Sessions**: Each conversation is saved as a separate session
-- **Auto-save**: Messages are automatically saved as you type
-- **Session Titles**: Chat titles are automatically generated from the first user message
-
-### 💬 Chat Interface
-- **Real-time Chat**: Send messages and receive AI responses
-- **Message Types**: Clear distinction between user and AI messages
-- **Loading States**: Beautiful loading animations while AI is thinking
-- **Auto-scroll**: Automatically scrolls to the latest message
-- **Responsive Design**: Works perfectly on desktop and mobile devices
-
-### 🎨 Beautiful UI
-- **Modern Design**: Clean, professional interface with your brand colors
-- **Smooth Animations**: Elegant transitions and hover effects
-- **Responsive Layout**: Adapts to different screen sizes
-- **Accessibility**: Proper contrast and keyboard navigation
-
-### 📱 Mobile Experience
-- **Collapsible Sidebar**: Chat history can be hidden on mobile
-- **Touch-friendly**: Optimized for touch devices
-- **Overlay Navigation**: Smooth mobile navigation experience
+This directory contains all the chat-related components for the AI Financial Coach feature.
 
 ## Components
 
-### `FinancialCoachChat`
-Main component that orchestrates the entire chatbot experience.
+### FloatingChatButton
+A floating action button that appears in the bottom-right corner of the tracker page. When clicked, it opens a chat popup with the AI Financial Coach.
 
-### `ChatHistory`
-Sidebar component showing all chat sessions with options to:
-- View chat history
-- Start new conversations
-- Delete individual chats
-- Clear all chats
+**Features:**
+- Floating button with smooth animations
+- Expandable chat popup
+- Minimizable chat interface
+- Responsive design
+- Matches the app's theme colors
 
-### `ChatInterface`
-Main chat area displaying:
-- Chat header with AI coach info
-- Message history
-- Loading indicators
-- Chat input
+**Usage:**
+```tsx
+import { FloatingChatButton } from '@/components/chat/FloatingChatButton';
 
-### `ChatMessage`
-Individual message component with:
-- User/AI message styling
-- Timestamps
-- Avatar indicators
-- Proper message formatting
+// Add to your page component
+<FloatingChatButton />
+```
 
-### `ChatInput`
-Input component with:
-- Message input field
-- Send button
-- Loading states
-- Keyboard shortcuts (Enter to send)
+### FinancialCoachChat
+Full-screen chat interface with sidebar navigation for chat history.
 
-## Usage
+### ChatInterface
+Main chat display area with message history and input.
 
-The chatbot automatically:
-1. Creates a new chat session when first loaded
-2. Loads previous chat history from localStorage
-3. Saves all conversations automatically
-4. Provides default welcome messages for new chats
+### ChatInput
+Input component for sending messages to the AI coach.
 
-## Customization
+### ChatMessage
+Individual message display component.
 
-### Colors
-The chatbot uses your existing color scheme:
-- Primary: `rgb(87,204,2)` (green)
-- Background: `rgb(15,25,35)` (dark)
-- Secondary: `rgb(25,45,54)` (lighter dark)
+### ChatHistory
+Sidebar component showing chat history and navigation.
 
-### AI Responses
-Currently uses a simple response generator. Replace the `generateAIResponse` function in `useChat.ts` with your actual AI API integration.
+## Theme Integration
 
-### Storage
-Uses localStorage by default. Can be easily modified to use your database or other storage solutions.
+The chat components use the app's primary theme colors:
+- Primary: `rgb(87, 204, 2)` (Green)
+- Background: Dark slate colors
+- Accent: Green gradients and highlights
 
-## Future Enhancements
+## API Integration
 
-- **Real AI Integration**: Connect to OpenAI, Claude, or other AI services
-- **File Uploads**: Allow users to upload financial documents
-- **Voice Chat**: Add voice input/output capabilities
-- **Multi-language**: Support for different languages
-- **Analytics**: Track chat usage and user engagement
-- **Export**: Allow users to export chat history
+Chat functionality is powered by the `/api/chat` endpoint which integrates with OpenAI's GPT models to provide intelligent financial advice.
+
+## Responsive Design
+
+- Mobile-first approach
+- Collapsible sidebar on mobile
+- Floating button always accessible
+- Popup chat adapts to screen size

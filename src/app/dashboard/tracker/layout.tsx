@@ -1,5 +1,6 @@
 import './globals.css';
 import { Navigation } from '@/components/dashboard/Navigation';
+import { FloatingChatButton } from '@/components/chat/FloatingChatButton';
 
 export default function TrackerLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,6 +9,9 @@ export default function TrackerLayout({ children }: { children: React.ReactNode 
       <main className="container mx-auto px-4 py-8">
         {children}
       </main>
+      
+      {/* Floating Chat Button - Available on all tracker routes */}
+      <FloatingChatButton />
     </div>
   );
 }
