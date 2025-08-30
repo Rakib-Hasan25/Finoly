@@ -1,18 +1,63 @@
-# Finoly - AI আর্থিক কোচ (AI Financial Coach)
+## Ekhane Finoly er logo dibo
 
-A modern, production-ready AI-powered financial coaching application built with Next.js, Tailwind CSS, and shadcn/ui components.
+# Finoly
 
-## ✨ Features
+A modern, production-ready AI-powered financial coaching website built with Next.js, Tailwind CSS, and shadcn/ui components.
 
-- **AI Financial Coach** - Personalized financial advice and guidance
-- **Gamified Learning** - Interactive financial education through games
-- **Financial Tracking** - Comprehensive income, expense, and savings tracking
-- **Budget Management** - Smart budgeting tools and planning
-- **Next.js 14.2.6** - Latest version with App Router and Server Components
-- **TypeScript** - Full type safety and better developer experience
-- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
-- **shadcn/ui** - Beautiful, accessible, and customizable component library
-- **Responsive Design** - Mobile-first approach with Tailwind CSS
+## Project Demo
+
+## Live Project
+
+## Problem Statement
+
+Financial literacy remains a critical challenge in Bangladesh, with far-reaching consequences for individuals and communities.
+
+- **28% of adults lack basic financial skills**, including budgeting, saving, and managing debt.  
+- There is **no unified platform for financial education** tailored to the local context.  
+- **Government initiatives for financial literacy are limited**, leaving gaps in knowledge dissemination.  
+- Many adults have **little to no real-world financial literacy**, even into adulthood.  
+
+### The Cycle of Financial Exclusion
+
+Low financial literacy drives a self-reinforcing cycle:
+
+1. **Low Financial Literacy** → leads to **Poor Financial Decisions**  
+2. **Poor Financial Decisions** → results in **Financial Instability**  
+3. **Financial Instability** → limits economic growth opportunities  
+
+Without intervention, this cycle threatens the economic potential of millions, particularly in rural and low-income communities.
+
+## Our Objectives
+1. **Make financial literacy engaging and accessible**  
+   Design learning experiences that cater to people of all ages and backgrounds, ensuring financial education is approachable and interactive.
+
+2. **Provide personalized guidance**  
+   Enable individuals to make smarter financial decisions through tailored advice and context-aware support.
+
+3. **Encourage responsible money management**  
+   Promote healthy financial habits that foster long-term stability and confidence in handling personal finances.
+
+## Features
+
+- **Gamified Learning:** Interactive challenges, rewards, and tailored tracks for students and small business owners.
+- **Chatbot Assistant:** 24/7 support for queries, offering personalized guidance over time.  
+- **Financial Activity Tracker:** Log expenses and savings, track income and debt, and visualize financial health with dashboards.  
+
+A complete digital guide that **teaches, tracks, and assists** users in managing money effectively.
+
+## Tools & Languages Used
+
+- **Frontend (Next.js):**  
+  User interface for authentication, profiles, chatbot, learning modules, and financial dashboards. Handles routing, session management, API communication, and is optimized for low-bandwidth users.
+
+- **Backend (Next.js API Routes):**  
+  Server-side logic including authentication, financial tracking, learning progress, and gamification. Integrates with Supabase for database operations and secure workflows.
+
+- **Database & Authentication (Supabase):**  
+  Supabase PostgreSQL stores user credentials, financial data, and gamification records. Provides real-time updates and Supabase Auth manages authentication and role-based access.
+
+- **AI Stack (GPT-3.5 Turbo):**  
+  Conversational support and financial guidance fine-tuned for Bangladesh. Supports bilingual interaction (Bengali & English) for personalized, culturally relevant advice.
 
 ## 🚀 Getting Started
 
