@@ -86,7 +86,9 @@ export default function CardsPage() {
       return;
     }
 
-    setLevels(data || []);
+    const levels = (data as unknown as Level[]) || [];
+
+    setLevels(levels);
   }
 
   async function fetchCards() {

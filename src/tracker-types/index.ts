@@ -4,7 +4,7 @@ export interface Transaction {
   category: string;
   date: string;
   description?: string;
-  type: 'income' | 'expense';
+  type: "income" | "expense";
 }
 
 export interface Budget {
@@ -43,7 +43,7 @@ export interface Achievement {
 export interface BankAccount {
   id: string;
   name: string;
-  type: 'checking' | 'savings' | 'credit';
+  type: "checking" | "savings" | "credit";
   balance: number;
   accountNumber: string;
 }

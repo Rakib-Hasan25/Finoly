@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+
+const inter = localFont({
+  src: "./fonts/Inter/Inter-VariableFont_opsz,wght.ttf",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+// const interItalic = localFont({
+//   src: "./fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf",
+//   variable: "--font-inter-italic",
+//   display: "swap",
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",

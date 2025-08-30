@@ -25,6 +25,15 @@ type Level = {
   created_at: string;
 };
 
+type Course = {
+  id: number;
+  name: string;
+  difficulty: string;
+  description: string;
+  image_url: string;
+  created_at: string;
+};
+
 export default function CoursePage() {
   const params = useParams();
   const courseId = params.courseId as string;

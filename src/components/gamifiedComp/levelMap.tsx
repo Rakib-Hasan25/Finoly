@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { getUserLevelProgressAll } from "@/lib/actions/user-level-progress";
 import { useAuth } from "@/hooks/useAuth";
 import { getUserByEmail } from "@/lib/actions/users";
-import FinanceLevelLoader from "./levelLoader";
 
 interface LevelMapProps {
   courseId: string;
