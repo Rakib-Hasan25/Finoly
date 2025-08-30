@@ -21,7 +21,6 @@ export default function CardConcepts({
 }: CardConceptsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
   if (!cards || cards.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] p-6 flex flex-col items-center justify-center text-white">
@@ -47,7 +46,6 @@ export default function CardConcepts({
     center: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 0.95 },
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] p-6">
@@ -99,7 +97,7 @@ export default function CardConcepts({
                     Previous
                   </Button>
 
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 mx-20">
                     {cards.map((_, idx) => (
                       <div
                         key={idx}

@@ -1,16 +1,21 @@
-
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/button";
-import { createUserLevelProgress, getUserLevelProgress, updateUserLevelProgress, UserLevelProgress } from "@/lib/actions/user-level-progress";
+import { useRouter } from "next/navigation";
+import {
+  createUserLevelProgress,
+  getUserLevelProgress,
+  updateUserLevelProgress,
+  UserLevelProgress,
+} from "@/lib/actions/user-level-progress";
 import { getUser, updateUser } from "@/lib/actions/users";
 import { syncUserRewards, updateCompletedRewards } from "@/lib/actions/rewards";
 import { toast } from "@/hooks/use-toast";
 
 interface TestPageProps {
   userId: number;
-  levelId : number;
+  levelId: number;
   setTest: Dispatch<SetStateAction<boolean>>;
   cards: Array<{
     id: string;
@@ -28,7 +33,7 @@ interface FormattedQuiz {
   answer: string;
 }
 
-function formatQuizList(rawQuizzes : any[]) : FormattedQuiz[] {
+function formatQuizList(rawQuizzes: any[]): FormattedQuiz[] {
   return rawQuizzes.map((q, index) => ({
     id: index + 1, // sequential id
     question: q.content.trim(),
@@ -36,24 +41,28 @@ function formatQuizList(rawQuizzes : any[]) : FormattedQuiz[] {
       `A: ${q.option_a.trim()}`,
       `B: ${q.option_b.trim()}`,
       `C: ${q.option_c.trim()}`,
-      `D: ${q.option_d.trim()}`
+      `D: ${q.option_d.trim()}`,
     ],
-    answer: q.correct_answer
+    answer: q.correct_answer,
   }));
 }
 
-
-const updateDb = async (userId : number, levelId : number, score : any, passed : any) => {
+const updateDb = async (
+  userId: number,
+  levelId: number,
+  score: any,
+  passed: any
+) => {
   // console.log("updating db");
   const prev = await getUserLevelProgress(userId, levelId);
 
   let scorediff = 0;
   let attemp = 0;
 
-  if(prev == null){
+  if (prev == null) {
     scorediff = score;
     attemp = 1;
-    const data : Omit<UserLevelProgress, "id" | "created_at" | "updated_at"> = {
+    const data: Omit<UserLevelProgress, "id" | "created_at" | "updated_at"> = {
       user_id: userId,
       level_id: levelId,
       status: passed ? "completed" : "in_progress",
@@ -61,14 +70,14 @@ const updateDb = async (userId : number, levelId : number, score : any, passed :
       score: score,
       attempts: 1,
       completed_at: new Date().toISOString(),
-    }
+    };
     await createUserLevelProgress(data);
   } else {
     const nScore = Math.max(score, prev.score);
-    const npassed = passed || prev.status === 'completed';
+    const npassed = passed || prev.status === "completed";
     scorediff = Math.max(score - prev.score, 0);
     attemp = prev.attempts + 1;
-    const data : Partial<UserLevelProgress> = {
+    const data: Partial<UserLevelProgress> = {
       user_id: userId,
       level_id: levelId,
       status: npassed ? "completed" : "in_progress",
@@ -76,46 +85,48 @@ const updateDb = async (userId : number, levelId : number, score : any, passed :
       score: nScore,
       attempts: prev.attempts + 1,
       completed_at: new Date().toISOString(),
-    }
+    };
     await updateUserLevelProgress(userId, levelId, data);
   }
   // console.log(res);
 
-
-  const adxp = (scorediff <= 0) ? 0 : scorediff - (attemp - 1) * 2;
+  const adxp = scorediff <= 0 ? 0 : scorediff - (attemp - 1) * 2;
   const { xp, health } = await getUser(userId);
   const data = {
-    xp : xp + adxp,
-    health : health - (passed ? 0 : 1)
-  }
+    xp: xp + adxp,
+    health: health - (passed ? 0 : 1),
+  };
   await updateUser(userId, data);
   await rewardCalc(userId, score, passed);
-  
-}
+};
 
-const rewardCalc = async (userId : number, score : any, passed : any) => {
+const rewardCalc = async (userId: number, score: any, passed: any) => {
   await syncUserRewards(userId);
-  if(score >= 100){
-    const {updatedCount, total} = await updateCompletedRewards(userId, 'health');
+  if (score >= 100) {
+    const { updatedCount, total } = await updateCompletedRewards(
+      userId,
+      "health"
+    );
     if (updatedCount > 0 && total > 0) {
       toast({
-        title : `🎉 Earned +${total} health`,
-        description : `You earned health, check the reward section and claim.`
-      })
+        title: `🎉 Earned +${total} health`,
+        description: `You earned health, check the reward section and claim.`,
+      });
     }
   }
-  if(passed){
-    const {updatedCount, total} = await updateCompletedRewards(userId, 'points');
+  if (passed) {
+    const { updatedCount, total } = await updateCompletedRewards(
+      userId,
+      "points"
+    );
     if (updatedCount > 0 && total > 0) {
       toast({
-        title : `🎉 Earned +${total} XP`,
-        description : `You earned XP, check the reward section and claim.`
-      })
+        title: `🎉 Earned +${total} XP`,
+        description: `You earned XP, check the reward section and claim.`,
+      });
     }
   }
-}
-
-
+};
 
 export default function TestPage({
   userId,
@@ -134,6 +145,7 @@ export default function TestPage({
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [finished, setFinished] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = () => {
     if (!selectedOption) return;
@@ -153,10 +165,10 @@ export default function TestPage({
   const handleFinish = () => {
     const percentage = (score / (cards.length * 10)) * 100;
     const passed = percentage >= 70;
-    updateDb(userId, levelId, score, passed).then(()=>{
+    updateDb(userId, levelId, score, passed).then(() => {
       setFinished(true);
-    })
-  }
+    });
+  };
 
   const handleNext = () => {
     if (currentIndex === cards.length - 1) {
@@ -221,16 +233,27 @@ export default function TestPage({
             >
               Review Concepts
             </Button>
-            <Button
-              onClick={() => {
-                setCurrentIndex(0);
-                setScore(0);
-                setFinished(false);
-              }}
-              className="w-40"
-            >
-              Try Again
-            </Button>
+            {passed ? (
+              <Button
+                onClick={() => {
+                  router.push("/dashboard/gamified-learning");
+                }}
+                className="w-40 bg-green-600 hover:bg-green-700"
+              >
+                Next level
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  setCurrentIndex(0);
+                  setScore(0);
+                  setFinished(false);
+                }}
+                className="w-40"
+              >
+                Try Again
+              </Button>
+            )}
           </div>
         </motion.div>
       </div>
@@ -339,9 +362,7 @@ export default function TestPage({
             ) : (
               <Button
                 onClick={
-                  currentIndex === cards.length - 1
-                    ? handleFinish
-                    : handleNext
+                  currentIndex === cards.length - 1 ? handleFinish : handleNext
                 }
                 className="bg-blue-600 hover:bg-blue-700"
               >

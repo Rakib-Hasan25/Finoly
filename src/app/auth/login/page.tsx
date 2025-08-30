@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -12,60 +12,61 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
-import { Loader2, Moon, Sun } from 'lucide-react'
+import { Loader2, Moon, Sun } from "lucide-react";
 
-import { useToast } from '@/hooks/use-toast'
-import { useTheme } from 'next-themes'
+import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "next-themes";
 
 export default function EmailPage() {
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
-  const { toast } = useToast()
-
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    const supabase = createClient()
+    e.preventDefault();
+    setLoading(true);
+    const supabase = createClient();
     try {
-      const origin = window.location.origin
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-      const redirectUrl = `${siteUrl || origin}/auth/callback`
-      
-      console.log('Debug info:', {
-        windowOrigin: origin,
-        envSiteUrl: siteUrl,
-        finalRedirectUrl: redirectUrl
-      })
+      const origin = window.location.origin;
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+      const redirectUrl = `${siteUrl || origin}/auth/callback`;
+
+      // console.log('Debug info:', {
+      //   windowOrigin: origin,
+      //   envSiteUrl: siteUrl,
+      //   finalRedirectUrl: redirectUrl
+      // })
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+          emailRedirectTo: `${
+            process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+          }/auth/callback`,
         },
-      })
+      });
 
-      if (error) throw error
+      if (error) throw error;
 
-      router.push(`/auth/otp?email=${encodeURIComponent(email)}`)
+      router.push(`/auth/otp?email=${encodeURIComponent(email)}`);
       toast({
-        title: 'Magic link sent',
-        description: 'Check your email for the login link.',
-      })
+        title: "Magic link sent",
+        description: "Check your email for the login link.",
+      });
     } catch (error) {
-      console.error('Error:', error)
+      console.error("Error:", error);
       toast({
-        title: 'Error',
-        description: 'Failed to send magic link. Please try again.',
-        variant: 'destructive',
-      })
+        title: "Error",
+        description: "Failed to send magic link. Please try again.",
+        variant: "destructive",
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/20">
@@ -113,12 +114,12 @@ export default function EmailPage() {
                   Sending Magic Link
                 </>
               ) : (
-                'Continue with Email'
+                "Continue with Email"
               )}
             </Button>
           </CardFooter>
         </form>
       </Card>
     </div>
-  )
+  );
 }

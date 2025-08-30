@@ -13,7 +13,6 @@ export async function updateSession(request: NextRequest) {
   //   return supabaseResponse;
   // }
 
-
   // With Fluid compute, don't put this client in a global environment
   // variable. Always create a new one on each request.
   const supabase = createServerClient(
@@ -26,58 +25,53 @@ export async function updateSession(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
+            request.cookies.set(name, value)
           );
           supabaseResponse = NextResponse.next({
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options),
+            supabaseResponse.cookies.set(name, value, options)
           );
         },
       },
-    },
+    }
   );
 
-  if(request.nextUrl.pathname == '/api/chat'){
-    return NextResponse.next()
+  if (request.nextUrl.pathname == "/api/chat") {
+    return NextResponse.next();
   }
-
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-console.log(user,"user")
+  // console.log(user,"user")
 
-  if (user && request.nextUrl.pathname == '/') {
-    const url = request.nextUrl.clone()
-    url.pathname = `/dashboard`
-    return NextResponse.redirect(url)
+  if (user && request.nextUrl.pathname == "/") {
+    const url = request.nextUrl.clone();
+    url.pathname = `/dashboard`;
+    return NextResponse.redirect(url);
   }
 
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    console.log('hi from rakib')
-    const url = request.nextUrl.clone()
-    url.pathname = `/auth/login`
-    return NextResponse.redirect(url)
+  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+    // console.log("hi from rakib");
+    const url = request.nextUrl.clone();
+    url.pathname = `/auth/login`;
+    return NextResponse.redirect(url);
   }
-
 
   if (
     !user &&
-    request.nextUrl.pathname == '/' &&
-    !request.nextUrl.pathname.startsWith('/auth/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
+    request.nextUrl.pathname == "/" &&
+    !request.nextUrl.pathname.startsWith("/auth/login") &&
+    !request.nextUrl.pathname.startsWith("/auth")
   ) {
-    console.log("hiii")
-    const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
-    return NextResponse.redirect(url)
+    // console.log("hiii");
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
   }
-
- 
-
 
   return supabaseResponse;
 }
