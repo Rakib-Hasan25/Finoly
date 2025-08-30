@@ -12,6 +12,13 @@ import { calculateUserLevel, updateStreak, checkAchievements } from '@/lib-track
 import { Transaction, Achievement } from '@/tracker-types';
 import { ConfettiExplosion } from '@/components/Tracker-animations/ConfettiExplosion';
 
+interface MonthlyStats {
+  income: number;
+  expenses: number;
+  netWorth: number;
+  savingsRate: number;
+}
+
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [userLevel, setUserLevel] = useState({ 
@@ -24,6 +31,42 @@ export default function Dashboard() {
   const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [streak, setStreak] = useState(0);
+  const [currentStats, setCurrentStats] = useState<MonthlyStats>({
+    income: 0,
+    expenses: 0,
+    netWorth: 0,
+    savingsRate: 0
+  });
+  const [previousStats, setPreviousStats] = useState<MonthlyStats>({
+    income: 0,
+    expenses: 0,
+    netWorth: 0,
+    savingsRate: 0
+  });
+
+  const calculateMonthlyStats = (transactions: Transaction[], monthString: string): MonthlyStats => {
+    const monthlyTransactions = transactions.filter(t => 
+      t.date.startsWith(monthString)
+    );
+    
+    const income = monthlyTransactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + (Number.isFinite(t.amount) ? t.amount : 0), 0);
+      
+    const expenses = monthlyTransactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + (Number.isFinite(t.amount) ? t.amount : 0), 0);
+      
+    const netWorth = income - expenses;
+    const savingsRate = income > 0 ? ((income - expenses) / income) * 100 : 0;
+
+    return { income, expenses, netWorth, savingsRate };
+  };
+
+  const calculateChange = (current: number, previous: number): number => {
+    if (previous === 0) return current > 0 ? 100 : 0;
+    return ((current - previous) / previous) * 100;
+  };
 
   useEffect(() => {
     const loadData = () => {
@@ -37,6 +80,19 @@ export default function Dashboard() {
       setUserLevel(calculatedLevel);
       setStreak(currentStreak);
 
+      // Calculate current and previous month stats
+      const now = new Date();
+      const currentMonth = now.toISOString().slice(0, 7);
+      
+      const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      const prevMonthStr = prevMonth.toISOString().slice(0, 7);
+
+      const current = calculateMonthlyStats(savedTransactions, currentMonth);
+      const previous = calculateMonthlyStats(savedTransactions, prevMonthStr);
+
+      setCurrentStats(current);
+      setPreviousStats(previous);
+
       if (achievements.length > 0) {
         setNewAchievements(achievements);
         setShowConfetti(true);
@@ -46,22 +102,11 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  // Calculate stats
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  const monthlyTransactions = transactions.filter(t => 
-    t.date.startsWith(currentMonth)
-  );
-  
-  const totalIncome = monthlyTransactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + (Number.isFinite(t.amount) ? t.amount : 0), 0);
-    
-  const totalExpenses = monthlyTransactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + (Number.isFinite(t.amount) ? t.amount : 0), 0);
-    
-  const netWorth = totalIncome - totalExpenses;
-  const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
+  // Calculate changes
+  const incomeChange = calculateChange(currentStats.income, previousStats.income);
+  const expensesChange = calculateChange(currentStats.expenses, previousStats.expenses);
+  const netWorthChange = calculateChange(currentStats.netWorth, previousStats.netWorth);
+  const savingsRateChange = currentStats.savingsRate - previousStats.savingsRate;
 
   const recentTransactions = transactions
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -99,37 +144,33 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
           title="Monthly Income"
-          value={totalIncome}
-          icon={TrendingUp}
-          change={12.5}
-          changeLabel="vs last month"
+          value={currentStats.income}
+          icon={DollarSign}
+          change={incomeChange}
           color="rgb(74, 222, 128)" // green-400
           delay={0}
         />
         <StatsCard
           title="Monthly Expenses"
-          value={totalExpenses}
+          value={currentStats.expenses}
           icon={TrendingDown}
-          change={-8.2}
-          changeLabel="vs last month"
+          change={expensesChange}
           color="rgb(251, 113, 133)" // rose-400
           delay={0.1}
         />
         <StatsCard
           title="Net Worth"
-          value={netWorth}
-          icon={DollarSign}
-          change={18.7}
-          changeLabel="this month"
+          value={currentStats.netWorth}
+          icon={TrendingUp}
+          change={netWorthChange}
           color="rgb(96, 165, 250)" // blue-400
           delay={0.2}
         />
         <StatsCard
           title="Savings Rate"
-          value={`${savingsRate.toFixed(1)}%`}
+          value={currentStats.savingsRate}
           icon={Target}
-          change={5.3}
-          changeLabel="improvement"
+          change={savingsRateChange}
           color="rgb(192, 132, 252)" // violet-400
           delay={0.3}
         />

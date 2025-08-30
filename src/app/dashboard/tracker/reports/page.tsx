@@ -370,32 +370,37 @@ export default function ReportsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
       >
-        <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-white">Net Income Trend</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={chartData}>
-                <CartesianGrid stroke="#475569" strokeDasharray="3 3" />
-                <XAxis dataKey="name" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
-                <Tooltip 
-                  formatter={(value) => [`$${value}`, 'Net Income']} 
-                  contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="net" 
-                  stroke="#A78BFA" 
-                  strokeWidth={3}
-                  dot={{ fill: '#A78BFA', strokeWidth: 2, r: 6 }}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </FloatingCard>
+       <FloatingCard className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm max-w-full overflow-hidden transition-transform duration-300 hover:scale-102">
+  <CardHeader>
+    <CardTitle className="text-white">Net Income Trend</CardTitle>
+  </CardHeader>
+  <CardContent className="p-4">
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={chartData}>
+        <CartesianGrid stroke="#475569" strokeDasharray="3 3" />
+        <XAxis dataKey="name" stroke="#94a3b8" />
+        <YAxis stroke="#94a3b8" />
+        <Tooltip
+          formatter={(value) => [`$${value}`, 'Net Income']}
+          contentStyle={{
+            backgroundColor: '#334155',
+            border: '1px solid #475569',
+            color: '#fff',
+          }}
+        />
+        <Line
+          type="monotone"
+          dataKey="net"
+          stroke="#A78BFA"
+          strokeWidth={3}
+          dot={{ fill: '#A78BFA', strokeWidth: 2, r: 6 }}
+          activeDot={{ r: 8 }}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  </CardContent>
+</FloatingCard>
+
       </motion.div>
     </div>
   );
