@@ -91,7 +91,7 @@ export function FinancialCoachChat() {
       {isMobile && (
         <div className="md:hidden bg-[rgb(25,45,54)] border-b border-[rgb(87,204,2)]/20 p-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold text-[rgb(87,204,2)]">Financial Coach</h1>
+            <h1 className="text-xl font-semibold text-[rgb(87,204,2)]">আর্থিক কোচ</h1>
             <button
               onClick={toggleSidebar}
               className="p-2 text-[rgb(87,204,2)] hover:bg-[rgb(87,204,2)]/20 rounded-lg"
@@ -119,7 +119,7 @@ export function FinancialCoachChat() {
             <button
               onClick={toggleSidebar}
               className="absolute -right-3 top-6 z-10 w-6 h-6 bg-[rgb(87,204,2)] text-[rgb(25,45,54)] rounded-full flex items-center justify-center hover:bg-[rgb(87,204,2)]/90 transition-colors shadow-lg hover:scale-110"
-              title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              title={isSidebarCollapsed ? "সাইডবার প্রসারিত করুন" : "সাইডবার সংকুচিত করুন"}
             >
               {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </button>
@@ -151,13 +151,13 @@ export function FinancialCoachChat() {
                 <div className="w-16 h-16 bg-[rgb(87,204,2)]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <div className="w-8 h-8 bg-[rgb(87,204,2)] rounded-full"></div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-200 mb-2">Select a Chat</h3>
-                <p className="text-gray-400 mb-4">Choose an existing conversation or start a new one</p>
+                <h3 className="text-xl font-semibold text-gray-200 mb-2">একটি চ্যাট নির্বাচন করুন</h3>
+                <p className="text-gray-400 mb-4">একটি বিদ্যমান কথোপকথন নির্বাচন করুন বা একটি নতুন শুরু করুন</p>
                 <button
                   onClick={handleNewChat}
                   className="px-6 py-3 bg-[rgb(87,204,2)] text-[rgb(25,45,54)] rounded-lg font-medium hover:bg-[rgb(87,204,2)]/90 transition-colors"
                 >
-                  Start New Chat
+                  নতুন চ্যাট শুরু করুন
                 </button>
               </div>
             </div>
@@ -179,7 +179,7 @@ export function FinancialCoachChat() {
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
             <div className="flex-1">
-              <h4 className="font-semibold mb-1">Error</h4>
+              <h4 className="font-semibold mb-1">ত্রুটি</h4>
               <p className="text-sm opacity-90">{error}</p>
             </div>
             <button

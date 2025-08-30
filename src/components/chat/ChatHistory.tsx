@@ -37,7 +37,7 @@ export function ChatHistory({
           <button
             onClick={onNewChat}
             className="w-12 h-12 bg-[rgb(87,204,2)] text-[rgb(25,45,54)] rounded-lg hover:bg-[rgb(87,204,2)]/90 transition-colors flex items-center justify-center"
-            title="New Chat"
+            title="নতুন চ্যাট"
           >
             <Plus className="w-5 h-5" />
           </button>
@@ -82,11 +82,11 @@ export function ChatHistory({
       {/* Header */}
       <div className="p-4 border-b border-[rgb(87,204,2)]/20">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-[rgb(87,204,2)]">Chat History</h2>
+          <h2 className="text-xl font-semibold text-[rgb(87,204,2)]">চ্যাট ইতিহাস</h2>
           <button
             onClick={onNewChat}
             className="p-2 bg-[rgb(87,204,2)] text-[rgb(25,45,54)] rounded-lg hover:bg-[rgb(87,204,2)]/90 transition-colors"
-            title="New Chat"
+            title="নতুন চ্যাট"
           >
             <Plus className="w-4 h-4" />
           </button>
@@ -97,7 +97,7 @@ export function ChatHistory({
             onClick={onClearAll}
             className="text-sm text-gray-400 hover:text-red-400 transition-colors"
           >
-            Clear all chats
+            সব চ্যাট মুছুন
           </button>
         )}
       </div>
@@ -107,12 +107,12 @@ export function ChatHistory({
         {chatHistory.length === 0 ? (
           <div className="p-6 text-center">
             <MessageSquare className="w-12 h-12 text-gray-500 mx-auto mb-3" />
-            <p className="text-gray-400 mb-4">No chat history yet</p>
+            <p className="text-gray-400 mb-4">এখনও কোন চ্যাট ইতিহাস নেই</p>
             <button
               onClick={onNewChat}
               className="px-4 py-2 bg-[rgb(87,204,2)] text-[rgb(25,45,54)] rounded-lg font-medium hover:bg-[rgb(87,204,2)]/90 transition-colors"
             >
-              Start New Chat
+              নতুন চ্যাট শুরু করুন
             </button>
           </div>
         ) : (
@@ -163,7 +163,7 @@ export function ChatHistory({
                       className="flex items-center gap-2 px-3 py-2 text-red-400 hover:bg-gray-700 rounded-lg w-full"
                     >
                       <Trash2 className="w-4 h-4" />
-                      Delete
+                      মুছুন
                     </button>
                   </div>
                 )}

@@ -34,7 +34,7 @@ export function ChatInput({ onSendMessage, isLoading, disabled }: ChatInputProps
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask your AI Financial Coach anything..."
+            placeholder="আপনার AI আর্থিক কোচকে যেকোনো কিছু জিজ্ঞাসা করুন..."
             className="w-full min-h-[44px] max-h-32 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-[rgb(87,204,2)] focus:border-transparent transition-all"
             disabled={isLoading || disabled}
             rows={1}
@@ -56,7 +56,7 @@ export function ChatInput({ onSendMessage, isLoading, disabled }: ChatInputProps
               ? 'bg-[rgb(87,204,2)] text-[rgb(25,45,54)] hover:bg-[rgb(87,204,2)]/90 hover:scale-105'
               : 'bg-gray-600 text-gray-400 cursor-not-allowed'
           }`}
-          title={isMessageValid ? 'Send message' : 'Type a message to send'}
+          title={isMessageValid ? 'বার্তা পাঠান' : 'পাঠানোর জন্য একটি বার্তা টাইপ করুন'}
         >
           {isLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -68,7 +68,7 @@ export function ChatInput({ onSendMessage, isLoading, disabled }: ChatInputProps
       
       {/* Help text */}
       <div className="mt-2 text-xs text-gray-500 text-center">
-        Press Enter to send, Shift+Enter for new line
+        পাঠানোর জন্য Enter চাপুন, নতুন লাইনের জন্য Shift+Enter
       </div>
     </div>
   );

@@ -1,16 +1,17 @@
-# Finoly - Next.js 14.2.6 Starter Project
+# Finoly - AI আর্থিক কোচ (AI Financial Coach)
 
-A modern, production-ready Next.js starter project with Tailwind CSS and shadcn/ui components.
+A modern, production-ready AI-powered financial coaching application built with Next.js, Tailwind CSS, and shadcn/ui components.
 
 ## ✨ Features
 
+- **AI Financial Coach** - Personalized financial advice and guidance
+- **Gamified Learning** - Interactive financial education through games
+- **Financial Tracking** - Comprehensive income, expense, and savings tracking
+- **Budget Management** - Smart budgeting tools and planning
 - **Next.js 14.2.6** - Latest version with App Router and Server Components
 - **TypeScript** - Full type safety and better developer experience
 - **Tailwind CSS** - Utility-first CSS framework for rapid UI development
 - **shadcn/ui** - Beautiful, accessible, and customizable component library
-- **ESLint** - Code quality and consistency
-- **App Router** - Modern Next.js routing system
-- **Dark Mode Support** - Built-in dark/light theme switching
 - **Responsive Design** - Mobile-first approach with Tailwind CSS
 
 ## 🚀 Getting Started
@@ -46,16 +47,25 @@ npm run dev
 finoly_comp/
 ├── src/
 │   ├── app/                 # App Router pages and layouts
-│   │   ├── globals.css     # Global styles and Tailwind imports
-│   │   ├── layout.tsx      # Root layout component
-│   │   └── page.tsx        # Home page
-│   ├── components/         # Reusable components
-│   │   └── ui/            # shadcn/ui components
-│   └── lib/               # Utility functions
-├── public/                # Static assets
-├── tailwind.config.ts     # Tailwind CSS configuration
-├── components.json        # shadcn/ui configuration
-└── package.json          # Dependencies and scripts
+│   │   ├── dashboard/      # Dashboard pages (home, financial-coach, tracker, etc.)
+│   │   ├── auth/          # Authentication pages
+│   │   ├── api/           # API routes (chat, etc.)
+│   │   ├── globals.css    # Global styles and Tailwind imports
+│   │   ├── layout.tsx     # Root layout component
+│   │   └── page.tsx       # Home page
+│   ├── components/        # Reusable components
+│   │   ├── chat/         # Financial coach chat components
+│   │   ├── dashboard/    # Dashboard components
+│   │   ├── gamifiedComp/ # Gamified learning components
+│   │   └── ui/           # shadcn/ui components
+│   ├── hooks/            # Custom React hooks
+│   ├── lib/              # Utility functions and database
+│   └── tracker-types/    # TypeScript type definitions
+├── public/               # Static assets
+├── supabase/            # Database migrations and functions
+├── tailwind.config.ts   # Tailwind CSS configuration
+├── components.json      # shadcn/ui configuration
+└── package.json         # Dependencies and scripts
 ```
 
 ## 🎨 Available Components
@@ -149,4 +159,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ using Next.js, Tailwind CSS, and shadcn/ui
+Built with ❤️ for financial education and empowerment using Next.js, Tailwind CSS, and shadcn/ui

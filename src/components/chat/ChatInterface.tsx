@@ -53,9 +53,9 @@ export function ChatInterface({
             <Bot className="w-5 h-5 text-[rgb(25,45,54)]" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-[rgb(87,204,2)]">AI Financial Coach</h2>
+            <h2 className="text-lg font-semibold text-[rgb(87,204,2)]">AI আর্থিক কোচ</h2>
             <p className="text-sm text-gray-400">
-              {isLoading ? 'Typing...' : 'Your personal financial advisor'}
+              {isLoading ? 'টাইপ করছে...' : 'আপনার ব্যক্তিগত আর্থিক উপদেষ্টা'}
             </p>
           </div>
         </div>
@@ -69,10 +69,9 @@ export function ChatInterface({
               <div className="w-16 h-16 bg-[rgb(87,204,2)]/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Bot className="w-8 h-8 text-[rgb(87,204,2)]" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-200 mb-2">Welcome to Financial Coach!</h3>
+              <h3 className="text-xl font-semibold text-gray-200 mb-2">আর্থিক কোচে স্বাগতম!</h3>
               <p className="text-gray-400 max-w-md mx-auto">
-                I'm here to help you with personalized financial advice, budgeting tips, 
-                investment strategies, and debt management. Start by asking me a question!
+                আমি ব্যক্তিগতকৃত আর্থিক পরামর্শ, বাজেটিং টিপস, বিনিয়োগ কৌশল এবং ঋণ ব্যবস্থাপনায় আপনাকে সাহায্য করতে এখানে আছি। আমাকে একটি প্রশ্ন জিজ্ঞাসা করে শুরু করুন!
               </p>
             </div>
             
@@ -95,7 +94,7 @@ export function ChatInterface({
               <div className="bg-[rgb(25,45,54)] border border-[rgb(87,204,2)]/20 rounded-2xl px-4 py-3">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    <span className="text-[rgb(87,204,2)] text-sm">AI is thinking</span>
+                    <span className="text-[rgb(87,204,2)] text-sm">AI চিন্তা করছে</span>
                     <div className="flex gap-1 ml-2">
                       <div className="w-2 h-2 bg-[rgb(87,204,2)] rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-[rgb(87,204,2)] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>

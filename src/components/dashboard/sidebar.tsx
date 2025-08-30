@@ -28,32 +28,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Define the main sidebar items
 const sidebarItems = [
   {
-    title: 'Home',
+    title: 'হোম',
     href: '/dashboard/home',
     icon: HomeIcon,
   },
   {
-    title: 'Gamified Learning',
+    title: 'গেমিফাইড শিক্ষা',
     href: '/dashboard/gamified-learning',
     icon: Gamepad2Icon,
   },
   {
-    title: 'Financial Coach',
+    title: 'আর্থিক কোচ',
     href: '/dashboard/financial-coach',
     icon: GraduationCapIcon,
   },
   {
-    title: 'Tracker',
+    title: 'ট্র্যাকার',
     href: '/dashboard/tracker',
     icon: BarChart3Icon,
     submenu: [
       // New 'Overview' item added here
-      { href: '/dashboard/tracker', label: 'Overview', icon: LayoutGridIcon },
-      { href: '/dashboard/tracker/spending', label: 'Daily Spending', icon: Receipt },
-      { href: '/dashboard/tracker/income', label: 'Monthly Income', icon: TrendingUp },
-      { href: '/dashboard/tracker/reports', label: 'Reports', icon: BarChart3Icon },
-      { href: '/dashboard/tracker/budget', label: 'Budget Planning', icon: Target },
-      { href: '/dashboard/tracker/banking', label: 'Banking', icon: Landmark },
+      { href: '/dashboard/tracker', label: 'সারসংক্ষেপ', icon: LayoutGridIcon },
+      { href: '/dashboard/tracker/spending', label: 'দৈনিক ব্যয়', icon: Receipt },
+      { href: '/dashboard/tracker/income', label: 'মাসিক আয়', icon: TrendingUp },
+      { href: '/dashboard/tracker/reports', label: 'রিপোর্ট', icon: BarChart3Icon },
+      { href: '/dashboard/tracker/budget', label: 'বাজেট পরিকল্পনা', icon: Target },
+      { href: '/dashboard/tracker/banking', label: 'ব্যাংকিং', icon: Landmark },
     ],
   },
 ];
@@ -69,14 +69,14 @@ export function Sidebar() {
     try {
       await signOut();
       toast({
-        title: 'Signed out successfully',
-        description: 'You have been logged out of your account.',
+        title: 'সফলভাবে সাইন আউট হয়েছে',
+        description: 'আপনি আপনার অ্যাকাউন্ট থেকে লগ আউট হয়েছেন।',
       });
       router.push('/auth/login');
     } catch (error) {
       toast({
-        title: 'Error signing out',
-        description: 'There was an issue signing you out. Please try again.',
+        title: 'সাইন আউটে ত্রুটি',
+        description: 'আপনাকে সাইন আউট করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।',
         variant: 'destructive',
       });
     }
@@ -105,7 +105,7 @@ export function Sidebar() {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
               Finoly
             </h1>
-            <p className="text-sm text-gray-300 mt-1 font-medium">Financial Dashboard</p>
+            <p className="text-sm text-gray-300 mt-1 font-medium">আর্থিক ড্যাশবোর্ড</p>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ export function Sidebar() {
               <p className="text-xs text-gray-300 truncate">{user.email}</p>
               <div className="flex items-center mt-1">
                 <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-pulse"></div>
-                <span className="text-xs text-emerald-300 font-medium">Online</span>
+                <span className="text-xs text-emerald-300 font-medium">অনলাইন</span>
               </div>
             </div>
           </div>
@@ -222,7 +222,7 @@ export function Sidebar() {
             className="w-full justify-start text-left h-14 px-6 rounded-xl transition-all duration-300 text-red-300 hover:bg-red-500/15 hover:text-red-200 hover:shadow-lg border border-red-500/30 hover:border-red-400/50 hover:scale-[1.02] group"
           >
             <LogOutIcon className="mr-4 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            <span className="font-medium">Sign Out</span>
+            <span className="font-medium">সাইন আউট</span>
           </Button>
         </div>
       )}

@@ -4,63 +4,63 @@ import { MessageCircle, TrendingUp, PiggyBank, CreditCard, Target, Calculator, S
 const sampleQuestions = [
   {
     icon: <Calculator className="w-5 h-5" />,
-    text: "How do I create a budget?",
-    category: "Budgeting"
+    text: "আমি কীভাবে বাজেট তৈরি করব?",
+    category: "বাজেটিং"
   },
   {
     icon: <PiggyBank className="w-5 h-5" />,
-    text: "How much should I save for emergencies?",
-    category: "Savings"
+    text: "জরুরি অবস্থার জন্য আমার কতটা সঞ্চয় করা উচিত?",
+    category: "সঞ্চয়"
   },
   {
     icon: <TrendingUp className="w-5 h-5" />,
-    text: "What's the best way to start investing?",
-    category: "Investing"
+    text: "বিনিয়োগ শুরু করার সর্বোত্তম উপায় কী?",
+    category: "বিনিয়োগ"
   },
   {
     icon: <CreditCard className="w-5 h-5" />,
-    text: "How can I improve my credit score?",
-    category: "Credit"
+    text: "আমি কীভাবে আমার ক্রেডিট স্কোর উন্নত করতে পারি?",
+    category: "ক্রেডিট"
   },
   {
     icon: <Target className="w-5 h-5" />,
-    text: "How do I set financial goals?",
-    category: "Goal Setting"
+    text: "আমি কীভাবে আর্থিক লক্ষ্য নির্ধারণ করব?",
+    category: "লক্ষ্য নির্ধারণ"
   },
   {
     icon: <MessageCircle className="w-5 h-5" />,
-    text: "What's the best way to pay off debt?",
-    category: "Debt Management"
+    text: "ঋণ পরিশোধ করার সর্বোত্তম উপায় কী?",
+    category: "ঋণ ব্যবস্থাপনা"
   },
   {
     icon: <Shield className="w-5 h-5" />,
-    text: "What insurance do I really need?",
-    category: "Insurance"
+    text: "আমার কী বীমা সত্যিই প্রয়োজন?",
+    category: "বীমা"
   },
   {
     icon: <Home className="w-5 h-5" />,
-    text: "How much should I save for a down payment?",
-    category: "Home Buying"
+    text: "ডাউন পেমেন্টের জন্য আমার কতটা সঞ্চয় করা উচিত?",
+    category: "বাড়ি কেনা"
   },
   {
     icon: <Car className="w-5 h-5" />,
-    text: "Should I buy or lease a car?",
-    category: "Vehicle Finance"
+    text: "আমি গাড়ি কিনব নাকি লিজ করব?",
+    category: "গাড়ির অর্থ"
   },
   {
     icon: <GraduationCap className="w-5 h-5" />,
-    text: "How do I save for my child's education?",
-    category: "Education Planning"
+    text: "আমি কীভাবে আমার সন্তানের শিক্ষার জন্য সঞ্চয় করব?",
+    category: "শিক্ষা পরিকল্পনা"
   },
   {
     icon: <Heart className="w-5 h-5" />,
-    text: "How do I talk to my partner about money?",
-    category: "Relationships"
+    text: "আমি কীভাবে আমার সঙ্গীর সাথে টাকার বিষয়ে কথা বলব?",
+    category: "সম্পর্ক"
   },
   {
     icon: <Plane className="w-5 h-5" />,
-    text: "How can I travel on a budget?",
-    category: "Lifestyle"
+    text: "আমি কীভাবে কম খরচে ভ্রমণ করতে পারি?",
+    category: "জীবনধারা"
   }
 ];
 
@@ -81,10 +81,10 @@ export function ChatDemo({ onQuestionClick }: ChatDemoProps) {
     <div className="bg-[rgb(25,45,54)] border border-[rgb(87,204,2)]/20 rounded-lg p-6">
       <div className="text-center mb-6">
         <h3 className="text-xl font-semibold text-[rgb(87,204,2)] mb-2">
-          💡 Quick Start Questions
+          💡 দ্রুত শুরু প্রশ্ন
         </h3>
         <p className="text-gray-400">
-          Click on any question below to start a conversation with your AI Financial Coach
+          নীচের যেকোনো প্রশ্নে ক্লিক করে আপনার AI আর্থিক কোচের সাথে কথোপকথন শুরু করুন
         </p>
       </div>
 
@@ -98,7 +98,7 @@ export function ChatDemo({ onQuestionClick }: ChatDemoProps) {
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
           }`}
         >
-          All Topics
+          সব বিষয়
         </button>
         {categories.map((category) => (
           <button
@@ -140,11 +140,11 @@ export function ChatDemo({ onQuestionClick }: ChatDemoProps) {
 
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-400 mb-3">
-          Or type your own question in the chat below
+          অথবা নীচের চ্যাটে আপনার নিজের প্রশ্ন টাইপ করুন
         </p>
         <div className="flex items-center justify-center gap-2 text-[rgb(87,204,2)]">
           <div className="w-2 h-2 bg-[rgb(87,204,2)] rounded-full animate-pulse"></div>
-          <span className="text-sm">AI Financial Coach is ready to help!</span>
+          <span className="text-sm">AI আর্থিক কোচ সাহায্য করতে প্রস্তুত!</span>
           <div className="w-2 h-2 bg-[rgb(87,204,2)] rounded-full animate-pulse"></div>
         </div>
       </div>

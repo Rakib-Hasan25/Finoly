@@ -35,14 +35,14 @@ export function useChat() {
     const defaultMessages: ChatMessage[] = [
       {
         id: `msg_${Date.now()}_1`,
-        content: "Hello! I'm your AI Financial Coach. I'm here to help you with personalized financial advice, budgeting tips, investment strategies, and debt management. How can I assist you today?",
+        content: "হ্যালো! আমি আপনার AI আর্থিক কোচ। আমি ব্যক্তিগতকৃত আর্থিক পরামর্শ, বাজেটিং টিপস, বিনিয়োগ কৌশল এবং ঋণ ব্যবস্থাপনায় আপনাকে সাহায্য করতে এখানে আছি। আজ আমি কীভাবে আপনাকে সাহায্য করতে পারি?",
         role: 'assistant',
         timestamp: new Date(),
         chatId: newChatId
       },
       {
         id: `msg_${Date.now()}_2`,
-        content: "You can ask me about:\n• Creating and sticking to a budget\n• Building an emergency fund\n• Investment strategies\n• Debt reduction plans\n• Saving for specific goals\n• Understanding financial products",
+        content: "আপনি আমাকে জিজ্ঞাসা করতে পারেন:\n• বাজেট তৈরি করা এবং মেনে চলা\n• জরুরি তহবিল গড়ে তোলা\n• বিনিয়োগ কৌশল\n• ঋণ হ্রাস পরিকল্পনা\n• নির্দিষ্ট লক্ষ্যের জন্য সঞ্চয়\n• আর্থিক পণ্য বোঝা",
         role: 'assistant',
         timestamp: new Date(),
         chatId: newChatId
@@ -51,8 +51,8 @@ export function useChat() {
 
     const newChat: ChatHistoryItem = {
       id: newChatId,
-      title: 'New Chat',
-      preview: 'Start a new financial conversation',
+      title: 'নতুন চ্যাট',
+      preview: 'একটি নতুন আর্থিক কথোপকথন শুরু করুন',
       timestamp: new Date(),
       unreadCount: 0
     };
@@ -114,13 +114,13 @@ export function useChat() {
         
         // Handle specific error cases
         if (response.status === 429) {
-          errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
+          errorMessage = 'হার সীমা অতিক্রম করেছে। অনুগ্রহ করে একটু অপেক্ষা করে আবার চেষ্টা করুন।';
         } else if (response.status === 500 && errorData.error?.includes('API key')) {
-          errorMessage = 'OpenAI API key not configured. Please check your environment variables.';
+          errorMessage = 'OpenAI API কী কনফিগার করা নেই। অনুগ্রহ করে আপনার environment variables পরীক্ষা করুন।';
         } else if (response.status >= 500) {
-          errorMessage = 'Server error. Please try again in a few minutes.';
+          errorMessage = 'সার্ভার ত্রুটি। অনুগ্রহ করে কয়েক মিনিট পরে আবার চেষ্টা করুন।';
         } else if (response.status >= 400) {
-          errorMessage = 'Request error. Please check your message and try again.';
+          errorMessage = 'অনুরোধ ত্রুটি। অনুগ্রহ করে আপনার বার্তা পরীক্ষা করে আবার চেষ্টা করুন।';
         }
         
         throw new Error(errorMessage);
@@ -167,11 +167,11 @@ export function useChat() {
       console.error('Error sending message:', error);
       
       // Handle network errors specifically
-      let errorMessage = 'Failed to get response. Please try again.';
+      let errorMessage = 'উত্তর পাওয়া যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
       
       if (error instanceof Error) {
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
-          errorMessage = 'Network error. Please check your internet connection and try again.';
+          errorMessage = 'নেটওয়ার্ক ত্রুটি। অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।';
         } else {
           errorMessage = error.message;
         }

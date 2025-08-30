@@ -22,20 +22,18 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-slate-900 dark:text-slate-100 mb-6">
-            Welcome to{" "}
-            <span className="text-blue-600 dark:text-blue-400">Finoly</span>
+            স্বাগতম{" "}
+            <span className="text-blue-600 dark:text-blue-400">ফিনোলি</span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
-            Your Next.js 14.2.6 starter project with Tailwind CSS and shadcn/ui
-            components. Built for modern web development with beautiful,
-            accessible components.
+            আপনার ব্যক্তিগত AI আর্থিক উপদেষ্টা। আধুনিক আর্থিক ব্যবস্থাপনা এবং শিক্ষার জন্য নির্মিত।
           </p>
           <Link href="/dashboard">
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white"
             >
-              🚀 Go to Dashboard
+              🚀 ড্যাশবোর্ডে যান
             </Button>
           </Link>
         </div>
@@ -47,14 +45,13 @@ export default async function Home() {
               <CardTitle className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
                   <span className="text-blue-600 dark:text-blue-400 text-lg">
-                    ⚡
+                    🤖
                   </span>
                 </div>
-                Next.js 14.2.6
+                AI আর্থিক কোচ
               </CardTitle>
               <CardDescription>
-                Latest version with App Router, Server Components, and
-                TypeScript support.
+                ব্যক্তিগতকৃত আর্থিক পরামর্শ এবং বাজেটিং টিপস।
               </CardDescription>
             </CardHeader>
           </Card>
@@ -64,14 +61,13 @@ export default async function Home() {
               <CardTitle className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
                   <span className="text-green-600 dark:text-green-400 text-lg">
-                    🎨
+                    🎮
                   </span>
                 </div>
-                Tailwind CSS
+                গেমিফাইড শিক্ষা
               </CardTitle>
               <CardDescription>
-                Utility-first CSS framework for rapid UI development and
-                consistent design.
+                মজার গেমের মাধ্যমে আর্থিক শিক্ষা এবং দক্ষতা উন্নয়ন।
               </CardDescription>
             </CardHeader>
           </Card>
@@ -81,14 +77,13 @@ export default async function Home() {
               <CardTitle className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
                   <span className="text-purple-600 dark:text-purple-400 text-lg">
-                    🧩
+                    📊
                   </span>
                 </div>
-                shadcn/ui
+                আর্থিক ট্র্যাকিং
               </CardTitle>
               <CardDescription>
-                Beautiful, accessible, and customizable component library built
-                on Radix UI.
+                আপনার আয়, ব্যয় এবং সঞ্চয়ের বিস্তারিত ট্র্যাকিং।
               </CardDescription>
             </CardHeader>
           </Card>
@@ -97,24 +92,24 @@ export default async function Home() {
         {/* Interactive Demo */}
         <Card className="max-w-md mx-auto">
           <CardHeader>
-            <CardTitle>Try the Components</CardTitle>
+            <CardTitle>আমাদের বৈশিষ্ট্যগুলি দেখুন</CardTitle>
             <CardDescription>
-              Test the shadcn/ui components below
+              নীচের ফর্মটি ব্যবহার করে দেখুন
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Enter your email" />
+              <Label htmlFor="email">ইমেইল</Label>
+              <Input id="email" type="email" placeholder="আপনার ইমেইল দিন" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" />
+              <Label htmlFor="name">নাম</Label>
+              <Input id="name" placeholder="আপনার নাম দিন" />
             </div>
             <div className="flex gap-2">
-              <Button className="flex-1">Submit</Button>
+              <Button className="flex-1">জমা দিন</Button>
               <Button variant="outline" className="flex-1">
-                Cancel
+                বাতিল
               </Button>
             </div>
           </CardContent>
@@ -123,7 +118,7 @@ export default async function Home() {
         {/* Footer */}
         <div className="text-center mt-16 text-slate-500 dark:text-slate-400">
           <p>
-            Ready to build something amazing? Start editing src/app/page.tsx
+            আপনার আর্থিক ভবিষ্যত গড়ে তুলতে প্রস্তুত? এখনই শুরু করুন!
           </p>
         </div>
       </div>
