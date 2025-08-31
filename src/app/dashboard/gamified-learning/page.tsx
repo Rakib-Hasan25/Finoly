@@ -19,25 +19,31 @@ export default async function GamifiedLearning() {
   }
 
   return (
-    <div className="p-6 page-background text-white">
-      {/* Top Header */}
-      <Header courseName={firstCourse.name} />
-      {/* Main Content */}
-      <div className="flex flex-col md:flex-row gap-8 h-[calc(100%-6rem)]">
-        {/* Left: Levels Map */}
-        <div className="w-full md:w-1/2 flex flex-col gap-6">
-          <div className="w-full h-[80lvh] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-b from-indigo-950/60 to-blue-900/50">
-            <Suspense fallback={<div>Loading levels...</div>}>
-              <LevelsMap courseId={firstCourse.id} />
-            </Suspense>
-          </div>
-          <DailyChallenge />
-        </div>
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-[#052F2F] via-[#0A2647] to-[#052F2F] text-white">
+      {/* optional floating orbs background */}
+      {/* <GradientBackground /> */}
 
-        {/* Right: Sections */}
-        <div className="w-full md:w-1/2 flex flex-col gap-6">
-          <Leaderboard />
-          <Reward />
+      <div className="relative z-10 p-6">
+        {/* Top Header */}
+        <Header courseName={firstCourse.name} />
+
+        {/* Main Content */}
+        <div className="flex flex-col md:flex-row gap-8 h-[calc(100%-6rem)]">
+          {/* Left: Levels Map */}
+          <div className="w-full md:w-1/2 flex flex-col gap-6">
+            <div className="w-full h-[80lvh] rounded-3xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-xl border border-white/10">
+              <Suspense fallback={<div>Loading levels...</div>}>
+                <LevelsMap courseId={firstCourse.id} />
+              </Suspense>
+            </div>
+            <DailyChallenge />
+          </div>
+
+          {/* Right: Sections */}
+          <div className="w-full md:w-1/2 flex flex-col gap-6">
+            <Leaderboard />
+            <Reward />
+          </div>
         </div>
       </div>
     </div>
