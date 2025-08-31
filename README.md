@@ -1,12 +1,12 @@
-## Ekhane Finoly er logo dibo
-
 # Finoly
 
-A modern, production-ready AI-powered financial coaching website built with Next.js, Tailwind CSS, and shadcn/ui components.
+Finoly is an interactive financial management platform designed for users in Bangladesh. It combines AI-driven financial coaching in Bengali, gamified learning modules, and real-time expense and income tracking.
 
 ## Project Demo
+https://youtu.be/JQfphvNbR4E?si=XcmGoLFa4B0YUUNS
 
 ## Live Project
+https://finoly.vercel.app/
 
 ## Problem Statement
 
@@ -89,28 +89,44 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-finoly_comp/
-├── src/
-│   ├── app/                 # App Router pages and layouts
-│   │   ├── dashboard/      # Dashboard pages (home, financial-coach, tracker, etc.)
-│   │   ├── auth/          # Authentication pages
-│   │   ├── api/           # API routes (chat, etc.)
-│   │   ├── globals.css    # Global styles and Tailwind imports
-│   │   ├── layout.tsx     # Root layout component
-│   │   └── page.tsx       # Home page
-│   ├── components/        # Reusable components
-│   │   ├── chat/         # Financial coach chat components
-│   │   ├── dashboard/    # Dashboard components
-│   │   ├── gamifiedComp/ # Gamified learning components
-│   │   └── ui/           # shadcn/ui components
+Finoly/
+├── public/                # Static assets like images, fonts, favicon
+├── src/                   # Main source code
+│   ├── app/               # App-specific pages and routing
+│   │   ├── admin/         # Admin panel pages
+│   │   ├── api/           # API routes for backend logic
+│   │   ├── auth/          # Authentication pages and logic
+│   │   ├── dashboard/     # Dashboard-related pages
+│   │   │   ├── financial-coach/   # AI financial coach UI
+│   │   │   ├── gamified-learning/ # Gamified learning module
+│   │   │   ├── home/               # Landing/home page
+│   │   │   └── tracker/            # Expense/income tracker pages
+│   ├── fonts/            # Custom fonts
+│   ├── images/           # Images used across the app
+│   ├── components/       # Reusable UI components
+│   │   ├── base/         # Base UI elements (buttons, inputs)
+│   │   ├── chat/         # Chat components for AI Coach
+│   │   ├── dashboard/    # Dashboard-specific components
+│   │   ├── forms/        # Forms used in app
+│   │   ├── gamifiedComp/ # Components for gamified learning
+│   │   ├── Tracker-animations/ # Animations for tracker UI
+│   │   ├── Tracker-ui/          # Tracker-specific UI components
+│   │   └── ui/          # General-purpose UI components
 │   ├── hooks/            # Custom React hooks
-│   ├── lib/              # Utility functions and database
-│   └── tracker-types/    # TypeScript type definitions
-├── public/               # Static assets
-├── supabase/            # Database migrations and functions
-├── tailwind.config.ts   # Tailwind CSS configuration
-├── components.json      # shadcn/ui configuration
-└── package.json         # Dependencies and scripts
+│   ├── lib/              # Helper functions and utilities
+│   ├── lib-tracker/      # Tracker-specific utilities
+│   └── tracker-types/    # TypeScript types for tracker
+├── middleware.ts         # Middleware for request handling
+├── supabase/             # Supabase configuration & scripts
+├── next.config.mjs       # Next.js configuration
+├── OPENAI_SETUP.md       # Instructions for OpenAI API integration
+├── package.json          # Node.js project metadata & dependencies
+├── pnpm-lock.yaml        # Lock file for package manager
+├── postcss.config.mjs    # PostCSS configuration
+├── README.md             # Project documentation
+├── tailwind.config.ts    # Tailwin
+
+
 ```
 
 ## 🎨 Available Components
@@ -161,10 +177,6 @@ The project is built with a mobile-first approach using Tailwind CSS responsive 
 - `md:` - Medium devices (768px+)
 - `lg:` - Large devices (1024px+)
 - `xl:` - Extra large devices (1280px+)
-
-## 🌙 Dark Mode
-
-Dark mode is automatically detected based on system preferences and can be toggled. The theme switching is handled through CSS variables and Tailwind's dark mode utilities.
 
 ## 🚀 Deployment
 
