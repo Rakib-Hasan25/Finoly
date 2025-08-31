@@ -72,7 +72,7 @@ export function Sidebar() {
         title: 'সফলভাবে সাইন আউট হয়েছে',
         description: 'আপনি আপনার অ্যাকাউন্ট থেকে লগ আউট হয়েছেন।',
       });
-      router.push('/auth/login');
+      router.push('/');
     } catch (error) {
       toast({
         title: 'সাইন আউটে ত্রুটি',

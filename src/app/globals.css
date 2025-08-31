@@ -90,3 +90,30 @@
     @apply bg-background text-foreground;
   }
 }
+/* Custom keyframes for the animations */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slice {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Custom utility class for the drawing animation */
+.animate-draw {
+  animation: draw 2s ease-in-out forwards;
+}
+
+/* Custom utility class for the slicing animation */
+.animate-slice {
+  animation: slice 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
