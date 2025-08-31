@@ -42,7 +42,7 @@ const Footer = () => {
 আমরা আপনার তথ্য সুরক্ষিত রাখার জন্য যুক্তিসঙ্গত নিরাপত্তা ব্যবস্থা গ্রহণ করি। তবে, কোনো ইলেকট্রনিক স্টোরেজ বা ইনটাআর্নেটে ডেটা ট্রান্সমিশন ১০০% সুরক্ষিত নয়।
 `;
 
-  const openModal = (title, content) => {
+  const openModal = (title: string, content: string) => {
     setModalContent({ title, content });
     setIsModalOpen(true);
   };

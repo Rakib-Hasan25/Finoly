@@ -19,6 +19,7 @@ import { Loader2, Moon, Sun } from "lucide-react";
 
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
+import BaseBackground from "@/components/base/BaseBackground";
 
 export default function EmailPage() {
   const [email, setEmail] = useState("");
@@ -69,24 +70,16 @@ export default function EmailPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-background to-secondary/20">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <BaseBackground />
+      <Card className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl rounded-2xl">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-bold">Get Started</CardTitle>
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
-              {theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button> */}
+            <CardTitle className="text-2xl font-bold text-white">
+              Get Started
+            </CardTitle>
           </div>
-          <CardDescription>
+          <CardDescription className="text-gray-200">
             Enter your email to sign in or create an account
           </CardDescription>
         </CardHeader>
@@ -94,7 +87,9 @@ export default function EmailPage() {
           <CardContent>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-gray-100">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -102,12 +97,17 @@ export default function EmailPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
+                  className="bg-white/5 border border-white/20 text-white placeholder-gray-400"
                 />
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full mt-4" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full mt-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:opacity-90 transition"
+              disabled={loading}
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

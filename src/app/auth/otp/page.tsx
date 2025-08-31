@@ -1,50 +1,46 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { Mail, ArrowRight, RefreshCw } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { toast } from '@/hooks/use-toast'
-import Image from 'next/image'
+import React from "react";
+import { Mail, ArrowRight, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import Image from "next/image";
+import BaseBackground from "@/components/base/BaseBackground";
 
 // export const dynamic = 'force-dynamic'
 // export const revalidate = 0
 
 const EmailVerificationPage = () => {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-background to-secondary/20  flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4">
+      <BaseBackground />
       {/* Main Content Container */}
-      <div className="w-full max-w-md space-y-8 text-center">
-        {/* Icon Container */}
-        <div className="relative">
-          <div className="w-20 h-20 mx-auto rounded-full bg-blue-50 flex items-center justify-center  shadow-2xl">
-            {/* <Mail className="w-10 h-10 text-green-700 " strokeWidth={1.5} /> */}
-            {/* <Image
-              width="48"
-              height="48"
-              src="https://img.icons8.com/color/48/gmail-new.png"
-              alt="gmail-new"
-            /> */}
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl px-8 py-6 text-center">
+        {/* Icon */}
+        <div className="relative mb-6">
+          <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center shadow-lg">
+            {/* Example icon */}
+            {/* <Mail className="w-10 h-10 text-white" strokeWidth={1.5} /> */}
           </div>
-          {/* <div className="absolute -top-1 right-1/2 -translate-x-3 w-8 h-8 bg-green-400 rounded-full border-4 border-white" /> */}
         </div>
 
-        {/* Text Content */}
-        <div className="space-y-4">
-          <h1 className="text-2xl font-medium text-gray-900 dark:text-white">
+        {/* Text */}
+        <div className="space-y-3">
+          <h1 className="text-2xl font-semibold text-white">
             Check your email
           </h1>
-          <p className="text-gray-500 text-base max-w-sm mx-auto dark:text-zinc-500">
+          <p className="text-gray-300 text-base max-w-sm mx-auto">
             We&apos;ve sent a verification link to your email address. Please
             check your inbox to continue.
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="space-y-3 pt-4">
+        {/* Actions */}
+        <div className="space-y-3 pt-6">
           <Button
-            className="w-full h-11  text-white flex items-center justify-center gap-2 rounded-lg transition-colors"
+            className="w-full h-11 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium flex items-center justify-center gap-2 rounded-lg shadow-md hover:opacity-90 transition"
             onClick={() =>
-              window.open('https://mail.google.com/mail/u/0/#inbox', '_blank')
+              window.open("https://mail.google.com/mail/u/0/#inbox", "_blank")
             }
           >
             Open mail app
@@ -53,11 +49,9 @@ const EmailVerificationPage = () => {
 
           <Button
             variant="ghost"
-            className="w-full h-11 text-gray-600 bg-gray-200 hover:text-gray-900  dark:hover:bg-zinc-300 flex items-center justify-center gap-2 rounded-lg"
+            className="w-full h-11 text-gray-200 hover:text-white hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 rounded-lg transition"
             onClick={() => {
-              // Logic to resend email goes here
-              // Show toast notification
-              toast({ description: 'Verification email resent successfully!' })
+              toast({ description: "Verification email resent successfully!" });
             }}
           >
             Resend email
@@ -66,7 +60,7 @@ const EmailVerificationPage = () => {
         </div>
 
         {/* Footer */}
-        <div className="pt-8 border-t border-gray-100">
+        <div className="pt-8 border-t border-white/10">
           <p className="text-sm text-gray-400">
             Didn&apos;t receive the email? Check your spam folder or contact
             support.
@@ -74,7 +68,7 @@ const EmailVerificationPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmailVerificationPage
+export default EmailVerificationPage;

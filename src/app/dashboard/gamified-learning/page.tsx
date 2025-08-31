@@ -19,7 +19,7 @@ export default async function GamifiedLearning() {
   }
 
   return (
-    <div className="p-6 bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] text-white">
+    <div className="p-6 page-background text-white">
       {/* Top Header */}
       <Header courseName={firstCourse.name} />
       {/* Main Content */}

@@ -89,6 +89,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .page-background {
+    @apply bg-gradient-to-br from-[#102D37]/30 to-[#13134D]/30 backdrop-blur-md shadow-[0_0_50px_rgba(25,45,54,0.5)]
+  }
 }
 /* Custom keyframes for the animations */
 @keyframes draw {

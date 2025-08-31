@@ -12,10 +12,10 @@ import MG from "../app/images/Money Growth.png";
 import sagorImage from '../app/images/MD Sagor Chowdhury.jpg';
 import sajibImage from '../app/images/Sojib Bhattacharjee.png';
 import ratnajitImage from '../app/images/Ratnajit Dhar.png';
-import sowravImage from '../app/images/Sowrav Nath.jpg';
+import sowravImage from '../app/images/Sowrav Nath.png';
 import rakibImage from '../app/images/Rakib Hasan.jpg';
 import shadmanImage from '../app/images/Shadman Saleh.png';
-import hero from '../app/images/hero section Image.png'
+import hero from '../app/images/hero section image.png'
 // Helper components for the "multiverse" aesthetic
 const MultiversePortal = ({ children, className }: {
   children: React.ReactNode,
@@ -156,7 +156,7 @@ const MockPieChart = ({ data = [20, 30, 50] }) => {
 
 
 
-const Card = ({ children, className }) => (
+const Card = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <div
     className={`
       relative overflow-hidden rounded-3xl border border-white/[0.12]
@@ -172,10 +172,10 @@ const Card = ({ children, className }) => (
   </div>
 );
 
-const CardHeader = ({ children }) => <div className="space-y-2">{children}</div>;
-const CardTitle = ({ children }) => <h3 className="text-3xl font-bold tracking-tight text-white">{children}</h3>;
-const CardDescription = ({ children }) => <p className="text-lg text-gray-300/80 mt-1">{children}</p>;
-const CardContent = ({ children }) => <div className="mt-6">{children}</div>;
+const CardHeader = ({ children }: {children: React.ReactNode}) => <div className="space-y-2">{children}</div>;
+const CardTitle = ({ children }: {children: React.ReactNode}) => <h3 className="text-3xl font-bold tracking-tight text-white">{children}</h3>;
+const CardDescription = ({ children }: {children: React.ReactNode}) => <p className="text-lg text-gray-300/80 mt-1">{children}</p>;
+const CardContent = ({ children }: {children: React.ReactNode}) => <div className="mt-6">{children}</div>;
 
 // Example Usage
 // <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen p-12">
@@ -189,14 +189,20 @@ const CardContent = ({ children }) => <div className="mt-6">{children}</div>;
 //     </CardContent>
 //   </Card>
 // </div>
-const Button = ({ children, className, asChild, href, ...props }) => {
+const Button = ({ children, className, asChild, href, ...props }:  {
+  children: React.ReactNode;
+  className?: string;
+  asChild?: boolean;
+  href?: string;
+  [key: string]: any;
+}) => {
   if (asChild && !href) {
     console.warn('Button with asChild=true requires href prop');
     return <button className={className} {...props}>{children}</button>;
   }
   
   const Tag = asChild ? Link : 'button';
-  return <Tag href={asChild ? href : undefined} className={className} {...props}>{children}</Tag>;
+  return <Tag href={asChild && href ? href : "#"} className={className} {...props}>{children}</Tag>;
 };
 const Input = ({ className, ...props }: {
   className?: string,
@@ -241,7 +247,7 @@ const FaArrowRight = ({ size = 24, color = "currentColor" }) => <Icon size={size
 
 export default function FinolyLandingPage() {
   const [activeStory, setActiveStory] = useState(null);
-  const [activeFaq, setActiveFaq] = useState(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showFaqCard, setShowFaqCard] = useState(false);
 
   const heroVariants = {
@@ -731,19 +737,27 @@ const teamMembers = [
       <SectionHeading>কেন ফিনোলি বেছে নেবেন?</SectionHeading>
       <ul className="space-y-6 text-gray-300">
         <li className="flex items-start">
-          <FaLightbulb size={24} color="#22D3EE" className="mt-1 mr-4 flex-shrink-0" />
+          <span className="mt-1 mr-4 flex-shrink-0">
+            <FaLightbulb size={24} color="#22D3EE"  />
+          </span>
           <span><strong className="text-white">স্মার্ট অন্তর্দৃষ্টি:</strong> আপনার ব্যয় অভ্যাসের উপর ভিত্তি করে ব্যক্তিগতকৃত পরামর্শ পান।</span>
         </li>
         <li className="flex items-start">
-          <FaUsers size={24} color="#8B5CF6" className="mt-1 mr-4 flex-shrink-0" />
+          <span className="mt-1 mr-4 flex-shrink-0">
+            <FaUsers size={24} color="#8B5CF6"  />
+          </span>
           <span><strong className="text-white">সম্প্রদায় সমর্থন:</strong> অন্যান্য ব্যবহারকারীদের সাথে সংযোগ স্থাপন করুন এবং অভিজ্ঞতা ভাগ করে নিন।</span>
         </li>
         <li className="flex items-start">
-          <FaStar size={24} color="#FACC15" className="mt-1 mr-4 flex-shrink-0" />
+          <span className="mt-1 mr-4 flex-shrink-0">
+            <FaStar size={24} color="#FACC15"  />
+          </span>
           <span><strong className="text-white">সহজ ব্যবহার:</strong> সুন্দর এবং স্বজ্ঞাত ডিজাইন, যা আর্থিক ব্যবস্থাপনা সহজ করে তোলে।</span>
         </li>
         <li className="flex items-start">
-          <FaChartLine size={24} color="#4ADE80" className="mt-1 mr-4 flex-shrink-0" />
+          <span className="mt-1 mr-4 flex-shrink-0">
+            <FaChartLine size={24} color="#4ADE80"  />
+          </span>
           <span><strong className="text-white">সঞ্চয় বৃদ্ধি:</strong> কার্যকর বাজেট এবং ট্র্যাকিংয়ের মাধ্যমে আপনার সঞ্চয় বাড়ান।</span>
         </li>
       </ul>
@@ -789,11 +803,6 @@ const teamMembers = [
       {testimonials.map((testimonial, i) => (
         <FloatingCard
           key={i}
-          gradient={testimonial.color}
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: i * 0.1 }}
-          viewport={{ once: true, amount: 0.5 }}
         >
           <div className="flex items-center mb-4">
             <div className="w-12 h-12 rounded-full overflow-hidden mr-4 flex items-center justify-center bg-gray-600 text-white font-bold transition-transform duration-300 hover:scale-110">
@@ -866,11 +875,15 @@ const teamMembers = [
       </a>
       <div className="mt-8 flex justify-center md:justify-start space-x-4">
         <div className="flex items-center text-sm text-gray-400">
-          <FaStar size={16} color="#FACC15" className="mr-2" />
+          <span className="mr-2">
+            <FaStar size={16} color="#FACC15"  />
+          </span>
           <span>নিরাপদ এবং সুরক্ষিত</span>
         </div>
         <div className="flex items-center text-sm text-gray-400">
-          <FaQuestionCircle size={16} color="#22D3EE" className="mr-2" />
+          <span className="mr-2">
+            <FaQuestionCircle size={16} color="#22D3EE"  />
+          </span>
           <span>24/7 সমর্থন</span>
         </div>
       </div>
