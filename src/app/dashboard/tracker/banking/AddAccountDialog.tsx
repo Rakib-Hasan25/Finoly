@@ -110,7 +110,7 @@ export function AddAccountDialog({ isOpen, onClose, onAddAccount }: AddAccountDi
               onChange={(e) => {
                 // Allow only numbers and decimal
                 const value = e.target.value;
-                if (/^\d*\.?\d*৳/.test(value)) setAccountBalance(value);
+                setAccountBalance(value);
               }}
               placeholder="1000.00"
             />
