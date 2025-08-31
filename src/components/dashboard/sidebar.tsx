@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -98,9 +98,7 @@ export function Sidebar() {
       {/* Header with Logo */}
       <div className="p-6 border-b border-white/20 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10">
         <div className="flex items-center space-x-3">
-          <div className="p-3 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-2xl shadow-lg shadow-emerald-500/25">
-            <SparklesIcon className="h-7 w-7 text-white" />
-          </div>
+          <Image src="/logo.png" alt="Finoly Logo" width={100} height={100} />
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
               Finoly
