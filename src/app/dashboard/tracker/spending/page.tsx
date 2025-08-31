@@ -122,7 +122,7 @@ export default function SpendingPage() {
         >
           <Calendar className={`h-5 w-5 ${isOverBudget ? 'text-red-400' : 'text-green-400'}`} />
           <span className={`font-semibold ${isOverBudget ? 'text-red-300' : 'text-green-300'}`}>
-            Today's Total: ${Number.isFinite(todaysTotal) ? todaysTotal.toFixed(2) : '0.00'}
+            Today's Total: ৳{Number.isFinite(todaysTotal) ? todaysTotal.toFixed(2) : '0.00'}
           </span>
           {isOverBudget && (
             <motion.span
@@ -208,7 +208,7 @@ export default function SpendingPage() {
                             variant="secondary"
                             className="bg-red-900/30 text-red-300 border-red-700/50"
                           >
-                            ${Number.isFinite(dayTotal) ? dayTotal.toFixed(2) : '0.00'}
+                            ৳{Number.isFinite(dayTotal) ? dayTotal.toFixed(2) : '0.00'}
                           </Badge>
                         </div>
 
@@ -229,7 +229,7 @@ export default function SpendingPage() {
                               <div className="flex items-center space-x-3">
                                 <div className="w-10 h-10 bg-red-900/40 rounded-full flex items-center justify-center border border-red-700/50">
                                   <span className="text-red-300 font-semibold text-sm">
-                                  ${!isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(0) : "0"}
+                                  ৳{!isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(0) : "0"}
                                   </span>
                                 </div>
                                 <div>
@@ -246,7 +246,7 @@ export default function SpendingPage() {
 
                               <div className="flex items-center space-x-2">
                                 <span className="font-semibold text-red-300">
-                                  ${Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
+                                  ৳{Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
                                 </span>
                                 <Button
                                   variant="ghost"

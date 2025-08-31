@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { DollarSign, CreditCard, TrendingUp, Edit, Trash2 } from 'lucide-react';
+import { CreditCard, TrendingUp, Edit, Trash2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/Tracker-ui/card';
 import { Button } from '@/components/Tracker-ui/button';
 import { Badge } from '@/components/Tracker-ui/badge';
 import { BankAccount } from '@/tracker-types';
 import { UpdateBalanceDialog } from './UpdateBalanceDialog';
 import { DeleteAccountDialog } from './DeleteAccountDialog';
-
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 const ACCOUNT_ICONS = {
-    checking: DollarSign,
+    checking: FaBangladeshiTakaSign,
     savings: TrendingUp,
     credit: CreditCard
 };
@@ -80,7 +80,7 @@ export function AccountCard({ account, index, onUpdateBalance, onDeleteAccount }
                                 {account.type === 'credit' ? 'Amount Owed' : 'Balance'}
                             </p>
                             <p className="text-3xl font-bold">
-                                ${Number.isFinite(account.balance) ? Math.abs(account.balance).toLocaleString() : '0'}
+                                ৳ {Number.isFinite(account.balance) ? Math.abs(account.balance).toLocaleString() : '0'}
                             </p>
                         </div>
 

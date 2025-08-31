@@ -99,7 +99,7 @@ export function AddAccountDialog({ isOpen, onClose, onAddAccount }: AddAccountDi
             />
           </div>
           <div>
-            <Label className="text-gray-300">Current Balance ($) *</Label>
+            <Label className="text-gray-300">Current Balance (৳) *</Label>
             <Input
               className={clsx(
                 "bg-slate-700 border-slate-600 text-white placeholder-gray-400",
@@ -110,7 +110,7 @@ export function AddAccountDialog({ isOpen, onClose, onAddAccount }: AddAccountDi
               onChange={(e) => {
                 // Allow only numbers and decimal
                 const value = e.target.value;
-                if (/^\d*\.?\d*$/.test(value)) setAccountBalance(value);
+                if (/^\d*\.?\d*৳/.test(value)) setAccountBalance(value);
               }}
               placeholder="1000.00"
             />

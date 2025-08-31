@@ -32,7 +32,7 @@ interface FormData {
 // In-place CoinLoading component logic
 const CoinLoading = () => {
   const numCoins = 15;
-  const coinValues = ['$1', '$2', '$5', '$10', '$20'];
+  const coinValues = ['৳1', '৳2', '৳5', '৳10', '৳20'];
 
   const initialWindowWidth = typeof window !== 'undefined' ? window.innerWidth : 1024;
   const initialWindowHeight = typeof window !== 'undefined' ? window.innerHeight : 768;
@@ -142,13 +142,13 @@ const MoneyFalling = () => {
             <rect x="0" y="0" width="100" height="50" rx="10" fill="#4CAF50" stroke="#388E3C" strokeWidth="2" />
             <circle cx="25" cy="25" r="10" fill="#FFEB3B" />
             <text x="25" y="32" fontSize="16" textAnchor="middle" fill="#388E3C" fontWeight="bold">
-              $
+              ৳
             </text>
             <text x="50" y="30" fontSize="10" textAnchor="middle" fill="#FFFFFF" fontWeight="bold">
               INCOME
             </text>
             <text x="75" y="32" fontSize="16" textAnchor="middle" fill="#388E3C" fontWeight="bold">
-              $
+              ৳
             </text>
           </motion.svg>
         ))}
@@ -288,7 +288,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
               } : {}}
             >
               <Label htmlFor="amount" className="text-sm font-medium text-gray-300 flex items-center">
-                Amount ($)
+                Amount (৳)
                 <span className="text-red-400 ml-1">*</span>
               </Label>
               <motion.div
@@ -329,7 +329,7 @@ export function TransactionForm({ type, categories, onSubmit, className }: Trans
                 />
 
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">
-                  $
+                  ৳
                 </span>
 
                 {getFieldError('amount') && (

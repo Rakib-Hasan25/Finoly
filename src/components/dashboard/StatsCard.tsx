@@ -8,7 +8,7 @@ import {LucideIcon} from "lucide-react";
 interface StatsCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: React.ElementType;
   change: number;
   color: string;
   delay?: number;
@@ -32,7 +32,7 @@ export function StatsCard({
   const formatValue = (val: string | number) => {
     if (typeof val === 'string') return val;
     if (title.toLowerCase().includes('rate')) return `${val.toFixed(1)}%`;
-    return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    return `৳ ${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   return (

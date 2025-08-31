@@ -133,7 +133,7 @@ export default function IncomePage() {
         >
           <TrendingUp className="h-5 w-5 text-green-400" />
           <span className="font-semibold text-green-300">
-            Monthly Total: ${!isNaN(Number(monthlyTotal)) ? Number(monthlyTotal).toFixed(2) : "0.00"}
+            Monthly Total: ৳{!isNaN(Number(monthlyTotal)) ? Number(monthlyTotal).toFixed(2) : "0.00"}
           </span>
         </motion.div>
       </motion.div>
@@ -159,7 +159,7 @@ export default function IncomePage() {
                     <div key={category} className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-300">{category}</span>
                       <Badge variant="secondary" className="bg-green-900/30 text-green-300 border-green-700/50">
-                        ${Number.isFinite(amount) ? amount.toFixed(2) : '0.00'}
+                        ৳{Number.isFinite(amount) ? amount.toFixed(2) : '0.00'}
                       </Badge>
                     </div>
                   ))}
@@ -249,7 +249,7 @@ export default function IncomePage() {
                             initial={{ scale: 0.8 }}
                             animate={{ scale: 1 }}
                           >
-                            +${!isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(2) : "0.00"}
+                            +৳{!isNaN(Number(transaction.amount)) ? Number(transaction.amount).toFixed(2) : "0.00"}
                           </motion.span>
                           <Button
                             variant="ghost"

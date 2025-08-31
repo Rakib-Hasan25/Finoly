@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, TrendingDown, DollarSign, Target, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, Target, Calendar } from 'lucide-react';
 import { FloatingCard } from '@/components/Tracker-ui/floating-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/Tracker-ui/badge';
 import { storage } from '@/lib-tracker/storage';
 import { Transaction } from '@/tracker-types';
-
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 const COLORS = ['#34D399', '#F97316', '#F87171', '#A78BFA', '#22D3EE', '#FACC15'];
 
 interface ChartData {
@@ -210,7 +210,7 @@ export default function ReportsPage() {
                 <div>
                   <p className="text-sm font-medium text-green-300">Total Income</p>
                   <p className="text-2xl font-bold text-green-200">
-                    ${totalIncome.toFixed(2)}
+                    ৳{totalIncome.toFixed(2)}
                   </p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-green-400" />
@@ -226,7 +226,7 @@ export default function ReportsPage() {
                 <div>
                   <p className="text-sm font-medium text-red-300">Total Expenses</p>
                   <p className="text-2xl font-bold text-red-200">
-                    ${totalExpenses.toFixed(2)}
+                    ৳{totalExpenses.toFixed(2)}
                   </p>
                 </div>
                 <TrendingDown className="h-8 w-8 text-red-400" />
@@ -248,10 +248,11 @@ export default function ReportsPage() {
                     Net Income
                   </p>
                   <p className={`text-2xl font-bold ${netIncome >= 0 ? 'text-blue-200' : 'text-orange-200'}`}>
-                    ${netIncome.toFixed(2)}
+                    ৳{netIncome.toFixed(2)}
                   </p>
                 </div>
-                <DollarSign className={`h-8 w-8 ${netIncome >= 0 ? 'text-blue-400' : 'text-orange-400'}`} />
+                <FaBangladeshiTakaSign color='orange' size={24} />
+                {/* <DollarSign className={`h-8 w-8 ${netIncome >= 0 ? 'text-blue-400' : 'text-orange-400'}`} /> */}
               </div>
             </CardContent>
           </Card>
@@ -293,7 +294,7 @@ export default function ReportsPage() {
                   <XAxis dataKey="name" stroke="#94a3b8" />
                   <YAxis stroke="#94a3b8" />
                   <Tooltip 
-                    formatter={(value, name) => [`$${value}`, name === 'income' ? 'Income' : name === 'expenses' ? 'Expenses' : 'Net']} 
+                    formatter={(value, name) => [`৳${value}`, name === 'income' ? 'Income' : name === 'expenses' ? 'Expenses' : 'Net']} 
                     contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
                   />
                   <Bar dataKey="income" fill="#34D399" name="income" />
@@ -331,7 +332,7 @@ export default function ReportsPage() {
                         ))}
                       </Pie>
                       <Tooltip 
-                        formatter={(value) => [`$${value}`, 'Amount']} 
+                        formatter={(value) => [`৳${value}`, 'Amount']} 
                         contentStyle={{ backgroundColor: '#334155', border: '1px solid #475569', color: '#fff' }}
                       />
                     </PieChart>
@@ -347,7 +348,7 @@ export default function ReportsPage() {
                           <span className="text-sm font-medium text-gray-300">{category.name}</span>
                         </div>
                         <Badge variant="secondary" className="bg-slate-700/50 text-gray-300">
-                          ${Number.isFinite(category.value) ? category.value.toFixed(2) : '0.00'}
+                          ৳{Number.isFinite(category.value) ? category.value.toFixed(2) : '0.00'}
                         </Badge>
                       </div>
                     ))}
@@ -381,7 +382,7 @@ export default function ReportsPage() {
         <XAxis dataKey="name" stroke="#94a3b8" />
         <YAxis stroke="#94a3b8" />
         <Tooltip
-          formatter={(value) => [`$${value}`, 'Net Income']}
+          formatter={(value) => [`৳${value}`, 'Net Income']}
           contentStyle={{
             backgroundColor: '#334155',
             border: '1px solid #475569',

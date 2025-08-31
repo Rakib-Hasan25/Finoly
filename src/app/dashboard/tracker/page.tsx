@@ -11,7 +11,7 @@ import { storage } from '@/lib-tracker/storage';
 import { calculateUserLevel, updateStreak, checkAchievements } from '@/lib-tracker/gamification';
 import { Transaction, Achievement } from '@/tracker-types';
 import { ConfettiExplosion } from '@/components/Tracker-animations/ConfettiExplosion';
-
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 interface MonthlyStats {
   income: number;
   expenses: number;
@@ -145,7 +145,7 @@ export default function Dashboard() {
         <StatsCard
           title="Monthly Income"
           value={currentStats.income}
-          icon={DollarSign}
+          icon={FaBangladeshiTakaSign}
           change={incomeChange}
           color="rgb(74, 222, 128)" // green-400
           delay={0}
@@ -237,7 +237,7 @@ export default function Dashboard() {
                           : 'text-red-300'
                       }`}>
                         {transaction.type === 'income' ? '+' : '-'}
-                        ${Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
+                        ৳ {Number.isFinite(transaction.amount) ? transaction.amount.toFixed(2) : '0.00'}
                       </span>
                     </motion.div>
                   ))

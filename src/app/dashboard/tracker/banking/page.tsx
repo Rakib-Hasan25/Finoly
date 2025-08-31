@@ -7,7 +7,6 @@ import {
   Building2,
   TrendingUp,
   TrendingDown,
-  DollarSign,
 } from "lucide-react";
 import { FloatingCard } from "@/components/Tracker-ui/floating-card";
 import { Card, CardContent } from "@/components/Tracker-ui/card";
@@ -17,7 +16,7 @@ import { BankAccount } from "@/tracker-types";
 import { AccountCard } from "./AccountCard";
 import { AddAccountDialog } from "./AddAccountDialog";
 import { AccountSummary } from "./AccountSummary";
-
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 export default function BankingPage() {
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
   const [showAccountForm, setShowAccountForm] = useState(false);
@@ -98,7 +97,7 @@ export default function BankingPage() {
                     Total Assets
                   </p>
                   <p className="text-2xl font-bold text-white">
-                    ${totalAssets.toLocaleString()}
+                    ৳ {totalAssets.toLocaleString()}
                   </p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-green-400" />
@@ -120,7 +119,7 @@ export default function BankingPage() {
                     Total Liabilities
                   </p>
                   <p className="text-2xl font-bold text-white">
-                    ${totalLiabilities.toLocaleString()}
+                    ৳ {totalLiabilities.toLocaleString()}
                   </p>
                 </div>
                 <TrendingDown className="h-8 w-8 text-red-400" />
@@ -152,14 +151,15 @@ export default function BankingPage() {
                     Net Worth
                   </p>
                   <p className="text-2xl font-bold text-white">
-                    ${netWorth.toLocaleString()}
+                    ৳ {netWorth.toLocaleString()}
                   </p>
                 </div>
-                <DollarSign
+                <FaBangladeshiTakaSign color="white" size={24} />
+                {/* <DollarSign
                   className={`h-8 w-8 ${
                     netWorth >= 0 ? "text-blue-400" : "text-orange-400"
                   }`}
-                />
+                /> */}
               </div>
             </CardContent>
           </Card>

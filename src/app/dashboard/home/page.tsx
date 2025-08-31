@@ -196,7 +196,7 @@ export default function DashboardHome() {
                 <BarChart3 className="w-5 h-5 text-[rgb(87,204,2)]" />
               </div>
             </div>
-            <p className="text-3xl font-bold text-white">${stats.netWorth.toLocaleString()}</p>
+            <p className="text-3xl font-bold text-white">৳{stats.netWorth.toLocaleString()}</p>
             <p className="text-gray-400 text-sm mt-1">নেট মূল্য</p>
           </div>
 
@@ -207,7 +207,7 @@ export default function DashboardHome() {
                 <TrendingUp className="w-5 h-5 text-green-400" />
               </div>
             </div>
-            <p className="text-3xl font-bold text-white">${stats.income.toLocaleString()}</p>
+            <p className="text-3xl font-bold text-white">৳{stats.income.toLocaleString()}</p>
             <p className="text-gray-400 text-sm mt-1">এই মাসে</p>
           </div>
 
@@ -218,7 +218,7 @@ export default function DashboardHome() {
                 <TrendingDown className="w-5 h-5 text-red-400" />
               </div>
             </div>
-            <p className="text-3xl font-bold text-white">${stats.expenses.toLocaleString()}</p>
+            <p className="text-3xl font-bold text-white">৳{stats.expenses.toLocaleString()}</p>
             <p className="text-gray-400 text-sm mt-1">এই মাসে</p>
           </div>
 
@@ -267,7 +267,7 @@ export default function DashboardHome() {
                       className="flex items-center justify-between p-4 bg-[rgb(25,45,54)]/50 border border-[rgb(87,204,2)]/20 rounded-lg hover:border-[rgb(87,204,2)]/40 hover:bg-[rgb(25,45,54)]/70 transition-all duration-200"
                     >
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${activity.color.replace('text-', 'bg-')}/20`}>
+                        <div className={`p-2 rounded-lg ৳{activity.color.replace('text-', 'bg-')}/20`}>
                           {activity.icon}
                         </div>
                         <div>

@@ -46,7 +46,7 @@ export function UpdateBalanceDialog({
             <p className="text-white font-medium">{accountName}</p>
           </div>
           <div>
-            <Label className="text-gray-300">New Balance ($)</Label>
+            <Label className="text-gray-300">New Balance (৳)</Label>
             <Input
               className="bg-slate-700 border-slate-600 text-white placeholder-gray-400"
               type="number"

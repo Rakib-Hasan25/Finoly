@@ -503,7 +503,7 @@ export default function BudgetPage() {
                     animate={shakeBudgetFields.amount ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
                     transition={{ duration: 0.45 }}
                   >
-                    <Label className="text-gray-300">Monthly Budget ($) <span className="text-red-500">*</span></Label>
+                    <Label className="text-gray-300">Monthly Budget (৳) <span className="text-red-500">*</span></Label>
                     <Input
                       ref={budgetAmountRef}
                       className={`bg-slate-700 border-slate-600 text-white placeholder-gray-400 ${shakeBudgetFields.amount ? 'ring-2 ring-red-500 border-red-500' : ''
@@ -583,15 +583,15 @@ export default function BudgetPage() {
                       <CardContent>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between text-sm text-gray-300">
-                            <span>Spent: ${budget.spent.toFixed(2)}</span>
-                            <span>Budget: ${budget.amount.toFixed(2)}</span>
+                            <span>Spent: ৳ {budget.spent.toFixed(2)}</span>
+                            <span>Budget: ৳ {budget.amount.toFixed(2)}</span>
                           </div>
 
                           <ProgressLiquid percentage={Math.min(percentage, 100)} color={isOverBudget ? 'rgb(248, 113, 113)' : isWarning ? 'rgb(253, 186, 118)' : 'rgb(74, 222, 128)'} />
 
                           <div className="text-center">
                             <span className={`${isOverBudget ? 'text-red-300' : isWarning ? 'text-orange-300' : 'text-green-300'} text-sm font-medium`}>
-                              ${(budget.amount - budget.spent).toFixed(2)} remaining
+                              ৳ {(budget.amount - budget.spent).toFixed(2)} remaining
                             </span>
                           </div>
                         </div>
@@ -639,7 +639,7 @@ export default function BudgetPage() {
                       animate={shakeFields.amount ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
                       transition={{ duration: 0.45 }}
                     >
-                      <Label className="text-gray-300">Target Amount ($) <span className="text-red-500">*</span></Label>
+                      <Label className="text-gray-300">Target Amount (৳) <span className="text-red-500">*</span></Label>
                       <Input
                         ref={amountRef}
                         className={`bg-slate-700 border-slate-600 text-white placeholder-gray-400 ${shakeFields.amount ? 'ring-2 ring-red-500 border-red-500' : ''
@@ -706,7 +706,7 @@ export default function BudgetPage() {
                       </div>
 
                       <div className="text-sm text-gray-300">
-                        ${goal.currentAmount.toFixed(2)} / ${goal.targetAmount.toFixed(2)}
+                        ৳ {goal.currentAmount.toFixed(2)} / ৳ {goal.targetAmount.toFixed(2)}
                       </div>
 
                       <ProgressLiquid
@@ -742,7 +742,7 @@ export default function BudgetPage() {
                             </Button>
                           </div>
                           <p className="text-xs text-gray-400">
-                            You can withdraw in emergencies. Balance will never go below $0.
+                            You can withdraw in emergencies. Balance will never go below ৳0.
                           </p>
                         </div>
                       )}
@@ -788,7 +788,7 @@ export default function BudgetPage() {
                       animate={shakeDebtFields.amount ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
                       transition={{ duration: 0.45 }}
                     >
-                      <Label className="text-gray-300">Amount Owed ($) <span className="text-red-500">*</span></Label>
+                      <Label className="text-gray-300">Amount Owed (৳) <span className="text-red-500">*</span></Label>
                       <Input
                         ref={debtAmountRef}
                         className={`bg-slate-700 border-slate-600 text-white placeholder-gray-400 ${shakeDebtFields.amount ? 'ring-2 ring-red-500 border-red-500' : ''
@@ -805,7 +805,7 @@ export default function BudgetPage() {
                       animate={shakeDebtFields.payment ? { x: [0, -8, 8, -6, 6, -3, 3, 0] } : {}}
                       transition={{ duration: 0.45 }}
                     >
-                      <Label className="text-gray-300">Monthly Payment ($) <span className="text-red-500">*</span></Label>
+                      <Label className="text-gray-300">Monthly Payment (৳) <span className="text-red-500">*</span></Label>
                       <Input
                         ref={debtPaymentRef}
                         className={`bg-slate-700 border-slate-600 text-white placeholder-gray-400 ${shakeDebtFields.payment ? 'ring-2 ring-red-500 border-red-500' : ''
@@ -884,7 +884,7 @@ export default function BudgetPage() {
                         </div>
 
                         <div className="text-sm text-gray-300">
-                          ${Number.isFinite(debt.amount) ? debt.amount.toFixed(2) : '0.00'} remaining
+                          ৳ {Number.isFinite(debt.amount) ? debt.amount.toFixed(2) : '0.00'} remaining
                         </div>
 
                         {originalAmount > 0 && (
@@ -902,7 +902,7 @@ export default function BudgetPage() {
                         )}
 
                         <div className="text-sm text-gray-300">
-                          Monthly payment: ${Number.isFinite(debt.monthlyPayment) ? debt.monthlyPayment.toFixed(2) : '0.00'}
+                          Monthly payment: ৳ {Number.isFinite(debt.monthlyPayment) ? debt.monthlyPayment.toFixed(2) : '0.00'}
                         </div>
 
                         {debt.interestRate > 0 && (
