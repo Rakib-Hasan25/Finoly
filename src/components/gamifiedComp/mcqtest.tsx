@@ -211,11 +211,11 @@ export default function TestPage({
     const passed = percentage >= 70;
 
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] p-6 flex items-center justify-center">
+      <div className="min-h-screen relative bg-gradient-to-br from-[#052F2F] via-[#0A2647] to-[#052F2F] p-6 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-2xl bg-gradient-to-b from-indigo-900/50 to-blue-900/30 rounded-3xl p-8 shadow-xl backdrop-blur-sm text-white text-center"
+          className="w-full max-w-2xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl text-white text-center"
         >
           <h2 className="text-4xl font-bold mb-6">
             {passed ? "🎉 Congratulations!" : "😔 Keep Learning!"}
@@ -229,18 +229,17 @@ export default function TestPage({
             <Button
               variant="secondary"
               onClick={() => setTest(false)}
-              className="w-40"
+              className="w-40 bg-teal-600 text-white hover:bg-teal-500"
             >
               Review Concepts
             </Button>
+
             {passed ? (
               <Button
-                onClick={() => {
-                  router.push("/dashboard/gamified-learning");
-                }}
-                className="w-40 bg-green-600 hover:bg-green-700"
+                onClick={() => router.push("/dashboard/gamified-learning")}
+                className="w-40 bg-emerald-600 text-white hover:bg-emerald-500"
               >
-                Next level
+                Next Level
               </Button>
             ) : (
               <Button
@@ -249,7 +248,7 @@ export default function TestPage({
                   setScore(0);
                   setFinished(false);
                 }}
-                className="w-40"
+                className="w-40 bg-orange-600 text-white hover:bg-orange-500"
               >
                 Try Again
               </Button>
@@ -261,28 +260,31 @@ export default function TestPage({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] p-6">
+    <div className="min-h-screen relative bg-gradient-to-br from-[#052F2F] via-[#0A2647] to-[#052F2F] p-6">
+      {/* Optional GradientBackground if using floating orbs */}
+      {/* <GradientBackground /> */}
+
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 relative z-10">
         <h1 className="text-3xl font-bold text-white mb-2">
           {levelTitle || "Quiz Time!"}
         </h1>
-        <div className="w-full h-2 bg-gray-700 rounded-full">
+        <div className="w-full h-2 bg-white/10 rounded-full">
           <div
-            className="h-full bg-blue-500 rounded-full transition-all duration-300"
+            className="h-full bg-teal-500 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           variants={cardVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="bg-gradient-to-b from-indigo-900/50 to-blue-900/30 rounded-3xl p-8 shadow-xl backdrop-blur-sm"
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl"
         >
           {/* Question */}
           <h2 className="text-2xl font-bold text-white mb-8">
@@ -305,14 +307,8 @@ export default function TestPage({
                         cards[currentIndex].options[cards[currentIndex].answer]
                         ? "bg-green-600 text-white"
                         : "bg-red-600 text-white"
-                      : "bg-blue-600 text-white"
-                    : "bg-gray-800 hover:bg-gray-700 text-white"
-                } ${
-                  answered &&
-                  option ===
-                    cards[currentIndex].options[cards[currentIndex].answer]
-                    ? "bg-green-600 text-white"
-                    : ""
+                      : "bg-teal-600 text-white"
+                    : "bg-white/10 hover:bg-white/20 text-white"
                 }`}
               >
                 {option}
@@ -327,7 +323,7 @@ export default function TestPage({
                 variants={feedbackVariants}
                 initial="hidden"
                 animate="visible"
-                className="mt-6 p-4 rounded-xl bg-gray-800/50 backdrop-blur-sm"
+                className="mt-6 p-4 rounded-xl bg-white/10 backdrop-blur-sm"
               >
                 <p className="text-white font-bold">{feedback.text}</p>
                 {feedback.correctAnswer && (
@@ -344,18 +340,23 @@ export default function TestPage({
 
           {/* Actions */}
           <div className="flex justify-between mt-8">
-            <Button variant="outline" onClick={() => setTest(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setTest(false)}
+              className="bg-teal-600 text-white hover:bg-teal-500"
+            >
               Back to Concepts
             </Button>
+
             {!answered ? (
               <Button
                 onClick={handleSubmit}
                 disabled={!selectedOption}
-                className={
+                className={`w-40 ${
                   !selectedOption
                     ? "opacity-50 cursor-not-allowed"
-                    : "bg-green-400 hover:bg-green-600 text-black"
-                }
+                    : "bg-emerald-600 hover:bg-emerald-500 text-white"
+                }`}
               >
                 Submit Answer
               </Button>
@@ -364,7 +365,7 @@ export default function TestPage({
                 onClick={
                   currentIndex === cards.length - 1 ? handleFinish : handleNext
                 }
-                className="bg-blue-600 hover:bg-blue-700"
+                className="w-40 bg-teal-600 hover:bg-teal-500 text-white"
               >
                 {currentIndex === cards.length - 1
                   ? "Finish Quiz"
@@ -375,7 +376,7 @@ export default function TestPage({
         </motion.div>
 
         {/* Score */}
-        <div className="mt-4 text-center text-white">
+        <div className="mt-4 text-center text-white relative z-10">
           <p className="text-xl font-bold">
             Score: {score}/{cards.length * 10}
           </p>

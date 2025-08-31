@@ -119,94 +119,94 @@ export default function LevelsPage({ courseId }: LevelMapProps) {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#1c004d] via-[#101b4d] to-[#081229] flex flex-col items-center w-full h-full perspective-1500 overflow-hidden p-4">
-      <div
-        ref={containerRef}
-        className="relative w-full max-w-lg flex flex-col-reverse gap-10 overflow-y-scroll scrollbar-none pb-12 flex-grow"
-        style={{ transformStyle: "preserve-3d", perspective: 1500 }}
-      >
-        {loading ? (
-          <FinanceLevelSkeleton />
-        ) : (
-          <>
-            {levels.map((level, i) => (
+<div className="relative w-full h-full flex flex-col items-center overflow-hidden p-4">
+  {/* Glassy Background */}
+  <div className="absolute inset-0 -z-10 bg-cyan-600/5 backdrop-blur-xl border border-white/10 rounded-3xl" />
+
+  <div
+    ref={containerRef}
+    className="relative w-full max-w-lg flex flex-col-reverse gap-10 overflow-y-scroll scrollbar-none pb-12 flex-grow"
+    style={{ transformStyle: "preserve-3d", perspective: 1500 }}
+  >
+    {loading ? (
+      <FinanceLevelSkeleton />
+    ) : (
+      <>
+        {levels.map((level, i) => (
+          <motion.div
+            key={level.id}
+            data-level={level.id}
+            custom={i}
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover={
+              level.completed || level.isCurrent ? "hover" : undefined
+            }
+            className={`relative p-5 rounded-2xl text-center transform-gpu shadow-lg ${
+              level.completed
+                ? "bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-xl cursor-pointer"
+                : level.isCurrent
+                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-xl ring-4 ring-blue-300 animate-pulse cursor-pointer"
+                : "bg-gray-800/60 text-gray-400 cursor-not-allowed opacity-60"
+            }`}
+            style={{ zIndex: levels.length - i }}
+          >
+            {level.completed || level.isCurrent ? (
+              <a
+                href={`/dashboard/gamified-learning/lesson/${level.id}`}
+                className="block relative z-10"
+              >
+                <span className="block text-lg font-semibold mb-1">
+                  {level.name}
+                </span>
+                <span className="block text-sm text-gray-200">
+                  {level.completed ? `${level.score} / 100` : "Current Level"}
+                </span>
+              </a>
+            ) : (
+              <div className="block relative z-10">
+                <span className="block text-lg font-bold mb-1">{level.name}</span>
+                <span className="block text-sm text-gray-300">Locked</span>
+              </div>
+            )}
+
+            {level.isCheckpoint && level.completed && (
               <motion.div
-                key={level.id}
-                data-level={level.id}
-                custom={i}
-                variants={cardVariants}
+                variants={rewardVariants}
                 initial="hidden"
                 animate="visible"
-                whileHover={
-                  level.completed || level.isCurrent ? "hover" : undefined
-                }
-                className={`relative p-5 rounded-2xl text-center transform-gpu shadow-lg ${
-                  level.completed
-                    ? "bg-gradient-to-r from-green-500 to-teal-600 text-white shadow-xl cursor-pointer"
-                    : level.isCurrent
-                    ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-xl ring-4 ring-blue-300 animate-pulse cursor-pointer"
-                    : "bg-gray-800/80 text-gray-400 cursor-not-allowed opacity-60"
-                }`}
-                style={{ zIndex: levels.length - i }}
+                className="absolute -top-6 -right-6 w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center text-3xl text-black font-extrabold shadow-lg border-2 border-white"
               >
-                {level.completed || level.isCurrent ? (
-                  <a
-                    href={`/dashboard/gamified-learning/lesson/${level.id}`}
-                    className="block relative z-10"
-                  >
-                    <span className="block text-lg font-semibold mb-1">
-                      {level.name}
-                    </span>
-                    <span className="block text-sm text-gray-200">
-                      {level.completed
-                        ? `${level.score} / 100`
-                        : "Current Level"}
-                    </span>
-                  </a>
-                ) : (
-                  <div className="block relative z-10">
-                    <span className="block text-lg font-bold mb-1">
-                      {level.name}
-                    </span>
-                    <span className="block text-sm text-gray-300">Locked</span>
-                  </div>
-                )}
-
-                {level.isCheckpoint && level.completed && (
-                  <motion.div
-                    variants={rewardVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="absolute -top-6 -right-6 w-14 h-14 bg-yellow-400 rounded-full flex items-center justify-center text-3xl text-black font-extrabold shadow-lg border-2 border-white"
-                  >
-                    🎉
-                  </motion.div>
-                )}
-
-                {level.isCheckpoint && (
-                  <motion.div
-                    variants={glowVariants}
-                    animate={level.completed ? "visible" : "hidden"}
-                    className="absolute inset-0 rounded-2xl z-0"
-                  />
-                )}
+                🎉
               </motion.div>
-            ))}
-          </>
-        )}
-      </div>
+            )}
 
-      {/* Hide Scrollbar */}
-      <style jsx>{`
-        .scrollbar-none::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-none {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-    </div>
+            {level.isCheckpoint && (
+              <motion.div
+                variants={glowVariants}
+                animate={level.completed ? "visible" : "hidden"}
+                className="absolute inset-0 rounded-2xl z-0"
+              />
+            )}
+          </motion.div>
+        ))}
+      </>
+    )}
+  </div>
+
+  {/* Hide Scrollbar */}
+  <style jsx>{`
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  `}</style>
+</div>
+
   );
 }
 

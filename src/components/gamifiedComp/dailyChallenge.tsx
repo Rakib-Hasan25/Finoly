@@ -83,7 +83,7 @@ export default function DailyChallenge() {
   }, [userId]);
 
   return (
-    <div className="bg-gray-900/80 p-6 rounded-3xl shadow-xl hover:shadow-2xl transition">
+    <div className="bg-cyan-900/20 p-6 border-white backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl transition">
       <h2 className="text-2xl font-extrabold mb-6 text-yellow-300">
         Daily Challenges
       </h2>

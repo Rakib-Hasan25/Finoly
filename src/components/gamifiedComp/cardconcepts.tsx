@@ -48,21 +48,21 @@ export default function CardConcepts({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2a003f] via-[#1a1a6b] to-[#0d1b2a] p-6">
+    <div className="min-h-screen relative bg-gradient-to-br from-[#052F2F] via-[#0A2647] to-[#052F2F] p-6">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 relative z-10">
         <h1 className="text-3xl font-bold text-white mb-2">{levelTitle}</h1>
-        <div className="w-full h-2 bg-gray-700 rounded-full">
+        <div className="w-full h-2 bg-white/10 rounded-full">
           <div
-            className="h-full bg-blue-500 rounded-full transition-all duration-300"
+            className="h-full bg-cyan-500 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col justify-center h-[60vh]">
-        <div className="max-w-4xl mx-auto">
+      <div className="flex flex-col justify-center h-[60vh] relative z-10">
+        <div className="w-full max-w-2xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -71,7 +71,7 @@ export default function CardConcepts({
               animate="center"
               exit="exit"
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-b from-indigo-900/50 to-blue-900/30 rounded-3xl p-8 shadow-xl backdrop-blur-sm"
+              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl"
             >
               <div className="space-y-6">
                 {/* Title */}
@@ -89,10 +89,9 @@ export default function CardConcepts({
                 {/* Navigation Controls */}
                 <div className="flex items-center justify-between pt-8">
                   <Button
-                    variant="outline"
                     onClick={handlePrev}
                     disabled={currentIndex === 0}
-                    className="w-32"
+                    className="w-32 bg-teal-600 text-white hover:bg-teal-500 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed"
                   >
                     Previous
                   </Button>
@@ -103,30 +102,25 @@ export default function CardConcepts({
                         key={idx}
                         className={`w-2.5 h-2.5 rounded-full transition-colors ${
                           idx === currentIndex
-                            ? "bg-blue-500"
+                            ? "bg-cyan-500"
                             : idx < currentIndex
-                            ? "bg-blue-800"
-                            : "bg-gray-600"
+                            ? "bg-cyan-700/80"
+                            : "bg-white/20"
                         }`}
                       />
                     ))}
                   </div>
 
-                  {currentIndex === cards.length - 1 ? (
-                    <Button
-                      onClick={() => setTest(true)}
-                      className="w-32 bg-green-600 hover:bg-green-700"
-                    >
-                      Start Test
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={handleNext}
-                      className="w-32 bg-green-600 hover:bg-green-700"
-                    >
-                      Next
-                    </Button>
-                  )}
+                  <Button
+                    onClick={
+                      currentIndex === cards.length - 1
+                        ? () => setTest(true)
+                        : handleNext
+                    }
+                    className="w-32 bg-emerald-600 text-white hover:bg-emerald-500"
+                  >
+                    {currentIndex === cards.length - 1 ? "Start Test" : "Next"}
+                  </Button>
                 </div>
               </div>
             </motion.div>
