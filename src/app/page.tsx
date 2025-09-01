@@ -588,13 +588,12 @@ const teamMembers = [
       className="flex justify-center"
     >
       <div className="w-full h-[500px] relative rounded-2xl overflow-hidden">
-        <video
-          src="/dummyvideo.mp4"  // public folder path
-          autoPlay
-          muted
-          loop
-          controls
-          className="w-full h-full object-cover"
+        <iframe
+          src="https://www.youtube.com/embed/JQfphvNbR4E"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="w-full h-full"
         />
       </div>
 
